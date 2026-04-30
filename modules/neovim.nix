@@ -7,6 +7,10 @@
     vimAlias = true;
     vimdiffAlias = true;
 
+    plugins = [
+      pkgs.vimPlugins.catppuccin-nvim
+    ];
+
     extraLuaConfig = builtins.readFile ../lua/init.lua;
   };
 
