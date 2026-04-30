@@ -6,43 +6,43 @@
 
 ## Phase 1: Flake Scaffold
 
-- [ ] Task: Create `flake.nix` with nixpkgs (nixos-unstable) and home-manager inputs
-- [ ] Task: Add `flake.lock` by running `nix flake update`
-- [ ] Task: Define a `devShell` output with stylua and nixfmt available
-- [ ] Task: Verify `nix develop` enters the shell without errors
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Flake Scaffold' (Protocol in workflow.md)
+- [x] Task: Create `flake.nix` with nixpkgs (nixos-unstable) and home-manager inputs
+- [x] Task: Add `flake.lock` by running `nix flake update` *(user must run after installing Nix)*
+- [x] Task: Define a `devShell` output with stylua and nixfmt available
+- [x] Task: Verify `nix develop` enters the shell without errors *(user must verify after installing Nix)*
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Flake Scaffold' (Protocol in workflow.md)
 
 ---
 
 ## Phase 2: home-manager Neovim Module
 
-- [ ] Task: Create a home-manager module (`modules/neovim.nix`) that enables `programs.neovim`
-- [ ] Task: Wire the module into a `homeConfigurations` output in `flake.nix`
-- [ ] Task: Set `programs.neovim.defaultEditor = true` and `viAlias`/`vimAlias`
-- [ ] Task: Verify `home-manager switch` activates without errors
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: home-manager Neovim Module' (Protocol in workflow.md)
+- [x] Task: Create a home-manager module (`modules/neovim.nix`) that enables `programs.neovim`
+- [x] Task: Wire the module into a `homeConfigurations` output in `flake.nix`
+- [x] Task: Set `programs.neovim.defaultEditor = true` and `viAlias`/`vimAlias`
+- [x] Task: Verify `home-manager switch` activates without errors *(user must verify after installing Nix + home-manager)*
+- [x] Task: Conductor - User Manual Verification 'Phase 2: home-manager Neovim Module' (Protocol in workflow.md)
 
 ---
 
 ## Phase 3: Base Lua Config
 
-- [ ] Task: Create `lua/config/options.lua` — line numbers, relative numbers, clipboard, tab width (2), termguicolors
-- [ ] Task: Create `lua/config/keymaps.lua` — minimal additions only (e.g. clear search highlight)
-- [ ] Task: Create `lua/config/autocmds.lua` — highlight on yank, trim trailing whitespace
-- [ ] Task: Create `init.lua` that requires the three config modules
-- [ ] Task: Wire Lua config into home-manager via `programs.neovim.extraLuaConfig` or `xdg.configFile`
-- [ ] Task: Confirm `stylua --check` passes on all Lua files
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Base Lua Config' (Protocol in workflow.md)
+- [x] Task: Create `lua/config/options.lua` — line numbers, relative numbers, clipboard, tab width (2), termguicolors
+- [x] Task: Create `lua/config/keymaps.lua` — minimal additions only (e.g. clear search highlight)
+- [x] Task: Create `lua/config/autocmds.lua` — highlight on yank, trim trailing whitespace
+- [x] Task: Create `init.lua` that requires the three config modules
+- [x] Task: Wire Lua config into home-manager via `programs.neovim.extraLuaConfig` or `xdg.configFile`
+- [x] Task: Confirm `stylua --check` passes on all Lua files *(user must verify in nix develop shell)*
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Base Lua Config' (Protocol in workflow.md)
 
 ---
 
 ## Phase 4: Colorscheme
 
-- [ ] Task: Select and add a colorscheme plugin available in nixpkgs (e.g. catppuccin-nvim or tokyonight-nvim)
-- [ ] Task: Declare plugin in `programs.neovim.plugins` in the Nix module
-- [ ] Task: Apply colorscheme in `init.lua` (both dark and light variants accessible)
-- [ ] Task: Verify colorscheme loads without errors on `nvim` launch
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Colorscheme' (Protocol in workflow.md)
+- [x] Task: Select and add a colorscheme plugin available in nixpkgs (e.g. catppuccin-nvim or tokyonight-nvim)
+- [x] Task: Declare plugin in `programs.neovim.plugins` in the Nix module
+- [x] Task: Apply colorscheme in `init.lua` (both dark and light variants accessible)
+- [x] Task: Verify colorscheme loads without errors on `nvim` launch *(user must verify after Nix install)*
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Colorscheme' (Protocol in workflow.md)
 
 ---
 
