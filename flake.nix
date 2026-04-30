@@ -29,7 +29,10 @@
       homeConfigurations = {
         default = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."aarch64-darwin";
-          modules = [ ./modules/neovim.nix ];
+          modules = [
+            ./modules/nix.nix
+            ./modules/neovim.nix
+          ];
         };
       };
 
