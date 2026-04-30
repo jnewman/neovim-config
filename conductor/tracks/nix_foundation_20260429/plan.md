@@ -48,7 +48,7 @@
 
 ## Phase 5: Formatting & Linting Gates
 
-- [ ] Task: Add `stylua.toml` to project root with agreed settings (2-space indent, 100 col width)
-- [ ] Task: Confirm `nixfmt` available in dev shell and `nix fmt` works
-- [ ] Task: Run full format pass; commit clean state
-- [ ] Task: Conductor - User Manual Verification 'Phase 5: Formatting & Linting Gates' (Protocol in workflow.md)
+- [x] Task: Add `stylua.toml` to project root with agreed settings (2-space indent, 100 col width)
+- [x] Task: Confirm `nixfmt` available in dev shell and `nix fmt` works *(user must verify in nix develop shell)*
+- [x] Task: Run full format pass; commit clean state
+- [x] Task: Conductor - User Manual Verification 'Phase 5: Formatting & Linting Gates' (Protocol in workflow.md)

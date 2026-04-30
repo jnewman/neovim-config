@@ -32,6 +32,7 @@
 | Go                 | gofmt + goimports           |
 | Rust               | rustfmt                     |
 | Lua                | stylua                      |
+| Nix                | nixfmt-rfc-style (via `nix fmt`) |
 
 ## Debuggers (DAP)
 
@@ -44,6 +45,7 @@
 
 ## Core Plugins
 
+- **Colorscheme:** catppuccin-nvim (Mocha dark / Latte light, toggled via `<leader>tt`)
 - **LSP:** nvim-lspconfig
 - **Completion:** nvim-cmp (or blink.cmp)
 - **Debugging:** nvim-dap + nvim-dap-ui

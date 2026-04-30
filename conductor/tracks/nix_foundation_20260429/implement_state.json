@@ -1,8 +1,0 @@
-{
-  "current_phase": "Phase 5: Formatting & Linting Gates",
-  "current_phase_index": 4,
-  "current_task_index": 0,
-  "completed_phases": ["Phase 1: Flake Scaffold", "Phase 2: home-manager Neovim Module", "Phase 3: Base Lua Config", "Phase 4: Colorscheme"],
-  "last_updated": "2026-04-29T00:04:00Z",
-  "status": "in_progress"
-}
