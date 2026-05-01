@@ -29,3 +29,12 @@ opt.updatetime = 250
 opt.timeoutlen = 300
 
 opt.undofile = true
+
+opt.list = true
+opt.listchars = {
+  tab = "→ ",
+  trail = "·",
+  nbsp = "␣",
+}
+
+vim.g.editorconfig = true
