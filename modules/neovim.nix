@@ -11,13 +11,14 @@
 
     plugins = [
       pkgs.vimPlugins.catppuccin-nvim
+      pkgs.vimPlugins.cyberdream-nvim
+      pkgs.vimPlugins.tokyonight-nvim
       (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: [
         p.lua
         p.vim
         p.vimdoc
         p.nix
       ]))
-      pkgs.vimPlugins.nvim-lspconfig
       pkgs.vimPlugins.conform-nvim
     ];
 
