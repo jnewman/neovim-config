@@ -50,7 +50,9 @@ stylua.toml         # Lua formatter config
 
 | Plugin | Role |
 |--------|------|
-| [catppuccin-nvim](https://github.com/catppuccin/nvim) | Colorscheme (Latte / Mocha) |
+| [catppuccin-nvim](https://github.com/catppuccin/nvim) | Colorscheme — Mocha (default) |
+| [cyberdream-nvim](https://github.com/scottmckendry/cyberdream.nvim) | Colorscheme — neon cyberpunk |
+| [tokyonight-nvim](https://github.com/folke/tokyonight.nvim) | Colorscheme — deep blue/purple |
 
 ## Key mappings
 
@@ -61,7 +63,7 @@ stylua.toml         # Lua formatter config
 | `<` / `>` | Visual | Indent and reselect |
 | `J` / `K` | Visual | Move selection down / up |
 | `n` / `N` | Normal | Next/prev search result (centred) |
-| `<leader>tt` | Normal | Toggle light / dark theme |
+| `<leader>tt` | Normal | Cycle colorscheme (catppuccin → cyberdream → …) |
 
 ## Supported systems
 

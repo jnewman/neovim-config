@@ -1,15 +1,9 @@
 require("catppuccin").setup({
-  flavour = "auto", -- respects vim.o.background (dark → mocha, light → latte)
-  background = {
-    light = "latte",
-    dark = "mocha",
-  },
+  flavour = "mocha",
   transparent_background = false,
   show_end_of_buffer = false,
   term_colors = true,
-  dim_inactive = {
-    enabled = false,
-  },
+  dim_inactive = { enabled = false },
   integrations = {
     treesitter = true,
     native_lsp = {
@@ -22,18 +16,29 @@ require("catppuccin").setup({
       },
     },
     gitsigns = true,
-    telescope = { enabled = true },
-    which_key = false,
   },
+})
+
+require("cyberdream").setup({
+  transparent = false,
+  italic_comments = true,
+  hide_fillchars = false,
+  borderless_telescope = false,
+})
+
+require("tokyonight").setup({
+  style = "night",
+  transparent = false,
+  terminal_colors = true,
 })
 
 vim.cmd.colorscheme("catppuccin")
 
--- Toggle between light and dark
+local themes = { "tokyonight", "catppuccin", "cyberdream" }
+local current = 1
+
 vim.keymap.set("n", "<leader>tt", function()
-  if vim.o.background == "dark" then
-    vim.o.background = "light"
-  else
-    vim.o.background = "dark"
-  end
-end, { desc = "Toggle light/dark theme" })
+  current = (current % #themes) + 1
+  vim.cmd.colorscheme(themes[current])
+  vim.notify("Theme: " .. themes[current], vim.log.levels.INFO)
+end, { desc = "Cycle colorscheme" })

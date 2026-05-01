@@ -1,6 +1,7 @@
-local lspconfig = require("lspconfig")
-
-lspconfig.lua_ls.setup({
+vim.lsp.config("lua_ls", {
+  cmd = { "lua-language-server" },
+  filetypes = { "lua" },
+  root_markers = { ".luarc.json", ".luarc.jsonc", "stylua.toml", ".git" },
   settings = {
     Lua = {
       runtime = { version = "LuaJIT" },
@@ -14,9 +15,14 @@ lspconfig.lua_ls.setup({
   },
 })
 
-lspconfig.nixd.setup({})
+vim.lsp.config("nixd", {
+  cmd = { "nixd" },
+  filetypes = { "nix" },
+  root_markers = { "flake.nix", ".git" },
+})
 
--- Keymaps applied only when an LSP attaches to a buffer
+vim.lsp.enable({ "lua_ls", "nixd" })
+
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
     local map = function(keys, func, desc)
@@ -29,7 +35,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("K", vim.lsp.buf.hover, "Hover docs")
     map("<leader>rn", vim.lsp.buf.rename, "Rename symbol")
     map("<leader>ca", vim.lsp.buf.code_action, "Code action")
-    map("[d", vim.diagnostic.goto_prev, "Previous diagnostic")
-    map("]d", vim.diagnostic.goto_next, "Next diagnostic")
+    map("[d", function() vim.diagnostic.jump({ count = -1 }) end, "Previous diagnostic")
+    map("]d", function() vim.diagnostic.jump({ count = 1 }) end, "Next diagnostic")
   end,
 })
