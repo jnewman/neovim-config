@@ -20,6 +20,9 @@
         p.nix
       ]))
       pkgs.vimPlugins.conform-nvim
+      pkgs.vimPlugins.plenary-nvim
+      pkgs.vimPlugins.telescope-nvim
+      pkgs.vimPlugins.octo-nvim
     ];
 
     extraPackages = [
@@ -27,6 +30,7 @@
       pkgs.stylua
       pkgs.nixd
       pkgs.nixfmt
+      pkgs.gh
     ];
 
     initLua = builtins.readFile ../lua/init.lua;
