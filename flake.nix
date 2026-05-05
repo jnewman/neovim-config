@@ -36,6 +36,19 @@
         };
       };
 
+      apps = forAllSystems (system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+          hmCli = home-manager.packages.${system}.home-manager;
+          rebuildScript = pkgs.writeShellScript "rebuild" ''
+            exec ${hmCli}/bin/home-manager switch --flake .#default
+          '';
+        in
+        {
+          rebuild = { type = "app"; program = toString rebuildScript; };
+          default = { type = "app"; program = toString rebuildScript; };
+        });
+
       devShells = forAllSystems (system:
         let
           pkgs = nixpkgs.legacyPackages.${system};

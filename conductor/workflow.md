@@ -31,3 +31,18 @@ Before marking any task complete:
 Each phase ends with a `Conductor - User Manual Verification` task. This requires the user to:
 - Confirm the phase output meets expectations
 - Approve before proceeding to the next phase
+
+## Track Completion Protocol
+
+When a track is fully implemented and all phases pass verification:
+
+1. Push the branch: `git push -u origin <branch>`
+2. File a Pull Request:
+   ```bash
+   gh pr create --title "<track title>" --body "<summary of changes>"
+   ```
+3. Open the PR in Octo for review:
+   - In Neovim: `<leader>gpo` to open the current branch's PR, or
+   - `:Octo pr list` (`<leader>gpl`) to pick from open PRs
+4. Review changes with `:Octo review start` (`<leader>grs`), leave comments, then submit with `<leader>grS`
+5. Merge via Octo or `gh pr merge` once approved
