@@ -5,3 +5,9 @@ tasks:
     desc: Rebuild and switch to the current neovim config via home-manager
     cmds:
       - nix run .#rebuild
+
+  update:
+    desc: Update all flake inputs and rebuild
+    cmds:
+      - nix flake update
+      - task: rebuild
