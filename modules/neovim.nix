@@ -23,6 +23,8 @@
       pkgs.vimPlugins.plenary-nvim
       pkgs.vimPlugins.telescope-nvim
       pkgs.vimPlugins.octo-nvim
+      pkgs.vimPlugins.diffview-nvim
+      pkgs.vimPlugins.gitsigns-nvim
     ];
 
     extraPackages = [
