@@ -2,8 +2,8 @@
 
 ## Phase 1: Dev Environment & Config
 
-- [ ] Task 1: Add `devShell` to `flake.nix` exposing `luacheck` and `neovim` for use by tasks and CI
-- [ ] Task 2: Create `.luacheckrc` configuring Neovim globals (`vim`, `require`, etc.)
+- [x] Task 1: Add `devShell` to `flake.nix` exposing `luacheck` and `neovim` for use by tasks and CI <!-- 2890c54 -->
+- [x] Task 2: Create `.luacheckrc` configuring Neovim globals (`vim`, `require`, etc.) <!-- 2890c54 -->
 - [ ] Task 3: Conductor - User Manual Verification 'Dev Environment & Config' (Protocol in workflow.md)
 
 ## Phase 2: Taskfile Tasks
