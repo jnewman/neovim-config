@@ -1,0 +1,17 @@
+{
+  "track_id": "ci_tooling_20260518",
+  "type": "chore",
+  "status": "new",
+  "priority": "medium",
+  "depends_on": [],
+  "estimated_hours": null,
+  "created_at": "2026-05-18T00:00:00Z",
+  "updated_at": "2026-05-18T00:00:00Z",
+  "description": "Add fmt, lint, and test tasks to the Taskfile, plus GitHub Actions CI that runs lint and test on every push",
+  "beads_epic": "neovim-config-5jg",
+  "beads_tasks": {
+    "phase1": "neovim-config-3wj",
+    "phase2": "neovim-config-ke7",
+    "phase3": "neovim-config-7n8"
+  }
+}
