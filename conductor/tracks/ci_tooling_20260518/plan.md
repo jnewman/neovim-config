@@ -11,9 +11,9 @@
 - [x] Task 1: Add `fmt` task — `stylua .` + `nix fmt`
 - [x] Task 2: Add `lint` task — `stylua --check .` + `nix fmt -- --check`
 - [x] Task 3: Add `test` task — `luacheck lua/` + `nvim --headless -u lua/init.lua +qa`
-- [ ] Task 4: Conductor - User Manual Verification 'Taskfile Tasks' (Protocol in workflow.md)
+- [x] Task 4: Conductor - User Manual Verification 'Taskfile Tasks' (Protocol in workflow.md)
 
 ## Phase 3: GitHub Actions CI
 
-- [ ] Task 1: Create `.github/workflows/ci.yml` — `lint` and `test` jobs in parallel, DeterminateSystems/nix-installer-action, runs on every push
+- [x] Task 1: Create `.github/workflows/ci.yml` — `lint` and `test` jobs in parallel, DeterminateSystems/nix-installer-action, runs on every push
 - [ ] Task 2: Conductor - User Manual Verification 'GitHub Actions CI' (Protocol in workflow.md)
