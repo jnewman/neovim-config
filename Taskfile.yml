@@ -11,3 +11,18 @@ tasks:
     cmds:
       - nix flake update
       - task: rebuild
+
+  fmt:
+    desc: Format all Lua and Nix files
+    cmds:
+      - nix develop --command sh -c "stylua . && nixfmt flake.nix modules/*.nix"
+
+  lint:
+    desc: Check formatting without modifying files
+    cmds:
+      - nix develop --command sh -c "stylua --check . && nixfmt --check flake.nix modules/*.nix"
+
+  test:
+    desc: Run luacheck and verify config loads cleanly in Neovim
+    cmds:
+      - nix develop --command sh -c "luacheck lua/ && nvim --headless -u lua/init.lua +qa"

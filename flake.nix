@@ -36,7 +36,8 @@
         };
       };
 
-      apps = forAllSystems (system:
+      apps = forAllSystems (
+        system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
           hmCli = home-manager.packages.${system}.home-manager;
@@ -45,11 +46,19 @@
           '';
         in
         {
-          rebuild = { type = "app"; program = toString rebuildScript; };
-          default = { type = "app"; program = toString rebuildScript; };
-        });
+          rebuild = {
+            type = "app";
+            program = toString rebuildScript;
+          };
+          default = {
+            type = "app";
+            program = toString rebuildScript;
+          };
+        }
+      );
 
-      devShells = forAllSystems (system:
+      devShells = forAllSystems (
+        system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
         in
@@ -57,11 +66,14 @@
           default = pkgs.mkShell {
             packages = [
               pkgs.stylua
-              pkgs.nixfmt-rfc-style
+              pkgs.nixfmt
+              pkgs.luajitPackages.luacheck
+              pkgs.neovim
             ];
           };
-        });
+        }
+      );
 
-      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
+      formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt);
     };
 }
