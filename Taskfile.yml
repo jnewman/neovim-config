@@ -15,14 +15,12 @@ tasks:
   fmt:
     desc: Format all Lua and Nix files
     cmds:
-      - nix develop --command stylua .
-      - nix fmt
+      - nix develop --command sh -c "stylua . && nixfmt flake.nix modules/*.nix"
 
   lint:
     desc: Check formatting without modifying files
     cmds:
-      - nix develop --command stylua --check .
-      - nix fmt -- --check
+      - nix develop --command sh -c "stylua --check . && nixfmt --check flake.nix modules/*.nix"
 
   test:
     desc: Run luacheck and verify config loads cleanly in Neovim
