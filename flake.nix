@@ -58,6 +58,8 @@
             packages = [
               pkgs.stylua
               pkgs.nixfmt-rfc-style
+              pkgs.luajitPackages.luacheck
+              pkgs.neovim
             ];
           };
         });
