@@ -16,7 +16,7 @@ jobs:
             -v "${{ github.workspace }}:/repo" \
             -w /repo \
             nixos/nix \
-            sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
+            sh -c "git config --global --add safe.directory /repo && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
 
   test:
     name: Test
@@ -29,4 +29,4 @@ jobs:
             -v "${{ github.workspace }}:/repo" \
             -w /repo \
             nixos/nix \
-            sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/'"
+            sh -c "git config --global --add safe.directory /repo && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/'"
