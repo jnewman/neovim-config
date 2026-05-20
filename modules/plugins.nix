@@ -15,12 +15,7 @@ let
     }
     {
       name = "nvim-treesitter";
-      pkg = pkgs.vimPlugins.nvim-treesitter.withPlugins (p: [
-        p.lua
-        p.vim
-        p.vimdoc
-        p.nix
-      ]);
+      pkg = pkgs.vimPlugins.nvim-treesitter;
     }
     {
       name = "conform-nvim";
