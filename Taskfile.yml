@@ -1,28 +1,64 @@
 version: "3"
 
 tasks:
-  rebuild:
-    desc: Rebuild and switch to the current neovim config via home-manager
+  build:
+    desc: Build the Neovim plugin pack inside Docker (leaves named container nvim-build)
     cmds:
-      - nix run .#rebuild
+      - docker rm -f nvim-build 2>/dev/null || true
+      - |
+        docker run --name nvim-build \
+          -v "{{.USER_WORKING_DIR}}:/repo" \
+          -w /repo \
+          nixos/nix \
+          sh -c "nix build .#nvim-plugin-pack --no-sandbox --extra-experimental-features 'nix-command flakes' && cp -rL ./result/. /tmp/nvim-pack/ && chmod -R u+w /tmp/nvim-pack/"
+
+  install:
+    desc: Install built plugin pack and wire Lua config symlinks to host paths
+    cmds:
+      - mkdir -p ~/.local/share/nvim/site/pack ~/.config/nvim
+      - rm -rf ~/.local/share/nvim/site/pack/nix
+      - docker cp nvim-build:/tmp/nvim-pack/pack/nix ~/.local/share/nvim/site/pack/
+      - rm -f ~/.config/nvim/init.lua ~/.config/nvim/lua
+      - ln -s "{{.USER_WORKING_DIR}}/lua/init.lua" ~/.config/nvim/init.lua
+      - ln -s "{{.USER_WORKING_DIR}}/lua" ~/.config/nvim/lua
+      - docker rm nvim-build
 
   update:
-    desc: Update all flake inputs and rebuild
+    desc: Update all flake inputs inside Docker (flake.lock updated on host via bind mount)
     cmds:
-      - nix flake update
-      - task: rebuild
+      - |
+        docker run --rm \
+          -v "{{.USER_WORKING_DIR}}:/repo" \
+          -w /repo \
+          nixos/nix \
+          sh -c "nix flake update --extra-experimental-features 'nix-command flakes'"
 
   fmt:
     desc: Format all Lua and Nix files
     cmds:
-      - nix develop --command sh -c "stylua . && nixfmt flake.nix modules/*.nix"
+      - |
+        docker run --rm \
+          -v "{{.USER_WORKING_DIR}}:/repo" \
+          -w /repo \
+          nixos/nix \
+          sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua . && nixfmt flake.nix modules/*.nix'"
 
   lint:
     desc: Check formatting without modifying files
     cmds:
-      - nix develop --command sh -c "stylua --check . && nixfmt --check flake.nix modules/*.nix"
+      - |
+        docker run --rm \
+          -v "{{.USER_WORKING_DIR}}:/repo" \
+          -w /repo \
+          nixos/nix \
+          sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
 
   test:
     desc: Run luacheck and verify config loads cleanly in Neovim
     cmds:
-      - nix develop --command sh -c "luacheck lua/ && nvim --headless -u lua/init.lua +qa"
+      - |
+        docker run --rm \
+          -v "{{.USER_WORKING_DIR}}:/repo" \
+          -w /repo \
+          nixos/nix \
+          sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/ && nvim --headless -u lua/init.lua +qa'"
