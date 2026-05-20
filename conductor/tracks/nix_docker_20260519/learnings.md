@@ -16,4 +16,15 @@ From `nix_foundation_20260429`:
 
 ---
 
-<!-- Learnings from implementation will be appended below -->
+## [2026-05-19] - Phase 1: Restructure flake.nix (Tasks 1-4)
+
+- **Implemented:** Removed home-manager; created `modules/plugins.nix` producing `packages.nvim-plugin-pack` via `pkgs.runCommand` + `cp -rL`; added Brewfile; removed nixd/nixfmt from Lua config.
+- **Files changed:** flake.nix, modules/plugins.nix (new), modules/neovim.nix (deleted), modules/nix.nix (deleted), Brewfile (new), lua/config/lsp.lua, lua/config/format.lua
+- **Commits:** e3102c6, 9fe1c94
+- **Learnings:**
+  - Gotchas: Nix-built binaries hardcode `/nix/store/...` paths — cannot `docker cp` nvim binary or LSP servers to a macOS host that has no Nix. Only pure-Lua plugin files are safely copyable.
+  - Gotchas: `nvim-treesitter.withPlugins` produces a derivation whose `.dependencies` list contains parser derivations with `parser/lua.so` symlinks pointing back into `/nix/store`. These are Linux `.so` files; they do not run on macOS (aarch64-darwin). Use bare `pkgs.vimPlugins.nvim-treesitter` (no parsers); install parsers natively via `:TSInstall`.
+  - Patterns: The `nixos/nix` Docker image needs `--extra-experimental-features "nix-command flakes"` and `--no-sandbox` to build flakes.
+  - Patterns: `cp -rL` in `pkgs.runCommand` correctly dereferences store symlinks, producing a self-contained directory with plain files — safe to `docker cp`.
+  - Context: `nixd` LSP requires `nix` on the host to evaluate Nix expressions — useless without host Nix. Removed from `lsp.lua`. Same for `nixfmt` in `format.lua`.
+---

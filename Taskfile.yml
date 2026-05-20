@@ -54,11 +54,11 @@ tasks:
           sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
 
   test:
-    desc: Run luacheck and verify config loads cleanly in Neovim
+    desc: Run luacheck (plugin loading is verified manually on the host after task install)
     cmds:
       - |
         docker run --rm \
           -v "{{.USER_WORKING_DIR}}:/repo" \
           -w /repo \
           nixos/nix \
-          sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/ && nvim --headless -u lua/init.lua +qa'"
+          sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/'"

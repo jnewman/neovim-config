@@ -9,23 +9,23 @@
   - [x] Catalog what home-manager manages: plugins, LSP servers, config files, wrapped binary, PATH entries
   - [x] Identify target output layout (what paths nvim needs on the host)
 
-- [ ] Task 2: Design packages.nvim-plugin-pack derivation
-  - [ ] Design a `runCommand` derivation that `cp -rL`s each plugin store path into `$out/pack/nix/start/<plugin-name>/`
-  - [ ] Define install layout: plugin pack → `~/.local/share/nvim/site/`, Lua config → `~/.config/nvim/lua/` symlink, init.lua → `~/.config/nvim/init.lua`
-  - [ ] List Homebrew dependencies for Brewfile: neovim, lua-language-server, nixd, stylua, nixfmt, gh
+- [x] Task 2: Design packages.nvim-plugin-pack derivation
+  - [x] Design a `runCommand` derivation that `cp -rL`s each plugin store path into `$out/pack/nix/start/<plugin-name>/`
+  - [x] Define install layout: plugin pack → `~/.local/share/nvim/site/`, Lua config → `~/.config/nvim/lua/` symlink, init.lua → `~/.config/nvim/init.lua`
+  - [x] List Homebrew dependencies for Brewfile: neovim, lua-language-server, stylua, gh
 
-- [ ] Task 3: Rewrite flake.nix
-  - [ ] Remove home-manager from inputs and outputs
-  - [ ] Remove modules/nix.nix (home.username, home.homeDirectory no longer needed)
-  - [ ] Rewrite modules/neovim.nix as a plain Nix expression producing the plugin pack derivation (no programs.neovim, no xdg.configFile)
-  - [ ] Add `packages.${system}.nvim-plugin-pack` (and `.default`) in flake.nix
-  - [ ] Keep devShells.default (stylua, nixfmt, luacheck, neovim) for lint/test CI tooling
-  - [ ] Add `Brewfile` listing: neovim, lua-language-server, lua-language-server, nixd, stylua, nixfmt, gh
+- [x] Task 3: Rewrite flake.nix
+  - [x] Remove home-manager from inputs and outputs
+  - [x] Remove modules/nix.nix (home.username, home.homeDirectory no longer needed)
+  - [x] Rewrite modules/neovim.nix as modules/plugins.nix (plain Nix expression, no programs.neovim)
+  - [x] Add `packages.${system}.nvim-plugin-pack` (and `.default`) in flake.nix
+  - [x] Keep devShells.default (stylua, nixfmt, luacheck, neovim) for lint/test CI tooling
+  - [x] Add `Brewfile` listing: neovim, lua-language-server, stylua, gh
 
-- [ ] Task 4: Verify nix build inside Docker
-  - [ ] Run `docker run --rm -v $(pwd):/repo -w /repo nixos/nix nix build .#nvim-plugin-pack --no-sandbox`
-  - [ ] Confirm `result/pack/nix/start/` exists with all plugin directories
-  - [ ] Confirm plugin directories contain plain files (no dangling store symlinks)
+- [x] Task 4: Verify nix build inside Docker
+  - [x] Run `docker run --rm -v $(pwd):/repo -w /repo nixos/nix nix build .#nvim-plugin-pack --no-sandbox`
+  - [x] Confirm `result/pack/nix/start/` exists with all plugin directories
+  - [x] Confirm plugin directories contain plain files (no dangling store symlinks)
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 1: Restructure flake.nix' (Protocol in workflow.md)
 
