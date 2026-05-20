@@ -61,9 +61,9 @@
   - [x] Replace `DeterminateSystems/nix-installer-action` with official `nixos/nix` Docker container approach
   - [x] Update lint and test steps to invoke tooling inside the container
 
-- [ ] Task 2: Push branch and verify CI
-  - [ ] Confirm both lint and test jobs pass on GitHub Actions
-  - [ ] Fix any failures
+- [x] Task 2: Push branch and verify CI
+  - [x] Confirm both lint and test jobs pass on GitHub Actions
+  - [x] Fix any failures
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 3: CI Update' (Protocol in workflow.md)
 

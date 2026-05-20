@@ -28,3 +28,13 @@ From `nix_foundation_20260429`:
   - Patterns: `cp -rL` in `pkgs.runCommand` correctly dereferences store symlinks, producing a self-contained directory with plain files — safe to `docker cp`.
   - Context: `nixd` LSP requires `nix` on the host to evaluate Nix expressions — useless without host Nix. Removed from `lsp.lua`. Same for `nixfmt` in `format.lua`.
 ---
+
+## [2026-05-20] - Phase 3: CI Update (Tasks 1-2)
+
+- **Implemented:** Replaced `DeterminateSystems/nix-installer-action` with `docker run nixos/nix` in both lint and test jobs. Test job is luacheck-only (matches Taskfile).
+- **Files changed:** .github/workflows/ci.yml
+- **Commits:** 4040965, 5199c7b
+- **Learnings:**
+  - Gotchas: When bind-mounting the workspace into `nixos/nix` on GitHub Actions runners, Nix runs as root but the mounted directory is owned by the runner UID. libgit2 (used by Nix flake fetching) rejects the repo with `repository path is not owned by current user`. Fix: prepend `git config --global --add safe.directory /repo` to the sh -c command.
+  - Patterns: Using `docker run` in CI `run:` steps is the cleanest approach — it keeps `actions/checkout` on the runner (where it works normally) while all Nix tooling runs inside the container.
+---
