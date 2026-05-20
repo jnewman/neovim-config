@@ -48,18 +48,18 @@
   - [ ] Replace task test — run `nix develop --command luacheck + nvim headless` inside Docker
   - [ ] Remove task rebuild (superseded by build + install)
 
-- [ ] Task 4: End-to-end verification
-  - [ ] Run `task build` — confirm build completes
-  - [ ] Run `task install` — confirm pack lands at `~/.local/share/nvim/site/pack/nix/start/`
-  - [ ] Launch host nvim — confirm plugins, LSPs (via Homebrew), formatters load correctly
+- [x] Task 4: End-to-end verification
+  - [x] Run `task build` — confirm build completes
+  - [x] Run `task install` — confirm pack lands at `~/.local/share/nvim/site/pack/nix/start/`
+  - [x] Launch host nvim — confirm plugins, LSPs (via Homebrew), formatters load correctly
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Docker Build + Taskfile Integration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Docker Build + Taskfile Integration' (Protocol in workflow.md)
 
 ## Phase 3: CI Update
 
-- [ ] Task 1: Update GitHub Actions workflow
-  - [ ] Replace `DeterminateSystems/nix-installer-action` with official `nixos/nix` Docker container approach
-  - [ ] Update lint and test steps to invoke tooling inside the container
+- [x] Task 1: Update GitHub Actions workflow
+  - [x] Replace `DeterminateSystems/nix-installer-action` with official `nixos/nix` Docker container approach
+  - [x] Update lint and test steps to invoke tooling inside the container
 
 - [ ] Task 2: Push branch and verify CI
   - [ ] Confirm both lint and test jobs pass on GitHub Actions
