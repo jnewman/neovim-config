@@ -1,47 +1,58 @@
 # Spec: Migrate Nix Build to Docker
 
+*Last Revised: 2026-05-19 (Revision 1 — plugin-pack approach after Task 1 audit)*
+
 ## Overview
 
 Replace host-installed Nix with the official `nixos/nix` Docker image for all build
-operations. Neovim continues to run on the host; its configuration, plugins, LSP servers,
-formatters, and debuggers are built inside Docker and copied to host paths via `docker cp`.
-This eliminates any Nix installation from the developer's machine.
+operations. Neovim and host tools (LSPs, formatters) are installed via Homebrew. Nix/Docker
+is used exclusively to build a Neovim plugin pack — a `pack/nix/start/` tree of pure-Lua
+plugin files that the host nvim loads via its packpath.
 
-The existing `flake.nix` / home-manager structure is replaced with a direct `nix build`
-approach that produces a single store-path artifact — easier to copy out of Docker and
-deploy to host paths.
+This approach achieves a completely Nix-free host (no `/nix` directory, no daemon, no CLI)
+while retaining reproducible, Nix-declared plugin management.
 
 ## Functional Requirements
 
-1. **Remove host Nix** — Uninstall Nix from the host; no Nix daemon, no `/nix` store on host.
-2. **Restructure flake.nix** — Replace home-manager config with a `packages.default` (or
-   `packages.nvim-config`) output that produces a single path containing everything nvim
-   needs (init.lua, plugin store paths, wrapper script, etc.).
-3. **`task build`** — Launches the official `nixos/nix` Docker image, mounts the repo,
-   runs `nix build`, and produces a result artifact inside the container.
-4. **`task install`** — Uses `docker cp` to copy build outputs from the container into
-   the correct host paths (`~/.config/nvim`, `~/.local/share/nvim`, binary wrappers, etc.).
-5. **CI update** — GitHub Actions workflow updated to use the official Nix Docker image
-   instead of `DeterminateSystems/nix-installer-action`.
+1. **Remove host Nix** — Uninstall Nix from the host; no Nix daemon, no `/nix` store.
+2. **Restructure flake.nix** — Replace home-manager config with a `packages.nvim-plugin-pack`
+   (and `.default`) output that produces a `pack/nix/start/` tree of Neovim plugin directories
+   (pure Lua/VimL files, no store-path references).
+3. **Host tools via Homebrew** — nvim binary, LSP servers (lua-language-server, nixd),
+   formatters (stylua, nixfmt), and gh installed on host via Homebrew. Declared in a
+   `Brewfile` committed to the repo.
+4. **`task build`** — Launches the official `nixos/nix` Docker image, mounts the repo,
+   runs `nix build .#nvim-plugin-pack`, copies the plugin pack to a staging path inside
+   the container.
+5. **`task install`** — Uses `docker cp` to copy the plugin pack to
+   `~/.local/share/nvim/site/` on the host. Symlinks `~/.config/nvim/lua` → `<repo>/lua/`
+   and writes `~/.config/nvim/init.lua` from the repo.
+6. **CI update** — GitHub Actions workflow updated to use the official `nixos/nix` Docker
+   image instead of `DeterminateSystems/nix-installer-action`.
 
 ## Non-Functional Requirements
 
-- Reproducible: same `flake.lock` → same outputs, regardless of host OS state.
-- Docker layer caching used to keep rebuild times reasonable.
-- Host stays clean: no `/nix` directory, no Nix daemon process.
+- Reproducible: same `flake.lock` → same plugin versions.
+- Host stays completely clean: no `/nix` directory, no Nix daemon process.
+- Docker layer caching keeps rebuild times reasonable.
+- Homebrew dependency list is version-controlled in `Brewfile`.
 
 ## Acceptance Criteria
 
 - [ ] `which nix` on the host returns nothing (Nix fully removed).
-- [ ] `task build` completes successfully; build artifacts exist inside the container.
-- [ ] `task install` copies artifacts to the correct host paths without error.
-- [ ] `nvim` launches on the host with plugins, LSPs, formatters, and debuggers working.
-- [ ] `flake.nix` no longer depends on home-manager; exposes a buildable `packages` output.
+- [ ] `task build` completes; plugin pack exists inside the container.
+- [ ] `task install` copies plugin pack to `~/.local/share/nvim/site/` without error.
+- [ ] `~/.config/nvim/lua` is symlinked to `<repo>/lua/`; `init.lua` is in place.
+- [ ] `nvim` (from Homebrew) launches with plugins loading from the pack directory.
+- [ ] LSPs (lua-language-server, nixd) and formatters (stylua, nixfmt) work via Homebrew installs.
+- [ ] `flake.nix` no longer depends on home-manager; exposes `packages.nvim-plugin-pack`.
 - [ ] CI passes on GitHub Actions using the new Docker-based workflow.
+- [ ] `Brewfile` lists all host tool dependencies.
 
 ## Out of Scope
 
-- Switching to a different package manager (lazy.nvim + Mason) — Nix is retained, just containerized.
+- Switching plugin management to lazy.nvim or Mason — Nix continues to declare plugins.
 - Automated rebuilds via git hooks or watch mode — manual `task build` only.
 - Publishing the Docker image to a registry.
 - Multi-machine / remote deployment of the built config.
+- Managing nvim dotfiles for multiple users or machines.
