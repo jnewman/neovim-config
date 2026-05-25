@@ -36,7 +36,7 @@ require("tokyonight").setup({
   terminal_colors = true,
 })
 
-vim.cmd.colorscheme("catppuccin")
+vim.cmd.colorscheme("cyberdream")
 
 local themes = { "tokyonight", "catppuccin", "cyberdream" }
 local current = 1
