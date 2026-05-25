@@ -22,12 +22,12 @@ tasks:
   install:
     desc: Install built plugin pack and wire Lua config symlinks to host paths
     cmds:
-      - mkdir -p ~/.local/share/nvim/site/pack ~/.config/nvim
-      - rm -rf ~/.local/share/nvim/site/pack/nix
-      - docker cp nvim-build:/tmp/nvim-pack/pack/nix ~/.local/share/nvim/site/pack/
-      - rm -f ~/.config/nvim/init.lua ~/.config/nvim/lua
-      - ln -s "{{.USER_WORKING_DIR}}/lua/init.lua" ~/.config/nvim/init.lua
-      - ln -s "{{.USER_WORKING_DIR}}/lua" ~/.config/nvim/lua
+      - mkdir -p $HOME/.local/share/nvim/site/pack $HOME/.config/nvim
+      - rm -rf $HOME/.local/share/nvim/site/pack/nix
+      - docker cp nvim-build:/tmp/nvim-pack/pack/nix $HOME/.local/share/nvim/site/pack/
+      - rm -f $HOME/.config/nvim/init.lua $HOME/.config/nvim/lua
+      - ln -s "{{.USER_WORKING_DIR}}/lua/init.lua" $HOME/.config/nvim/init.lua
+      - ln -s "{{.USER_WORKING_DIR}}/lua" $HOME/.config/nvim/lua
       - docker rm nvim-build
 
   update:
