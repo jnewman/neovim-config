@@ -14,7 +14,7 @@ No Nix on the host is required.
 
 ```bash
 # 1. Install host tools (Neovim, LSPs, formatters)
-task brew-install
+brew bundle
 
 # 2. Build the plugin pack inside Docker
 task build
@@ -34,14 +34,6 @@ task update   # Update all flake inputs (flake.lock committed on host via bind-m
 task fmt      # Format Lua and Nix files
 task lint     # Check formatting without modifying files
 task test     # Run luacheck
-```
-
-## Removing host Nix
-
-If you previously had Nix installed on the host, this repo no longer requires it:
-
-```bash
-task uninstall-host-nix CONFIRM=yes
 ```
 
 ## Project layout

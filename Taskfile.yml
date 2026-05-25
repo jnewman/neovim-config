@@ -53,36 +53,6 @@ tasks:
           nixos/nix \
           sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
 
-  brew-install:
-    desc: Install all host tool dependencies via Homebrew (requires brew)
-    cmds:
-      - brew bundle
-
-  uninstall-host-nix:
-    desc: Remove Nix from this macOS host. Run with CONFIRM=yes to proceed.
-    cmds:
-      - |
-        if [ "{{.CONFIRM}}" != "yes" ]; then
-          echo "This will permanently remove Nix from your system."
-          echo "Re-run with CONFIRM=yes to proceed:"
-          echo ""
-          echo "  task uninstall-host-nix CONFIRM=yes"
-          exit 1
-        fi
-        if [ "$(uname)" != "Darwin" ]; then
-          echo "This task targets macOS only."
-          exit 1
-        fi
-        if [ -x /nix/nix-installer ]; then
-          echo "DeterminateSystems installer detected — running /nix/nix-installer uninstall"
-          sudo /nix/nix-installer uninstall
-        elif [ -f /etc/nix/nix.conf ]; then
-          echo "Official multi-user Nix detected — running official uninstall script"
-          sh <(curl -L https://nixos.org/nix/uninstall)
-        else
-          echo "No Nix installation detected."
-        fi
-
   test:
     desc: Run luacheck (plugin loading is verified manually on the host after task install)
     cmds:
