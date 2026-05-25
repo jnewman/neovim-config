@@ -1,0 +1,30 @@
+{
+  "track_id": "plugins_20260522",
+  "type": "feature",
+  "status": "new",
+  "priority": "medium",
+  "depends_on": [],
+  "estimated_hours": null,
+  "created_at": "2026-05-22T00:00:00Z",
+  "updated_at": "2026-05-22T00:00:00Z",
+  "description": "Add blink.cmp, oil.nvim, which-key.nvim, nvim-autopairs, Comment.nvim, lualine.nvim, indent-blankline.nvim, flash.nvim with full configs and README usage docs",
+  "beads_epic": "neovim-config-iu4",
+  "beads_tasks": {
+    "phase1": "neovim-config-iu4.1",
+    "phase1_task1": "neovim-config-iu4.1.1",
+    "phase1_task2": "neovim-config-iu4.1.2",
+    "phase1_task3": "neovim-config-iu4.1.3",
+    "phase1_task4": "neovim-config-iu4.1.4",
+    "phase1_task5": "neovim-config-iu4.1.5",
+    "phase1_task6": "neovim-config-iu4.1.6",
+    "phase1_task7": "neovim-config-iu4.1.7",
+    "phase1_task8": "neovim-config-iu4.1.8",
+    "phase1_task9": "neovim-config-iu4.1.9",
+    "phase1_task10": "neovim-config-iu4.1.10",
+    "phase2": "neovim-config-iu4.2",
+    "phase2_task1": "neovim-config-iu4.2.1",
+    "phase2_task2": "neovim-config-iu4.2.2",
+    "phase3": "neovim-config-iu4.3",
+    "phase3_task1": "neovim-config-iu4.3.1"
+  }
+}
