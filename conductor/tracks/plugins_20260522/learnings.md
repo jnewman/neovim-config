@@ -14,4 +14,12 @@ From `nix_docker_20260519`:
 
 ---
 
-<!-- Learnings from implementation will be appended below -->
+## Gotcha: blink.cmp fuzzy binary is Linux-only
+
+blink.cmp ships a Rust-compiled `libblinkfuzzy` for fuzzy matching. Nixpkgs builds it for the Docker target (aarch64-linux). It cannot run on the macOS host (aarch64-darwin) — same ABI constraint as treesitter parsers.
+
+Fix: set `fuzzy = { implementation = "lua" }` in the blink.cmp setup to force the pure-Lua fallback. This works without any native binary. Performance is slightly lower but imperceptible for typical completion use.
+
+**Rule for future plugins:** Any plugin with a Rust/C compiled component (fzf-native, blink.cmp fuzzy, etc.) needs either a Lua fallback or a separate macOS build step. Check plugin docs for a `lua` implementation option before adding.
+
+---
