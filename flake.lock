@@ -16,9 +16,26 @@
         "type": "github"
       }
     },
+    "octo-nvim-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1779106019,
+        "narHash": "sha256-hTfySrejMbjhpagpjcutSXf2HmFkM+jqyAlRj08PycI=",
+        "owner": "pwntester",
+        "repo": "octo.nvim",
+        "rev": "b495047f0b9d35de3d8c6b84fad9de296d353b41",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pwntester",
+        "repo": "octo.nvim",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "octo-nvim-src": "octo-nvim-src"
       }
     }
   },
