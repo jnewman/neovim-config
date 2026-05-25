@@ -1,4 +1,6 @@
 require("blink.cmp").setup({
+  -- Nix builds the fuzzy binary for Linux; use Lua fallback on macOS host
+  fuzzy = { implementation = "lua" },
   keymap = {
     ["<C-Space>"] = { "show", "fallback" },
     ["<C-e>"] = { "cancel", "fallback" },

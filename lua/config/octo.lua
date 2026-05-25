@@ -1,6 +1,6 @@
 require("octo").setup({
   use_local_fs = false,
-  enable_builtin = true,
+  enable_builtin = false,
   default_remote = { "upstream", "origin" },
   picker = "telescope",
 })
