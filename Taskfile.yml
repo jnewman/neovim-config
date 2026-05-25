@@ -1,6 +1,13 @@
 version: "3"
 
 tasks:
+  setup:
+    desc: Full install — Homebrew tools, plugin pack build, and config wiring
+    cmds:
+      - brew bundle install
+      - task: build
+      - task: install
+
   build:
     desc: Build the Neovim plugin pack inside Docker (leaves named container nvim-build)
     cmds:
