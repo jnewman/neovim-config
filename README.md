@@ -13,17 +13,10 @@ No Nix on the host is required.
 ## Setup
 
 ```bash
-# 1. Install host tools (Neovim, LSPs, formatters)
-brew bundle
-
-# 2. Build the plugin pack inside Docker
-task build
-
-# 3. Install plugins and wire config symlinks
-task install
+task setup
 ```
 
-After `task install`, Neovim is ready. On first launch run `:TSInstall` to compile tree-sitter parsers natively.
+This installs host tools via Homebrew, builds the plugin pack inside Docker, and wires config symlinks. On first launch run `:TSInstall` to compile tree-sitter parsers natively.
 
 ## Daily workflow
 
