@@ -17,3 +17,8 @@ This file tracks all major tracks for the project.
 ## [ ] Track: Plugin Expansion — blink.cmp, oil.nvim, which-key, autopairs, Comment, lualine, ibl, flash
 *Link: [./conductor/tracks/plugins_20260522/](./conductor/tracks/plugins_20260522/)*
 
+---
+
+## [~] Track: Make Config More Reusable
+*Link: [./conductor/tracks/reusability_20260525/](./conductor/tracks/reusability_20260525/)*
+
