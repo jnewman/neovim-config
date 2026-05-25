@@ -41,6 +41,38 @@ let
       name = "gitsigns-nvim";
       pkg = pkgs.vimPlugins.gitsigns-nvim;
     }
+    {
+      name = "blink-cmp";
+      pkg = pkgs.vimPlugins.blink-cmp;
+    }
+    {
+      name = "oil-nvim";
+      pkg = pkgs.vimPlugins.oil-nvim;
+    }
+    {
+      name = "which-key-nvim";
+      pkg = pkgs.vimPlugins.which-key-nvim;
+    }
+    {
+      name = "nvim-autopairs";
+      pkg = pkgs.vimPlugins.nvim-autopairs;
+    }
+    {
+      name = "comment-nvim";
+      pkg = pkgs.vimPlugins.comment-nvim;
+    }
+    {
+      name = "lualine-nvim";
+      pkg = pkgs.vimPlugins.lualine-nvim;
+    }
+    {
+      name = "indent-blankline-nvim";
+      pkg = pkgs.vimPlugins.indent-blankline-nvim;
+    }
+    {
+      name = "flash-nvim";
+      pkg = pkgs.vimPlugins.flash-nvim;
+    }
   ];
 in
 pkgs.runCommand "nvim-plugin-pack" { } ''

@@ -15,7 +15,11 @@ require("catppuccin").setup({
         information = { "undercurl" },
       },
     },
+    blink_cmp = true,
     gitsigns = true,
+    indent_blankline = { enabled = true },
+    lualine = true,
+    which_key = true,
   },
 })
 
