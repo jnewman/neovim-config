@@ -53,45 +53,6 @@ tasks:
           nixos/nix \
           sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
 
-  brew-install:
-    desc: Install all host tool dependencies via Homebrew (requires brew)
-    cmds:
-      - brew bundle
-
-  uninstall-host-nix:
-    desc: Remove Nix from this macOS host (requires CONFIRM=yes)
-    vars:
-      CONFIRM: '{{default "" .CONFIRM}}'
-    preconditions:
-      - sh: '[ "{{.CONFIRM}}" = "yes" ]'
-        msg: "Pass CONFIRM=yes to confirm:  task uninstall-host-nix CONFIRM=yes"
-    silent: true
-    cmds:
-      - |
-        if [ "$(uname)" != "Darwin" ]; then
-          echo "Error: This task targets macOS only." >&2
-          exit 1
-        fi
-        if [ -x /nix/nix-installer ]; then
-          echo "DeterminateSystems installer detected — running /nix/nix-installer uninstall"
-          sudo /nix/nix-installer uninstall
-        elif [ -f /etc/nix/nix.conf ]; then
-          echo "Official multi-user Nix detected."
-          echo ""
-          echo "Run the official macOS uninstall steps:"
-          echo "  https://nixos.org/manual/nix/stable/installation/uninstall"
-          echo ""
-          echo "Quick summary:"
-          echo "  1. sudo launchctl unload /Library/LaunchDaemons/org.nixos.nix-daemon.plist"
-          echo "  2. sudo rm /Library/LaunchDaemons/org.nixos.nix-daemon.plist"
-          echo "  3. sudo rm -rf /nix /etc/nix /etc/profile.d/nix.sh"
-          echo "  4. Remove nixbld users: for i in \$(seq 1 32); do sudo dscl . delete /Users/nixbld\$i 2>/dev/null; done"
-          echo "  5. sudo dscl . delete /Groups/nixbld"
-          echo "  6. Remove nix lines from /etc/zshrc and /etc/bashrc"
-        else
-          echo "No Nix installation detected."
-        fi
-
   test:
     desc: Run luacheck (plugin loading is verified manually on the host after task install)
     cmds:
