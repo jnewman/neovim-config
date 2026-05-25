@@ -1,48 +1,70 @@
 # neovim-config
 
-Joshua's Neovim configuration, managed with Nix flakes and home-manager.
+Joshua's Neovim configuration. Plugins are built inside a Docker container using Nix; Neovim and language tooling run on the host via Homebrew.
 
-## Requirements
+## Prerequisites
 
-- [Nix](https://nixos.org/download) with flakes and `nix-command` enabled
-- [home-manager](https://github.com/nix-community/home-manager)
+- [Docker](https://www.docker.com/products/docker-desktop/) — for building the plugin pack
+- [Homebrew](https://brew.sh) — for Neovim and language tooling
+- [Task](https://taskfile.dev) — task runner (`brew install go-task`)
 
-## Apply the configuration
+No Nix on the host is required.
 
-```bash
-# First time or after any change
-nix run home-manager -- switch --flake .#default
-```
-
-This installs Neovim (aliased as `vim` and `vi`) and links all Lua config files into `~/.config/nvim/`.
-
-## Development shell
-
-For formatting tools (stylua, nixfmt):
+## Setup
 
 ```bash
-nix develop
+# 1. Install host tools (Neovim, LSPs, formatters)
+task brew-install
+
+# 2. Build the plugin pack inside Docker
+task build
+
+# 3. Install plugins and wire config symlinks
+task install
 ```
 
-| Tool | Purpose |
-|------|---------|
-| `stylua` | Format Lua files |
-| `nixfmt-rfc-style` | Format Nix files |
+After `task install`, Neovim is ready. On first launch run `:TSInstall` to compile tree-sitter parsers natively.
+
+## Daily workflow
+
+```bash
+task build    # Rebuild plugin pack (after changes to modules/plugins.nix)
+task install  # Re-install pack and refresh symlinks
+task update   # Update all flake inputs (flake.lock committed on host via bind-mount)
+task fmt      # Format Lua and Nix files
+task lint     # Check formatting without modifying files
+task test     # Run luacheck
+```
+
+## Removing host Nix
+
+If you previously had Nix installed on the host, this repo no longer requires it:
+
+```bash
+task uninstall-host-nix CONFIRM=yes
+```
 
 ## Project layout
 
 ```
-flake.nix           # Flake entry point — inputs, home config, dev shell
+flake.nix           # Flake entry — produces packages.nvim-plugin-pack and devShells.default
 modules/
-  neovim.nix        # home-manager neovim module (plugins, extraLuaConfig)
-  nix.nix           # Nix settings (enables flakes + nix-command)
+  plugins.nix       # Plugin list — plain Nix expression, no home-manager
+Brewfile            # Host tool dependencies
+Taskfile.yml        # All build / install / dev tasks
 lua/
   init.lua          # Entry point — loads all config modules
   config/
     options.lua     # Editor options (line numbers, tabs, clipboard, …)
     keymaps.lua     # Key mappings
     autocmds.lua    # Auto-commands
-    colorscheme.lua # Catppuccin theme setup and light/dark toggle
+    colorscheme.lua # Theme setup and light/dark toggle
+    lsp.lua         # LSP config (lua_ls via Homebrew lua-language-server)
+    format.lua      # conform.nvim formatters
+    treesitter.lua  # Tree-sitter config (parsers installed natively via :TSInstall)
+    gitsigns.lua    # Git signs config
+    diffview.lua    # Diffview config
+    octo.lua        # GitHub Octo config
 stylua.toml         # Lua formatter config
 ```
 
@@ -53,6 +75,22 @@ stylua.toml         # Lua formatter config
 | [catppuccin-nvim](https://github.com/catppuccin/nvim) | Colorscheme — Mocha (default) |
 | [cyberdream-nvim](https://github.com/scottmckendry/cyberdream.nvim) | Colorscheme — neon cyberpunk |
 | [tokyonight-nvim](https://github.com/folke/tokyonight.nvim) | Colorscheme — deep blue/purple |
+| [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter) | Syntax highlighting (parsers installed via `:TSInstall`) |
+| [conform-nvim](https://github.com/stevearc/conform.nvim) | Formatter integration |
+| [telescope-nvim](https://github.com/nvim-telescope/telescope.nvim) | Fuzzy finder |
+| [plenary-nvim](https://github.com/nvim-lua/plenary.nvim) | Telescope dependency |
+| [gitsigns-nvim](https://github.com/lewis6991/gitsigns.nvim) | Git signs in the gutter |
+| [diffview-nvim](https://github.com/sindrets/diffview.nvim) | Git diff and history viewer |
+| [octo-nvim](https://github.com/pwntester/octo.nvim) | GitHub PRs and issues in Neovim |
+
+## Host tools (Homebrew)
+
+| Tool | Purpose |
+|------|---------|
+| `neovim` | Editor |
+| `lua-language-server` | Lua LSP |
+| `stylua` | Lua formatter |
+| `gh` | GitHub CLI (used by octo.nvim) |
 
 ## Key mappings
 
@@ -63,8 +101,4 @@ stylua.toml         # Lua formatter config
 | `<` / `>` | Visual | Indent and reselect |
 | `J` / `K` | Visual | Move selection down / up |
 | `n` / `N` | Normal | Next/prev search result (centred) |
-| `<leader>tt` | Normal | Cycle colorscheme (catppuccin → cyberdream → …) |
-
-## Supported systems
-
-The flake supports `x86_64-linux`, `aarch64-linux`, `x86_64-darwin`, and `aarch64-darwin`. The default `homeConfigurations.default` targets `aarch64-darwin` (Apple Silicon). Adjust the `system` value in `flake.nix` if needed.
+| `<leader>tt` | Normal | Cycle colorscheme |

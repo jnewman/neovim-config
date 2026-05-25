@@ -15,13 +15,7 @@ vim.lsp.config("lua_ls", {
   },
 })
 
-vim.lsp.config("nixd", {
-  cmd = { "nixd" },
-  filetypes = { "nix" },
-  root_markers = { "flake.nix", ".git" },
-})
-
-vim.lsp.enable({ "lua_ls", "nixd" })
+vim.lsp.enable({ "lua_ls" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)

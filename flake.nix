@@ -1,21 +1,12 @@
 {
-  description = "Joshua's Neovim configuration — Nix + home-manager";
+  description = "Joshua's Neovim configuration — plugin pack built via Nix, nvim runs on host";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      ...
-    }:
+    { self, nixpkgs, ... }:
     let
       systems = [
         "x86_64-linux"
@@ -26,34 +17,14 @@
       forAllSystems = nixpkgs.lib.genAttrs systems;
     in
     {
-      homeConfigurations = {
-        default = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."aarch64-darwin";
-          modules = [
-            ./modules/nix.nix
-            ./modules/neovim.nix
-          ];
-        };
-      };
-
-      apps = forAllSystems (
+      packages = forAllSystems (
         system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          hmCli = home-manager.packages.${system}.home-manager;
-          rebuildScript = pkgs.writeShellScript "rebuild" ''
-            exec ${hmCli}/bin/home-manager switch --flake .#default
-          '';
         in
         {
-          rebuild = {
-            type = "app";
-            program = toString rebuildScript;
-          };
-          default = {
-            type = "app";
-            program = toString rebuildScript;
-          };
+          nvim-plugin-pack = import ./modules/plugins.nix { inherit pkgs; };
+          default = import ./modules/plugins.nix { inherit pkgs; };
         }
       );
 

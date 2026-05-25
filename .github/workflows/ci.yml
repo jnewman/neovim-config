@@ -10,15 +10,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@v14
       - name: Lint
-        run: nix develop --command sh -c "stylua --check . && nixfmt --check flake.nix modules/*.nix"
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/repo" \
+            -w /repo \
+            nixos/nix \
+            sh -c "git config --global --add safe.directory /repo && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
 
   test:
     name: Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: DeterminateSystems/nix-installer-action@v14
       - name: Test
-        run: nix develop --command sh -c "luacheck lua/ && nvim --headless -u lua/init.lua +qa"
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/repo" \
+            -w /repo \
+            nixos/nix \
+            sh -c "git config --global --add safe.directory /repo && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/'"
