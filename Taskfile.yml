@@ -76,8 +76,18 @@ tasks:
           echo "DeterminateSystems installer detected — running /nix/nix-installer uninstall"
           sudo /nix/nix-installer uninstall
         elif [ -f /etc/nix/nix.conf ]; then
-          echo "Official multi-user Nix detected — running official uninstall script"
-          sh <(curl -L https://nixos.org/nix/uninstall)
+          echo "Official multi-user Nix detected."
+          echo ""
+          echo "Run the official macOS uninstall steps:"
+          echo "  https://nixos.org/manual/nix/stable/installation/uninstall"
+          echo ""
+          echo "Quick summary:"
+          echo "  1. sudo launchctl unload /Library/LaunchDaemons/org.nixos.nix-daemon.plist"
+          echo "  2. sudo rm /Library/LaunchDaemons/org.nixos.nix-daemon.plist"
+          echo "  3. sudo rm -rf /nix /etc/nix /etc/profile.d/nix.sh"
+          echo "  4. Remove nixbld users: for i in \$(seq 1 32); do sudo dscl . delete /Users/nixbld\$i 2>/dev/null; done"
+          echo "  5. sudo dscl . delete /Groups/nixbld"
+          echo "  6. Remove nix lines from /etc/zshrc and /etc/bashrc"
         else
           echo "No Nix installation detected."
         fi
