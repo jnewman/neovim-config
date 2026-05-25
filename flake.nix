@@ -3,10 +3,19 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    octo-nvim-src = {
+      url = "github:pwntester/octo.nvim";
+      flake = false;
+    };
   };
 
   outputs =
-    { self, nixpkgs, ... }:
+    {
+      self,
+      nixpkgs,
+      octo-nvim-src,
+      ...
+    }:
     let
       systems = [
         "x86_64-linux"
@@ -23,8 +32,8 @@
           pkgs = nixpkgs.legacyPackages.${system};
         in
         {
-          nvim-plugin-pack = import ./modules/plugins.nix { inherit pkgs; };
-          default = import ./modules/plugins.nix { inherit pkgs; };
+          nvim-plugin-pack = import ./modules/plugins.nix { inherit pkgs octo-nvim-src; };
+          default = import ./modules/plugins.nix { inherit pkgs octo-nvim-src; };
         }
       );
 

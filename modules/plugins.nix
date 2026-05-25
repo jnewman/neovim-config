@@ -1,4 +1,4 @@
-{ pkgs }:
+{ pkgs, octo-nvim-src }:
 let
   plugins = [
     {
@@ -31,7 +31,10 @@ let
     }
     {
       name = "octo-nvim";
-      pkg = pkgs.vimPlugins.octo-nvim;
+      pkg = pkgs.vimPlugins.octo-nvim.overrideAttrs (_: {
+        src = octo-nvim-src;
+        version = "HEAD";
+      });
     }
     {
       name = "diffview-nvim";
