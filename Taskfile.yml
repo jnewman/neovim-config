@@ -4,6 +4,11 @@ tasks:
   setup:
     desc: Full install — Homebrew tools, plugin pack build, and config wiring
     cmds:
+      - |
+        if ! docker info &>/dev/null; then
+          echo "Error: Docker is not running. Please start Docker Desktop first."
+          exit 1
+        fi
       - brew bundle install
       - task: build
       - task: install
@@ -22,6 +27,11 @@ tasks:
   install:
     desc: Install built plugin pack and wire Lua config symlinks to host paths
     cmds:
+      - |
+        if ! docker inspect nvim-build &>/dev/null; then
+          echo "Error: nvim-build container not found. Run 'task build' first."
+          exit 1
+        fi
       - mkdir -p $HOME/.local/share/nvim/site/pack $HOME/.config/nvim
       - rm -rf $HOME/.local/share/nvim/site/pack/nix
       - docker cp nvim-build:/tmp/nvim-pack/pack/nix $HOME/.local/share/nvim/site/pack/

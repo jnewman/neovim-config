@@ -19,6 +19,6 @@ This file tracks all major tracks for the project.
 
 ---
 
-## [~] Track: Make Config More Reusable
+## [x] Track: Make Config More Reusable
 *Link: [./conductor/tracks/reusability_20260525/](./conductor/tracks/reusability_20260525/)*
 
