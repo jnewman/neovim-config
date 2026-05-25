@@ -2,38 +2,34 @@
 
 ## Vision
 
-A full-featured, IDE-like Neovim configuration managed declaratively via Nix and home-manager.
-The config targets professional software development across multiple ecosystems, prioritizing
-capability and reliability over minimalism.
+A focused, maintainable Neovim configuration. Plugins are managed declaratively via Nix (built
+inside Docker, no Nix daemon on the host); Neovim and language tooling are installed via Homebrew.
+The result is a reproducible setup that doesn't require Nix on the host machine.
 
 ## Target User
 
-A developer who wants the power of a modern IDE inside Neovim, with the reproducibility and
-portability of a Nix-managed environment.
-
-## Primary Languages & Ecosystems
-
-- Python
-- JavaScript / TypeScript
-- Go
-- Rust
-- Scala
+A developer who wants a reliable, Git-managed Neovim config with a simple install story:
+Docker + Homebrew, nothing more.
 
 ## Core Features
 
-- **LSP Integration** — Language servers for all target languages; completions, diagnostics,
-  go-to-definition, hover, rename, and code actions via nvim-lspconfig or equivalent
-- **Debugging (DAP)** — Integrated debugger via nvim-dap with per-language adapter config
-- **File Explorer** — Project tree navigation
-- **Fuzzy Finding** — File, grep, symbol, and buffer search
+- **Plugin management** — plugins declared in `modules/plugins.nix`, built inside Docker, installed
+  to `~/.local/share/nvim/site/pack/nix/start/` via `docker cp`
+- **LSP integration** — lua-language-server via Homebrew; completions and diagnostics in Lua files
+- **Fuzzy finding** — telescope.nvim for files, grep, and buffers
+- **Git tooling** — gitsigns (gutter), diffview (diffs/history), octo (PRs/issues in Neovim)
+- **Syntax highlighting** — nvim-treesitter with parsers installed natively via `:TSInstall`
+- **Formatting** — conform.nvim with stylua for Lua
 
 ## Configuration Approach
 
-Managed entirely by Nix home-manager. Neovim, plugins, language servers, and formatters are
-all declared as Nix packages — no manual plugin installation.
+Plugins are declared as a Nix expression in `modules/plugins.nix` and built inside the official
+`nixos/nix` Docker image. The resulting pack is copied to the host with `docker cp`. Lua config
+files live in `lua/` and are symlinked into `~/.config/nvim/` by `task install`.
+
+Host tools (Neovim, LSPs, formatters) are managed by Homebrew via `Brewfile`.
 
 ## Stability & Reproducibility
 
-Semi-stable: Nix flake inputs are pinned and committed (flake.lock), ensuring reproducibility
-across machines. Inputs are periodically updated (`nix flake update`) to pull in improvements,
-but not on every build.
+Nix flake inputs are pinned in `flake.lock` and committed, ensuring the plugin set is reproducible
+across machines. Run `task update` to update all inputs and commit the new `flake.lock`.

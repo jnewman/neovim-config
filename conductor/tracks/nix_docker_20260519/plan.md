@@ -65,17 +65,17 @@
   - [x] Confirm both lint and test jobs pass on GitHub Actions
   - [x] Fix any failures
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: CI Update' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: CI Update' (Protocol in workflow.md)
 
 ## Phase 4: Cleanup & Documentation
 
-- [ ] Task 1: Host Nix removal guide
-  - [ ] Add a `task uninstall-host-nix` with macOS-appropriate instructions (official Nix uninstaller + nix-darwin if applicable)
-  - [ ] Add `task brew-install` that runs `brew bundle` to install all Brewfile dependencies
+- [x] Task 1: Host Nix removal guide
+  - [x] Add a `task uninstall-host-nix` with macOS-appropriate instructions (official Nix uninstaller + nix-darwin if applicable)
+  - [x] Add `task brew-install` that runs `brew bundle` to install all Brewfile dependencies
 
-- [ ] Task 2: Update project documentation
-  - [ ] Update README.md — prerequisites: Docker + Homebrew only, no Nix on host
-  - [ ] Update conductor/tech-stack.md — replace home-manager section with Docker-built plugin pack + Homebrew tools
-  - [ ] Update conductor/product.md — adjust managed environment description
+- [x] Task 2: Update project documentation
+  - [x] Update README.md — prerequisites: Docker + Homebrew only, no Nix on host
+  - [x] Update conductor/tech-stack.md — replace home-manager section with Docker-built plugin pack + Homebrew tools
+  - [x] Update conductor/product.md — adjust managed environment description
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 4: Cleanup & Documentation' (Protocol in workflow.md)
