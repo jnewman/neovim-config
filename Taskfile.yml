@@ -59,18 +59,17 @@ tasks:
       - brew bundle
 
   uninstall-host-nix:
-    desc: Remove Nix from this macOS host. Run with CONFIRM=yes to proceed.
+    desc: Remove Nix from this macOS host (requires CONFIRM=yes)
+    vars:
+      CONFIRM: '{{default "" .CONFIRM}}'
+    preconditions:
+      - sh: '[ "{{.CONFIRM}}" = "yes" ]'
+        msg: "Pass CONFIRM=yes to confirm:  task uninstall-host-nix CONFIRM=yes"
+    silent: true
     cmds:
       - |
-        if [ "{{.CONFIRM}}" != "yes" ]; then
-          echo "This will permanently remove Nix from your system."
-          echo "Re-run with CONFIRM=yes to proceed:"
-          echo ""
-          echo "  task uninstall-host-nix CONFIRM=yes"
-          exit 1
-        fi
         if [ "$(uname)" != "Darwin" ]; then
-          echo "This task targets macOS only."
+          echo "Error: This task targets macOS only." >&2
           exit 1
         fi
         if [ -x /nix/nix-installer ]; then
