@@ -20,3 +20,8 @@ map("v", "K", ":m '<-2<cr>gv=gv", { desc = "Move selection up" })
 -- Keep cursor centred on search jumps
 map("n", "n", "nzzzv", { desc = "Next search result (centred)" })
 map("n", "N", "Nzzzv", { desc = "Previous search result (centred)" })
+
+-- Format current buffer
+map("n", "<leader>cf", function()
+  require("conform").format({ async = true, lsp_fallback = true })
+end, { desc = "Format file" })

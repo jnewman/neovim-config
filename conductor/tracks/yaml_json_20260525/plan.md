@@ -34,15 +34,15 @@
   - Sub-task: Add lspconfig setup for `jsonls` in `lua/plugins/lsp.lua`
   - Sub-task: Wire `schemastore.json.schemas()` with `validate.enable = true`
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: LSP Configuration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: LSP Configuration' (Protocol in workflow.md)
 
 ## Phase 4: Formatter Integration
 
-- [ ] Task 1: Register yq as formatter in conform.nvim
+- [x] Task 1: Register yq as formatter in conform.nvim
   - Sub-task: Add `yaml` and `json` entries pointing to `yq` in `lua/plugins/conform.lua`
   - Sub-task: Verify yq formatter spec (conform has built-in support or needs custom definition)
 
-- [ ] Task 2: Add format keymap for YAML and JSON buffers
+- [x] Task 2: Add format keymap for YAML and JSON buffers
   - Sub-task: Check if a global `<leader>cf` format keymap already exists
   - Sub-task: Add filetype-specific autocmd or ensure global keymap covers these filetypes
 
