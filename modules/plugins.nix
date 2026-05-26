@@ -94,6 +94,10 @@ let
       name = "flash-nvim";
       pkg = pkgs.vimPlugins.flash-nvim;
     }
+    {
+      name = "SchemaStore-nvim";
+      pkg = pkgs.vimPlugins.SchemaStore-nvim;
+    }
   ];
 in
 pkgs.runCommand "nvim-plugin-pack" { } ''

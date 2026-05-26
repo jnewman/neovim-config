@@ -22,3 +22,8 @@ This file tracks all major tracks for the project.
 ## [x] Track: Make Config More Reusable
 *Link: [./conductor/tracks/reusability_20260525/](./conductor/tracks/reusability_20260525/)*
 
+---
+
+## [~] Track: Add YAML and JSON Highlighting Support
+*Link: [./conductor/tracks/yaml_json_20260525/](./conductor/tracks/yaml_json_20260525/)*
+
