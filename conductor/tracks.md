@@ -24,6 +24,6 @@ This file tracks all major tracks for the project.
 
 ---
 
-## [~] Track: Add YAML and JSON Highlighting Support
+## [x] Track: Add YAML and JSON Highlighting Support
 *Link: [./conductor/tracks/yaml_json_20260525/](./conductor/tracks/yaml_json_20260525/)*
 

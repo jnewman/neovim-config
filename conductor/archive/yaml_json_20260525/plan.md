@@ -46,4 +46,4 @@
   - Sub-task: Check if a global `<leader>cf` format keymap already exists
   - Sub-task: Add filetype-specific autocmd or ensure global keymap covers these filetypes
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Formatter Integration' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Formatter Integration' (Protocol in workflow.md)

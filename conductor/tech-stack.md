@@ -11,7 +11,8 @@
 ## Package Management
 
 - **Nix flakes** — builds the plugin pack inside the official `nixos/nix` Docker image; no Nix on the host
-- **Homebrew** — manages host tools: Neovim, lua-language-server, stylua, gh
+- **Homebrew** — manages host tools: Neovim, lua-language-server, stylua, gh, yaml-language-server, yq
+- **npm** — jsonls installed via `npm install -g vscode-langservers-extracted`
 - **Docker** — `nixos/nix` container used for builds; `docker cp` transfers the pack to the host
 
 ## Language Servers (LSP)
@@ -19,6 +20,8 @@
 | Language | Server |
 |----------|--------|
 | Lua | lua-language-server (via Homebrew) |
+| YAML | yaml-language-server (via Homebrew) + SchemaStore-nvim for schema validation |
+| JSON | vscode-json-languageserver / jsonls (via npm) + SchemaStore-nvim for schema validation |
 
 ## Formatters
 
@@ -26,6 +29,8 @@
 |----------|------|
 | Lua | stylua (via Homebrew) |
 | Nix | nixfmt (via Nix devShell, for CI/formatting of flake files) |
+| YAML | yq (via Homebrew) — pretty-prints with blank lines between top-level keys |
+| JSON | yq (via Homebrew) — outputs JSON via `-o=json` |
 
 ## Core Plugins
 
@@ -35,6 +40,7 @@
 | cyberdream-nvim | Colorscheme — neon cyberpunk |
 | tokyonight-nvim | Colorscheme — deep blue/purple |
 | nvim-treesitter | Syntax highlighting (parsers installed natively via `:TSInstall`) |
+| SchemaStore-nvim | JSON/YAML schema catalog for LSP validation (via Nix) |
 | conform-nvim | Formatter integration |
 | telescope-nvim + plenary-nvim | Fuzzy finder |
 | gitsigns-nvim | Git signs in gutter |
