@@ -1,0 +1,14 @@
+[Unit]
+Description=Neovim LSP Docker container
+After=docker.service
+Wants=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/bin/nvim-lsp-start
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

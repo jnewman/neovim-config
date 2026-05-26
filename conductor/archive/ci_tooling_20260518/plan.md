@@ -16,4 +16,4 @@
 ## Phase 3: GitHub Actions CI
 
 - [x] Task 1: Create `.github/workflows/ci.yml` — `lint` and `test` jobs in parallel, DeterminateSystems/nix-installer-action, runs on every push
-- [ ] Task 2: Conductor - User Manual Verification 'GitHub Actions CI' (Protocol in workflow.md)
+- [x] Task 2: Conductor - User Manual Verification 'GitHub Actions CI' (Protocol in workflow.md)
