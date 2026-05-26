@@ -41,7 +41,103 @@ vim.lsp.config("jsonls", {
   },
 })
 
-vim.lsp.enable({ "lua_ls", "yamlls", "jsonls" })
+-- LSP servers running inside the nvim-lsp Docker container (docker exec -i nvim-lsp <binary>)
+local function docker(binary, ...)
+  return vim.list_extend({ "docker", "exec", "-i", "nvim-lsp", binary }, { ... })
+end
+
+vim.lsp.config("pyright", {
+  cmd = docker("pyright-langserver", "--stdio"),
+  filetypes = { "python" },
+  root_markers = { "pyproject.toml", "setup.py", "setup.cfg", ".git" },
+  settings = {
+    python = { analysis = { autoSearchPaths = true, useLibraryCodeForTypes = true } },
+  },
+})
+
+vim.lsp.config("rust_analyzer", {
+  cmd = docker("rust-analyzer"),
+  filetypes = { "rust" },
+  root_markers = { "Cargo.toml", "Cargo.lock", ".git" },
+})
+
+vim.lsp.config("ts_ls", {
+  cmd = docker("typescript-language-server", "--stdio"),
+  filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+  root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
+})
+
+vim.lsp.config("gopls", {
+  cmd = docker("gopls"),
+  filetypes = { "go", "gomod", "gowork", "gotmpl" },
+  root_markers = { "go.mod", "go.work", ".git" },
+})
+
+vim.lsp.config("metals", {
+  cmd = docker("metals"),
+  filetypes = { "scala", "sbt" },
+  root_markers = { "build.sbt", "build.sc", ".bsp", ".git" },
+})
+
+vim.lsp.config("hls", {
+  cmd = docker("haskell-language-server-wrapper", "--lsp"),
+  filetypes = { "haskell", "lhaskell" },
+  root_markers = { "*.cabal", "stack.yaml", "cabal.project", "package.yaml", ".git" },
+})
+
+vim.lsp.config("ruby_lsp", {
+  cmd = docker("ruby-lsp"),
+  filetypes = { "ruby" },
+  root_markers = { "Gemfile", ".git" },
+})
+
+vim.lsp.config("clangd", {
+  cmd = docker("clangd"),
+  filetypes = { "c", "cpp", "objc", "objcpp" },
+  root_markers = { "compile_commands.json", "compile_flags.txt", ".clangd", ".git" },
+})
+
+vim.lsp.config("bashls", {
+  cmd = docker("bash-language-server", "start"),
+  filetypes = { "sh", "bash" },
+  root_markers = { ".git" },
+})
+
+vim.lsp.config("html", {
+  cmd = docker("vscode-html-languageserver", "--stdio"),
+  filetypes = { "html" },
+  root_markers = { ".git" },
+})
+
+vim.lsp.config("lemminx", {
+  cmd = docker("lemminx"),
+  filetypes = { "xml", "xsd", "xsl", "xslt", "svg" },
+  root_markers = { ".git" },
+})
+
+vim.lsp.config("terraformls", {
+  cmd = docker("terraform-ls", "serve"),
+  filetypes = { "terraform", "terraform-vars" },
+  root_markers = { ".terraform", "*.tf", ".git" },
+})
+
+vim.lsp.enable({
+  "lua_ls",
+  "yamlls",
+  "jsonls",
+  "pyright",
+  "rust_analyzer",
+  "ts_ls",
+  "gopls",
+  "metals",
+  "hls",
+  "ruby_lsp",
+  "clangd",
+  "bashls",
+  "html",
+  "lemminx",
+  "terraformls",
+})
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)

@@ -79,3 +79,26 @@ tasks:
           -w /repo \
           nixos/nix \
           sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/'"
+
+  lsp-build:
+    desc: Build the nvim-lsp Docker image (contains all language servers and formatters)
+    cmds:
+      - docker build -t nvim-lsp .
+
+  lsp-install:
+    desc: Install nvim-lsp-start script and register auto-start service for this machine
+    cmds:
+      - ln -sf "{{.USER_WORKING_DIR}}/scripts/lsp-start.sh" /usr/local/bin/nvim-lsp-start
+      - chmod +x /usr/local/bin/nvim-lsp-start
+      - |
+        if [ "$(uname)" = "Darwin" ]; then
+          cp "{{.USER_WORKING_DIR}}/config/nvim-lsp.plist" "$HOME/Library/LaunchAgents/com.local.nvim-lsp.plist"
+          launchctl load "$HOME/Library/LaunchAgents/com.local.nvim-lsp.plist"
+          echo "Registered launchd service: com.local.nvim-lsp"
+        else
+          mkdir -p "$HOME/.config/systemd/user"
+          cp "{{.USER_WORKING_DIR}}/config/nvim-lsp.service" "$HOME/.config/systemd/user/nvim-lsp.service"
+          systemctl --user daemon-reload
+          systemctl --user enable --now nvim-lsp
+          echo "Registered systemd user service: nvim-lsp"
+        fi

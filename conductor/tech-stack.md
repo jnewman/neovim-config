@@ -17,20 +17,48 @@
 
 ## Language Servers (LSP)
 
-| Language | Server |
-|----------|--------|
-| Lua | lua-language-server (via Homebrew) |
-| YAML | yaml-language-server (via Homebrew) + SchemaStore-nvim for schema validation |
-| JSON | vscode-json-languageserver / jsonls (via npm) + SchemaStore-nvim for schema validation |
+All LSP servers run inside the `nvim-lsp` Docker container. Neovim communicates via
+`docker exec -i nvim-lsp <binary>`. The container is built with `task lsp-build` and
+starts automatically at login via launchd (macOS) or systemd (Linux).
+
+| Language   | Server                         | Install method (inside container) |
+|------------|--------------------------------|-----------------------------------|
+| Lua        | lua-language-server            | Homebrew (host)                   |
+| YAML       | yaml-language-server           | Homebrew (host)                   |
+| JSON       | vscode-json-languageserver     | npm (host)                        |
+| Python     | pyright                        | npm (container)                   |
+| Rust       | rust-analyzer                  | rustup (container)                |
+| TypeScript | typescript-language-server     | npm (container)                   |
+| Go         | gopls                          | go install (container)            |
+| Scala      | metals                         | Coursier (container)              |
+| Haskell    | haskell-language-server        | GHCup (container)                 |
+| Ruby       | ruby-lsp                       | gem (container)                   |
+| C          | clangd                         | apt (container)                   |
+| Bash       | bash-language-server           | npm (container)                   |
+| HTML       | vscode-html-languageserver     | npm (container)                   |
+| XML        | lemminx                        | binary release (container)        |
+| HCL        | terraform-ls                   | HashiCorp release (container)     |
 
 ## Formatters
 
-| Language | Tool |
-|----------|------|
-| Lua | stylua (via Homebrew) |
-| Nix | nixfmt (via Nix devShell, for CI/formatting of flake files) |
-| YAML | yq (via Homebrew) — pretty-prints with blank lines between top-level keys |
-| JSON | yq (via Homebrew) — outputs JSON via `-o=json` |
+| Language   | Tool              | Install method                              |
+|------------|-------------------|---------------------------------------------|
+| Lua        | stylua            | Homebrew (host)                             |
+| Nix        | nixfmt            | Nix devShell (CI)                           |
+| YAML       | yq                | Homebrew (host)                             |
+| JSON       | yq                | Homebrew (host)                             |
+| Python     | ruff format       | pip (container)                             |
+| Rust       | rustfmt           | rustup (container)                          |
+| TypeScript | prettier          | npm (container)                             |
+| Go         | gofmt             | Go stdlib (container)                       |
+| Scala      | scalafmt          | Coursier (container)                        |
+| Haskell    | ormolu            | cabal (container)                           |
+| Ruby       | rubocop           | gem (container)                             |
+| C          | clang-format      | apt (container)                             |
+| Bash       | shfmt             | go install (container)                      |
+| HTML       | prettier          | npm (container)                             |
+| XML        | xmllint           | apt libxml2-utils (container)               |
+| HCL        | terraform fmt     | HashiCorp release (container)               |
 
 ## Core Plugins
 
@@ -47,6 +75,16 @@
 | diffview-nvim | Git diff and history viewer |
 | octo-nvim | GitHub PRs and issues inside Neovim |
 
+## Dev Tasks (Taskfile)
+
+| Task | Command |
+|------|---------|
+| `task fmt` | `stylua .` + `nix fmt` |
+| `task lint` | `stylua --check .` + `nix fmt -- --check` |
+| `task test` | `luacheck lua/` + `nvim --headless -u lua/init.lua +qa` |
+
 ## CI
 
-- **GitHub Actions** — lint (stylua + nixfmt check) and test (luacheck) run inside `nixos/nix` Docker container via `docker run` in workflow steps
+- **GitHub Actions** — `lint` and `test` jobs run in parallel on every push inside `nixos/nix` Docker container via `docker run`
+- **devShell** — `nix develop` exposes `luacheck` and `neovim` for local task runs
+- **`.luacheckrc`** — configures Neovim globals (`vim`, `require`, etc.) for luacheck

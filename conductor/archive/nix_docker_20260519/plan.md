@@ -27,26 +27,26 @@
   - [x] Confirm `result/pack/nix/start/` exists with all plugin directories
   - [x] Confirm plugin directories contain plain files (no dangling store symlinks)
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Restructure flake.nix' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Restructure flake.nix' (Protocol in workflow.md)
 
 ## Phase 2: Docker Build + Taskfile Integration
 
-- [ ] Task 1: Add task build
-  - [ ] Create named container `nvim-build`, bind-mount repo, run `nix build .#nvim-plugin-pack --no-sandbox`
-  - [ ] `cp -rL ./result/. /tmp/nvim-pack/` inside container to dereference store symlinks
+- [x] Task 1: Add task build
+  - [x] Create named container `nvim-build`, bind-mount repo, run `nix build .#nvim-plugin-pack --no-sandbox`
+  - [x] `cp -rL ./result/. /tmp/nvim-pack/` inside container to dereference store symlinks
 
-- [ ] Task 2: Add task install
-  - [ ] `docker cp nvim-build:/tmp/nvim-pack/pack ~/.local/share/nvim/site/`
-  - [ ] Symlink `~/.config/nvim/lua` → `<repo>/lua/` (idempotent)
-  - [ ] Copy or symlink `~/.config/nvim/init.lua` → `<repo>/lua/init.lua`
-  - [ ] Remove build container after install
+- [x] Task 2: Add task install
+  - [x] `docker cp nvim-build:/tmp/nvim-pack/pack ~/.local/share/nvim/site/`
+  - [x] Symlink `~/.config/nvim/lua` → `<repo>/lua/` (idempotent)
+  - [x] Copy or symlink `~/.config/nvim/init.lua` → `<repo>/lua/init.lua`
+  - [x] Remove build container after install
 
-- [ ] Task 3: Update existing Taskfile tasks
-  - [ ] Replace task update — run `nix flake update` inside Docker (ephemeral container)
-  - [ ] Replace task fmt — run `nix develop --command stylua + nixfmt` inside Docker
-  - [ ] Replace task lint — run `nix develop --command stylua --check + nixfmt --check` inside Docker
-  - [ ] Replace task test — run `nix develop --command luacheck + nvim headless` inside Docker
-  - [ ] Remove task rebuild (superseded by build + install)
+- [x] Task 3: Update existing Taskfile tasks
+  - [x] Replace task update — run `nix flake update` inside Docker (ephemeral container)
+  - [x] Replace task fmt — run `nix develop --command stylua + nixfmt` inside Docker
+  - [x] Replace task lint — run `nix develop --command stylua --check + nixfmt --check` inside Docker
+  - [x] Replace task test — run `nix develop --command luacheck + nvim headless` inside Docker
+  - [x] Remove task rebuild (superseded by build + install)
 
 - [x] Task 4: End-to-end verification
   - [x] Run `task build` — confirm build completes
@@ -78,4 +78,4 @@
   - [x] Update conductor/tech-stack.md — replace home-manager section with Docker-built plugin pack + Homebrew tools
   - [x] Update conductor/product.md — adjust managed environment description
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 4: Cleanup & Documentation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 4: Cleanup & Documentation' (Protocol in workflow.md)

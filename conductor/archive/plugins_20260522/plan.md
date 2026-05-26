@@ -61,10 +61,10 @@
 - [x] Task 1: Run task build + task install
 - [x] Task 2: Run luacheck — confirm 0 errors/warnings
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Build, Install, and Verify' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Build, Install, and Verify' (Protocol in workflow.md)
 
 ## Phase 3: Documentation
 
-- [ ] Task 1: Update README.md with usage section for all plugins (new + existing)
+- [x] Task 1: Update README.md with usage section for all plugins (new + existing)
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 3: Documentation' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 3: Documentation' (Protocol in workflow.md)
