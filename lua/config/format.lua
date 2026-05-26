@@ -65,7 +65,13 @@ require("conform").setup({
     prettier_docker = docker_fmt_filename("prettier", "--stdin-filepath"),
     scalafmt_docker = docker_fmt_filename("scalafmt", "--stdin", "--assume-filename"),
     ormolu_docker = docker_fmt_filename("ormolu", "--stdin-input-file"),
-    rubocop_docker = docker_fmt_filename("rubocop", "--stdin", "--autocorrect", "--format", "quiet"),
+    rubocop_docker = docker_fmt_filename(
+      "rubocop",
+      "--stdin",
+      "--autocorrect",
+      "--format",
+      "quiet"
+    ),
     clang_format_docker = {
       command = "docker",
       args = function(_, ctx)
