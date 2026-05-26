@@ -22,15 +22,15 @@
 - [x] Task 1: Enable yaml and json parsers in Treesitter config
   - Sub-task: Add `"yaml"` and `"json"` to `ensure_installed` list in `lua/plugins/treesitter.lua`
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 2: Treesitter Parsers' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 2: Treesitter Parsers' (Protocol in workflow.md)
 
 ## Phase 3: LSP Configuration
 
-- [ ] Task 1: Configure yaml-language-server with SchemaStore
+- [x] Task 1: Configure yaml-language-server with SchemaStore
   - Sub-task: Add lspconfig setup for `yamlls` in `lua/plugins/lsp.lua`
   - Sub-task: Wire `schemastore.yaml.schemas()` into yamlls settings
 
-- [ ] Task 2: Configure jsonls with SchemaStore
+- [x] Task 2: Configure jsonls with SchemaStore
   - Sub-task: Add lspconfig setup for `jsonls` in `lua/plugins/lsp.lua`
   - Sub-task: Wire `schemastore.json.schemas()` with `validate.enable = true`
 

@@ -15,7 +15,33 @@ vim.lsp.config("lua_ls", {
   },
 })
 
-vim.lsp.enable({ "lua_ls" })
+vim.lsp.config("yamlls", {
+  cmd = { "yaml-language-server", "--stdio" },
+  filetypes = { "yaml", "yml" },
+  root_markers = { ".git" },
+  settings = {
+    yaml = {
+      schemas = require("schemastore").yaml.schemas(),
+      validate = { enable = true },
+      completion = true,
+      hover = true,
+    },
+  },
+})
+
+vim.lsp.config("jsonls", {
+  cmd = { "vscode-json-languageserver", "--stdio" },
+  filetypes = { "json", "jsonc" },
+  root_markers = { ".git" },
+  settings = {
+    json = {
+      schemas = require("schemastore").json.schemas(),
+      validate = { enable = true },
+    },
+  },
+})
+
+vim.lsp.enable({ "lua_ls", "yamlls", "jsonls" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
