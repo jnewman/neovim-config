@@ -15,11 +15,11 @@
   - Sub-task: Add `brew "yq"`
   - Sub-task: Run `brew bundle` to install
 
-- [ ] Task: Conductor - User Manual Verification 'Phase 1: Dependencies' (Protocol in workflow.md)
+- [x] Task: Conductor - User Manual Verification 'Phase 1: Dependencies' (Protocol in workflow.md)
 
 ## Phase 2: Treesitter Parsers
 
-- [ ] Task 1: Enable yaml and json parsers in Treesitter config
+- [x] Task 1: Enable yaml and json parsers in Treesitter config
   - Sub-task: Add `"yaml"` and `"json"` to `ensure_installed` list in `lua/plugins/treesitter.lua`
 
 - [ ] Task: Conductor - User Manual Verification 'Phase 2: Treesitter Parsers' (Protocol in workflow.md)
