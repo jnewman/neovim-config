@@ -17,3 +17,8 @@ This file tracks all major tracks for the project.
 ## [~] Track: Add Multi-Language Support (Scala, Python, Rust, TS, Go, XML, HTML, Haskell, Bash, HCL, Ruby, C)
 *Link: [./conductor/tracks/multi_lang_20260525/](./conductor/tracks/multi_lang_20260525/)*
 
+---
+
+## [ ] Track: Add Multi-Language DAP Debugger Support
+*Link: [./conductor/tracks/dap_debugger_20260527/](./conductor/tracks/dap_debugger_20260527/)*
+
