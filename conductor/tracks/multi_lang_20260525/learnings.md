@@ -49,3 +49,16 @@ Patterns, gotchas, and context discovered during implementation.
 - **Files changed:** conductor/tech-stack.md
 
 ---
+
+## [2026-05-27] - Dockerfile Build Fixes (task lsp-build)
+
+- **Fixes applied:** 4 build failures resolved during Phase 1 verification
+- **Files changed:** Dockerfile, lua/config/format.lua
+- **Gotchas:**
+  - `@xml-tools/server` does NOT exist on npm — remove it; XML LSP is lemminx (native binary), not an npm package
+  - `BOOTSTRAP_HASKELL_MINIMAL=1` in GHCup bootstrap skips GHC installation entirely — omit it; without MINIMAL, GHCup installs GHC + cabal by default. Run `cabal update && cabal install ormolu` in the same RUN layer as the bootstrap so GHC is on PATH
+  - Both `terraform` and `terraform-ls` zips contain a `LICENSE.txt`; `unzip -d /usr/local/bin/` prompts interactively to overwrite in Docker (gets EOF, exits 1) — use `unzip terraform.zip terraform -d /usr/local/bin/` to extract only the binary
+  - lemminx has no ARM64 Linux native binary in any release — use the uber JAR from `https://download.eclipse.org/lemminx/releases/{version}/org.eclipse.lemminx-uber.jar` with a `java -jar` wrapper script; requires `default-jre-headless` in base apt install
+  - `format_on_save.timeout_ms = 500` is the *overall* format timeout — docker exec formatters need `10000`; the per-formatter `timeout_ms` alone is not enough
+
+---

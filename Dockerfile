@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ruby-full ruby-dev \
     python3 python3-pip \
     libncurses-dev \
+    default-jre-headless \
     && rm -rf /var/lib/apt/lists/*
 
 # ── Node.js 20 + npm LSPs ─────────────────────────────────────────────────────
@@ -28,8 +29,7 @@ RUN npm install -g --omit=optional \
     typescript \
     bash-language-server \
     vscode-langservers-extracted \
-    prettier \
-    @xml-tools/server
+    prettier
 
 # ── Go + gopls + shfmt ───────────────────────────────────────────────────────
 RUN set -eux; \
@@ -73,9 +73,9 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org \
     | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 \
       BOOTSTRAP_HASKELL_GHC_VERSION=recommended \
       BOOTSTRAP_HASKELL_INSTALL_HLS=1 \
-      BOOTSTRAP_HASKELL_MINIMAL=1 \
-      sh
-RUN cabal update && cabal install ormolu --overwrite-policy=always
+      sh \
+    && cabal update \
+    && cabal install ormolu --overwrite-policy=always
 
 # ── Terraform + terraform-ls ──────────────────────────────────────────────────
 RUN set -eux; \
@@ -87,25 +87,20 @@ RUN set -eux; \
     TF_LS_VERSION=0.34.0; \
     curl -fsSL "https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_${TF_ARCH}.zip" \
       -o /tmp/terraform.zip \
-    && unzip /tmp/terraform.zip -d /usr/local/bin/ \
+    && unzip /tmp/terraform.zip terraform -d /usr/local/bin/ \
     && rm /tmp/terraform.zip; \
     curl -fsSL "https://releases.hashicorp.com/terraform-ls/${TF_LS_VERSION}/terraform-ls_${TF_LS_VERSION}_linux_${TF_ARCH}.zip" \
       -o /tmp/terraform-ls.zip \
-    && unzip /tmp/terraform-ls.zip -d /usr/local/bin/ \
+    && unzip /tmp/terraform-ls.zip terraform-ls -d /usr/local/bin/ \
     && rm /tmp/terraform-ls.zip
 
 # ── lemminx (XML LSP) ─────────────────────────────────────────────────────────
-# Download native binary from Eclipse lemminx GitHub releases
-RUN set -eux; \
-    case "$TARGETARCH" in \
-      amd64) LEMMINX_ARCH=linux ;; \
-      arm64) LEMMINX_ARCH=linux_aarch64 ;; \
-    esac; \
-    curl -fsSL "https://github.com/eclipse/lemminx/releases/download/0.27.0/lemminx-${LEMMINX_ARCH}.zip" \
-      -o /tmp/lemminx.zip \
-    && unzip /tmp/lemminx.zip -d /tmp/lemminx \
-    && mv /tmp/lemminx/lemminx* /usr/local/bin/lemminx \
-    && chmod +x /usr/local/bin/lemminx \
-    && rm -rf /tmp/lemminx /tmp/lemminx.zip
+# Use the uber JAR (cross-platform; no native ARM64 Linux binary exists)
+RUN mkdir -p /usr/local/lib \
+    && curl -fsSL "https://download.eclipse.org/lemminx/releases/0.27.0/org.eclipse.lemminx-uber.jar" \
+      -o /usr/local/lib/lemminx.jar \
+    && printf '#!/bin/sh\nexec java -jar /usr/local/lib/lemminx.jar "$@"\n' \
+      > /usr/local/bin/lemminx \
+    && chmod +x /usr/local/bin/lemminx
 
 CMD ["sleep", "infinity"]

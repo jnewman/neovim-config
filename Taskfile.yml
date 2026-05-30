@@ -88,8 +88,8 @@ tasks:
   lsp-install:
     desc: Install nvim-lsp-start script and register auto-start service for this machine
     cmds:
-      - ln -sf "{{.USER_WORKING_DIR}}/scripts/lsp-start.sh" /usr/local/bin/nvim-lsp-start
-      - chmod +x /usr/local/bin/nvim-lsp-start
+      - sudo ln -sf "{{.USER_WORKING_DIR}}/scripts/lsp-start.sh" /usr/local/bin/nvim-lsp-start
+      - sudo chmod +x /usr/local/bin/nvim-lsp-start
       - |
         if [ "$(uname)" = "Darwin" ]; then
           cp "{{.USER_WORKING_DIR}}/config/nvim-lsp.plist" "$HOME/Library/LaunchAgents/com.local.nvim-lsp.plist"
