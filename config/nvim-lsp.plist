@@ -6,7 +6,7 @@
     <string>com.local.nvim-lsp</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/local/bin/nvim-lsp-start</string>
+        <string>__SCRIPT_PATH__</string>
     </array>
     <key>RunAtLoad</key>
     <true/>

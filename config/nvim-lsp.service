@@ -6,7 +6,7 @@ Wants=docker.service
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/local/bin/nvim-lsp-start
+ExecStart=__SCRIPT_PATH__
 StandardOutput=journal
 StandardError=journal
 

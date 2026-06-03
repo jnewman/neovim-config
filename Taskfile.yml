@@ -86,18 +86,21 @@ tasks:
       - docker build -t nvim-lsp .
 
   lsp-install:
-    desc: Install nvim-lsp-start script and register auto-start service for this machine
+    desc: Register nvim-lsp auto-start service for this machine
     cmds:
-      - sudo ln -sf "{{.USER_WORKING_DIR}}/scripts/lsp-start.sh" /usr/local/bin/nvim-lsp-start
-      - sudo chmod +x /usr/local/bin/nvim-lsp-start
+      - chmod +x "{{.USER_WORKING_DIR}}/scripts/lsp-start.sh"
       - |
+        SCRIPT_PATH="{{.USER_WORKING_DIR}}/scripts/lsp-start.sh"
         if [ "$(uname)" = "Darwin" ]; then
-          cp "{{.USER_WORKING_DIR}}/config/nvim-lsp.plist" "$HOME/Library/LaunchAgents/com.local.nvim-lsp.plist"
-          launchctl load "$HOME/Library/LaunchAgents/com.local.nvim-lsp.plist"
+          PLIST="$HOME/Library/LaunchAgents/com.local.nvim-lsp.plist"
+          launchctl unload "$PLIST" 2>/dev/null || true
+          mkdir -p "$HOME/Library/LaunchAgents"
+          sed "s|__SCRIPT_PATH__|$SCRIPT_PATH|g" "{{.USER_WORKING_DIR}}/config/nvim-lsp.plist" > "$PLIST"
+          launchctl load "$PLIST"
           echo "Registered launchd service: com.local.nvim-lsp"
         else
           mkdir -p "$HOME/.config/systemd/user"
-          cp "{{.USER_WORKING_DIR}}/config/nvim-lsp.service" "$HOME/.config/systemd/user/nvim-lsp.service"
+          sed "s|__SCRIPT_PATH__|$SCRIPT_PATH|g" "{{.USER_WORKING_DIR}}/config/nvim-lsp.service" > "$HOME/.config/systemd/user/nvim-lsp.service"
           systemctl --user daemon-reload
           systemctl --user enable --now nvim-lsp
           echo "Registered systemd user service: nvim-lsp"
