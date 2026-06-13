@@ -9,8 +9,8 @@ if ! docker info &>/dev/null; then
   exit 1
 fi
 
-if docker inspect "$CONTAINER" &>/dev/null; then
-  STATUS=$(docker inspect --format='{{.State.Status}}' "$CONTAINER")
+if docker inspect --type container "$CONTAINER" &>/dev/null; then
+  STATUS=$(docker inspect --type container --format='{{.State.Status}}' "$CONTAINER")
   if [ "$STATUS" = "running" ]; then
     exit 0
   else

@@ -14,6 +14,30 @@ let
       pkg = pkgs.vimPlugins.tokyonight-nvim;
     }
     {
+      name = "kanagawa-nvim";
+      pkg = pkgs.vimPlugins.kanagawa-nvim;
+    }
+    {
+      name = "vim-moonfly-colors";
+      pkg = pkgs.vimPlugins.vim-moonfly-colors;
+    }
+    {
+      name = "melange-nvim";
+      pkg = pkgs.vimPlugins.melange-nvim;
+    }
+    {
+      name = "onenord-nvim";
+      pkg = pkgs.vimPlugins.onenord-nvim;
+    }
+    {
+      name = "miasma-nvim";
+      pkg = pkgs.vimPlugins.miasma-nvim;
+    }
+    {
+      name = "aurora";
+      pkg = pkgs.vimPlugins.aurora;
+    }
+    {
       name = "nvim-treesitter";
       pkg = pkgs.vimPlugins.nvim-treesitter;
     }

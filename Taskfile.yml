@@ -22,7 +22,7 @@ tasks:
           -v "{{.USER_WORKING_DIR}}:/repo" \
           -w /repo \
           nixos/nix \
-          sh -c "nix build .#nvim-plugin-pack --no-sandbox --extra-experimental-features 'nix-command flakes' && cp -rL ./result/. /tmp/nvim-pack/ && chmod -R u+w /tmp/nvim-pack/"
+          sh -c "printf '[safe]\n\tdirectory = *\n' > /etc/gitconfig && nix build .#nvim-plugin-pack --no-sandbox --extra-experimental-features 'nix-command flakes' && cp -rL ./result/. /tmp/nvim-pack/ && chmod -R u+w /tmp/nvim-pack/"
 
   install:
     desc: Install built plugin pack and wire Lua config symlinks to host paths
@@ -30,6 +30,17 @@ tasks:
       - |
         if ! docker inspect nvim-build &>/dev/null; then
           echo "Error: nvim-build container not found. Run 'task build' first."
+          exit 1
+        fi
+      - |
+        # Runtime host dependencies the installed config expects on PATH.
+        # octo.nvim shells out to `gh` and aborts init.lua if it is missing.
+        if ! command -v gh &>/dev/null; then
+          echo "Error: 'gh' (GitHub CLI) not found on PATH — octo.nvim will fail to load." >&2
+          echo "Install it first, e.g.:" >&2
+          echo "  brew install gh                          # macOS / Homebrew" >&2
+          echo "  sudo apt install gh                       # Debian/Ubuntu" >&2
+          echo "  https://github.com/cli/cli#installation   # other platforms" >&2
           exit 1
         fi
       - mkdir -p $HOME/.local/share/nvim/site/pack $HOME/.config/nvim

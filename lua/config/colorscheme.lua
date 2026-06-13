@@ -36,9 +36,35 @@ require("tokyonight").setup({
   terminal_colors = true,
 })
 
+require("kanagawa").setup({
+  theme = "wave",
+  transparent = false,
+  terminalColors = true,
+})
+
+require("onenord").setup({
+  theme = "dark",
+})
+
+-- moonfly, melange, miasma, and aurora are configured via vim globals/options
+-- rather than a setup() function.
+vim.g.moonflyTransparent = false
+vim.opt.background = "dark"
+vim.g.aurora_italic = 1
+
 vim.cmd.colorscheme("cyberdream")
 
-local themes = { "tokyonight", "catppuccin", "cyberdream" }
+local themes = {
+  "tokyonight",
+  "catppuccin",
+  "cyberdream",
+  "kanagawa",
+  "moonfly",
+  "melange",
+  "onenord",
+  "miasma",
+  "aurora",
+}
 local current = 1
 
 vim.keymap.set("n", "<leader>tt", function()
