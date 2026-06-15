@@ -23,4 +23,9 @@ require("markview").setup({
 local map = vim.keymap.set
 map("n", "<leader>mt", "<cmd>Markview Toggle<cr>", { desc = "Toggle markview rendering" })
 map("n", "<leader>ms", "<cmd>Markview splitToggle<cr>", { desc = "Toggle split preview" })
-map("n", "<leader>mh", "<cmd>Markview HybridToggle<cr>", { desc = "Toggle hybrid (raw on cursor line)" })
+map(
+  "n",
+  "<leader>mh",
+  "<cmd>Markview HybridToggle<cr>",
+  { desc = "Toggle hybrid (raw on cursor line)" }
+)
