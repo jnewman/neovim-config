@@ -59,7 +59,7 @@ tasks:
           -v "{{.USER_WORKING_DIR}}:/repo" \
           -w /repo \
           nixos/nix \
-          sh -c "nix flake update --extra-experimental-features 'nix-command flakes'"
+          sh -c "printf '[safe]\n\tdirectory = *\n' > /etc/gitconfig && nix flake update --extra-experimental-features 'nix-command flakes'"
 
   fmt:
     desc: Format all Lua and Nix files
@@ -69,7 +69,7 @@ tasks:
           -v "{{.USER_WORKING_DIR}}:/repo" \
           -w /repo \
           nixos/nix \
-          sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua . && nixfmt flake.nix modules/*.nix'"
+          sh -c "printf '[safe]\n\tdirectory = *\n' > /etc/gitconfig && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua . && nixfmt flake.nix modules/*.nix'"
 
   lint:
     desc: Check formatting without modifying files
@@ -79,7 +79,7 @@ tasks:
           -v "{{.USER_WORKING_DIR}}:/repo" \
           -w /repo \
           nixos/nix \
-          sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
+          sh -c "printf '[safe]\n\tdirectory = *\n' > /etc/gitconfig && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
 
   test:
     desc: Run luacheck (plugin loading is verified manually on the host after task install)
@@ -89,7 +89,7 @@ tasks:
           -v "{{.USER_WORKING_DIR}}:/repo" \
           -w /repo \
           nixos/nix \
-          sh -c "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/'"
+          sh -c "printf '[safe]\n\tdirectory = *\n' > /etc/gitconfig && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/'"
 
   lsp-build:
     desc: Build the nvim-lsp Docker image (contains all language servers and formatters)

@@ -51,6 +51,7 @@ require("conform").setup({
     sh = { "shfmt_docker" },
     bash = { "shfmt_docker" },
     html = { "prettier_docker" },
+    markdown = { "prettier_docker" },
     xml = { "xmllint_docker" },
     terraform = { "terraform_fmt_docker" },
     ["terraform-vars"] = { "terraform_fmt_docker" },

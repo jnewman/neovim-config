@@ -11,6 +11,8 @@ require("nvim-treesitter").setup({
     "hcl",
     "html",
     "json",
+    "markdown",
+    "markdown_inline",
     "python",
     "ruby",
     "rust",
