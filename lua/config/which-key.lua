@@ -14,6 +14,7 @@ wk.add({
   { "<leader>f", group = "Find" },
   { "<leader>g", group = "Git" },
   { "<leader>h", group = "Hunk" },
+  { "<leader>m", group = "Markdown" },
   { "<leader>r", group = "Rename/Refactor" },
   { "<leader>t", group = "Theme" },
 

@@ -1,7 +1,0 @@
-{
-  "database": "dolt",
-  "backend": "dolt",
-  "dolt_mode": "embedded",
-  "dolt_database": "neovim_config",
-  "project_id": "c641b0bc-04f4-49a9-b2aa-f734dfb287ad"
-}

@@ -94,6 +94,18 @@ RUN set -eux; \
     && unzip /tmp/terraform-ls.zip terraform-ls -d /usr/local/bin/ \
     && rm /tmp/terraform-ls.zip
 
+# ── marksman (Markdown LSP) ───────────────────────────────────────────────────
+RUN set -eux; \
+    case "$TARGETARCH" in \
+      amd64) MARKSMAN_ARCH=x64 ;; \
+      arm64) MARKSMAN_ARCH=arm64 ;; \
+      *) echo "Unsupported arch: $TARGETARCH"; exit 1 ;; \
+    esac; \
+    MARKSMAN_VERSION=2026-02-08; \
+    curl -fsSL "https://github.com/artempyanykh/marksman/releases/download/${MARKSMAN_VERSION}/marksman-linux-${MARKSMAN_ARCH}" \
+      -o /usr/local/bin/marksman \
+    && chmod +x /usr/local/bin/marksman
+
 # ── lemminx (XML LSP) ─────────────────────────────────────────────────────────
 # Use the uber JAR (cross-platform; no native ARM64 Linux binary exists)
 RUN mkdir -p /usr/local/lib \

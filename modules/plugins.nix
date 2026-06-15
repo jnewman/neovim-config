@@ -122,6 +122,10 @@ let
       name = "SchemaStore-nvim";
       pkg = pkgs.vimPlugins.SchemaStore-nvim;
     }
+    {
+      name = "markview-nvim";
+      pkg = pkgs.vimPlugins.markview-nvim;
+    }
   ];
 in
 pkgs.runCommand "nvim-plugin-pack" { } ''

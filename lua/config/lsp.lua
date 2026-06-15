@@ -121,6 +121,12 @@ vim.lsp.config("terraformls", {
   root_markers = { ".terraform", "*.tf", ".git" },
 })
 
+vim.lsp.config("marksman", {
+  cmd = docker("marksman", "server"),
+  filetypes = { "markdown" },
+  root_markers = { ".marksman.toml", ".git" },
+})
+
 vim.lsp.enable({
   "lua_ls",
   "yamlls",
@@ -137,6 +143,7 @@ vim.lsp.enable({
   "html",
   "lemminx",
   "terraformls",
+  "marksman",
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
