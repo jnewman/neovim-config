@@ -1,3 +1,14 @@
+-- A nix host (detected by the `nix` executable being on PATH) runs every language
+-- server natively from this repo's flake `lsp-tools` package. Every other host runs
+-- them inside the nvim-lsp Docker container. `use_docker` drives that choice below.
+local use_docker = vim.fn.executable("nix") == 0
+
+-- Binary name for a server that always runs on the host (lua_ls/yamlls/jsonls are
+-- never containerised): the nixpkgs name on a nix host, else the Homebrew/npm name.
+local function host_bin(non_nix, nix)
+  return use_docker and non_nix or nix
+end
+
 vim.lsp.config("lua_ls", {
   cmd = { "lua-language-server" },
   filetypes = { "lua" },
@@ -30,7 +41,7 @@ vim.lsp.config("yamlls", {
 })
 
 vim.lsp.config("jsonls", {
-  cmd = { "vscode-json-languageserver", "--stdio" },
+  cmd = { host_bin("vscode-json-languageserver", "vscode-json-language-server"), "--stdio" },
   filetypes = { "json", "jsonc" },
   root_markers = { ".git" },
   settings = {
@@ -41,13 +52,24 @@ vim.lsp.config("jsonls", {
   },
 })
 
--- LSP servers running inside the nvim-lsp Docker container (docker exec -i nvim-lsp <binary>)
-local function docker(binary, ...)
-  return vim.list_extend({ "docker", "exec", "-i", "nvim-lsp", binary }, { ... })
+-- Command for a containerised server: run the binary directly on a nix host,
+-- otherwise via `docker exec -i nvim-lsp <binary>`. `bin` is the executable name,
+-- or { docker = "...", native = "..." } when nixpkgs names it differently.
+local function cmd(bin, ...)
+  local docker_bin, native_bin
+  if type(bin) == "table" then
+    docker_bin, native_bin = bin.docker, bin.native
+  else
+    docker_bin, native_bin = bin, bin
+  end
+  if use_docker then
+    return vim.list_extend({ "docker", "exec", "-i", "nvim-lsp", docker_bin }, { ... })
+  end
+  return vim.list_extend({ native_bin }, { ... })
 end
 
 vim.lsp.config("pyright", {
-  cmd = docker("pyright-langserver", "--stdio"),
+  cmd = cmd("pyright-langserver", "--stdio"),
   filetypes = { "python" },
   root_markers = { "pyproject.toml", "setup.py", "setup.cfg", ".git" },
   settings = {
@@ -56,73 +78,76 @@ vim.lsp.config("pyright", {
 })
 
 vim.lsp.config("rust_analyzer", {
-  cmd = docker("rust-analyzer"),
+  cmd = cmd("rust-analyzer"),
   filetypes = { "rust" },
   root_markers = { "Cargo.toml", "Cargo.lock", ".git" },
 })
 
 vim.lsp.config("ts_ls", {
-  cmd = docker("typescript-language-server", "--stdio"),
+  cmd = cmd("typescript-language-server", "--stdio"),
   filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
   root_markers = { "tsconfig.json", "jsconfig.json", "package.json", ".git" },
 })
 
 vim.lsp.config("gopls", {
-  cmd = docker("gopls"),
+  cmd = cmd("gopls"),
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
   root_markers = { "go.mod", "go.work", ".git" },
 })
 
 vim.lsp.config("metals", {
-  cmd = docker("metals"),
+  cmd = cmd("metals"),
   filetypes = { "scala", "sbt" },
   root_markers = { "build.sbt", "build.sc", ".bsp", ".git" },
 })
 
 vim.lsp.config("hls", {
-  cmd = docker("haskell-language-server-wrapper", "--lsp"),
+  cmd = cmd("haskell-language-server-wrapper", "--lsp"),
   filetypes = { "haskell", "lhaskell" },
   root_markers = { "*.cabal", "stack.yaml", "cabal.project", "package.yaml", ".git" },
 })
 
 vim.lsp.config("ruby_lsp", {
-  cmd = docker("ruby-lsp"),
+  cmd = cmd("ruby-lsp"),
   filetypes = { "ruby" },
   root_markers = { "Gemfile", ".git" },
 })
 
 vim.lsp.config("clangd", {
-  cmd = docker("clangd"),
+  cmd = cmd("clangd"),
   filetypes = { "c", "cpp", "objc", "objcpp" },
   root_markers = { "compile_commands.json", "compile_flags.txt", ".clangd", ".git" },
 })
 
 vim.lsp.config("bashls", {
-  cmd = docker("bash-language-server", "start"),
+  cmd = cmd("bash-language-server", "start"),
   filetypes = { "sh", "bash" },
   root_markers = { ".git" },
 })
 
 vim.lsp.config("html", {
-  cmd = docker("vscode-html-languageserver", "--stdio"),
+  cmd = cmd(
+    { docker = "vscode-html-languageserver", native = "vscode-html-language-server" },
+    "--stdio"
+  ),
   filetypes = { "html" },
   root_markers = { ".git" },
 })
 
 vim.lsp.config("lemminx", {
-  cmd = docker("lemminx"),
+  cmd = cmd("lemminx"),
   filetypes = { "xml", "xsd", "xsl", "xslt", "svg" },
   root_markers = { ".git" },
 })
 
 vim.lsp.config("terraformls", {
-  cmd = docker("terraform-ls", "serve"),
+  cmd = cmd("terraform-ls", "serve"),
   filetypes = { "terraform", "terraform-vars" },
   root_markers = { ".terraform", "*.tf", ".git" },
 })
 
 vim.lsp.config("marksman", {
-  cmd = docker("marksman", "server"),
+  cmd = cmd("marksman", "server"),
   filetypes = { "markdown" },
   root_markers = { ".marksman.toml", ".git" },
 })

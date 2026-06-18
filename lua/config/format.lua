@@ -1,28 +1,37 @@
+-- A nix host (detected by the `nix` executable on PATH) runs formatters natively
+-- from this repo's flake `lsp-tools` package. Every other host runs them inside the
+-- nvim-lsp Docker container (docker exec -i nvim-lsp <binary>). The `_docker`-suffixed
+-- formatter keys below cover both modes via these helpers.
+local use_docker = vim.fn.executable("nix") == 0
+
+-- Build the leading argv for a containerised binary, or an empty list when native.
+local function prefix(binary)
+  if use_docker then
+    return { "exec", "-i", "nvim-lsp", binary }
+  end
+  return {}
+end
+
+-- stdin formatter, e.g. `ruff format -`.
 local function docker_fmt(binary, ...)
   local extra = { ... }
   return {
-    command = "docker",
+    command = use_docker and "docker" or binary,
     args = function(_)
-      local base = { "exec", "-i", "nvim-lsp", binary }
-      for _, v in ipairs(extra) do
-        table.insert(base, v)
-      end
-      return base
+      return vim.list_extend(prefix(binary), extra)
     end,
     stdin = true,
     timeout_ms = 10000,
   }
 end
 
+-- stdin formatter that also needs the buffer's filename appended.
 local function docker_fmt_filename(binary, ...)
   local extra = { ... }
   return {
-    command = "docker",
+    command = use_docker and "docker" or binary,
     args = function(_, ctx)
-      local base = { "exec", "-i", "nvim-lsp", binary }
-      for _, v in ipairs(extra) do
-        table.insert(base, v)
-      end
+      local base = vim.list_extend(prefix(binary), extra)
       table.insert(base, ctx.filename)
       return base
     end,
@@ -74,9 +83,11 @@ require("conform").setup({
       "quiet"
     ),
     clang_format_docker = {
-      command = "docker",
+      command = use_docker and "docker" or "clang-format",
       args = function(_, ctx)
-        return { "exec", "-i", "nvim-lsp", "clang-format", "--assume-filename=" .. ctx.filename }
+        local base = prefix("clang-format")
+        table.insert(base, "--assume-filename=" .. ctx.filename)
+        return base
       end,
       stdin = true,
       timeout_ms = 10000,

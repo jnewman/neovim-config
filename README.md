@@ -1,12 +1,19 @@
 # neovim-config
 
-Joshua's Neovim configuration. Plugins are built inside Docker using Nix; Neovim and language tooling run on the host via Homebrew.
+Joshua's Neovim configuration.
+
+The build runs on Nix. **On a nix host** (any machine with the `nix` executable on
+PATH) everything runs Nix directly and Docker is never used — plugins build natively
+and language servers/formatters come from the flake's `lsp-tools` package. **On any
+other host** the same Nix work runs inside the `nixos/nix` container and language
+tooling runs inside the `nvim-lsp` container; Neovim itself runs on the host via
+Homebrew. The `task` commands detect which host you're on automatically.
 
 ## Prerequisites
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
-- [Homebrew](https://brew.sh)
 - [Task](https://taskfile.dev) (go-task)
+- On a nix host: [Nix](https://nixos.org/download) with flakes available
+- On a non-nix host: [Docker Desktop](https://www.docker.com/products/docker-desktop/) and [Homebrew](https://brew.sh)
 
 **Install Task:**
 
@@ -24,7 +31,16 @@ sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/b
 task setup
 ```
 
-Installs Homebrew dependencies, builds the plugin pack inside Docker, and wires config symlinks. Safe to re-run. On first launch run `:TSInstall` to compile tree-sitter parsers.
+Builds the plugin pack, wires config symlinks, and (on a non-nix host) installs Homebrew dependencies. Safe to re-run. On first launch run `:TSInstall` to compile tree-sitter parsers.
+
+## Language servers
+
+```bash
+task lsp-build    # nix: build flake lsp-tools | otherwise: build nvim-lsp Docker image
+task lsp-install  # nix: install lsp-tools into your nix profile | otherwise: register the auto-start container
+```
+
+On a nix host the editor invokes language servers and formatters directly off PATH (from `lsp-tools`); everywhere else it runs them via `docker exec` into the `nvim-lsp` container.
 
 ## Daily workflow
 
