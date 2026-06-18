@@ -4,6 +4,11 @@ set -euo pipefail
 CONTAINER="nvim-lsp"
 IMAGE="nvim-lsp"
 
+# On a nix host the editor runs language servers natively; no container is needed.
+if command -v nix &>/dev/null; then
+  exit 0
+fi
+
 if ! docker info &>/dev/null; then
   echo "nvim-lsp: Docker is not running" >&2
   exit 1

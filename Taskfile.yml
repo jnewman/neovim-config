@@ -1,37 +1,47 @@
 version: "3"
 
+# This repo builds with Nix. On a nix host (the `nix` executable is on PATH) every
+# task runs Nix directly and Docker is never used. On any other host the same Nix
+# work runs inside the nixos/nix container and language tooling runs inside the
+# nvim-lsp container. scripts/nix-run.sh encapsulates that native-vs-Docker choice.
+
 tasks:
   setup:
-    desc: Full install — Homebrew tools, plugin pack build, and config wiring
+    desc: Full install — host tools, plugin pack build, and config wiring
     cmds:
       - |
-        if ! docker info &>/dev/null; then
-          echo "Error: Docker is not running. Please start Docker Desktop first."
+        if command -v nix &>/dev/null; then
+          echo "nix detected — running natively, Docker not used."
+        elif ! docker info &>/dev/null; then
+          echo "Error: Docker is not running. Please start Docker Desktop first." >&2
           exit 1
         fi
-      - brew bundle install
+      - |
+        # Homebrew supplies host tooling (nvim, gh, ...) on non-nix hosts.
+        if command -v brew &>/dev/null; then
+          brew bundle install
+        fi
       - task: build
       - task: install
 
   build:
-    desc: Build the Neovim plugin pack inside Docker (leaves named container nvim-build)
+    desc: Build the Neovim plugin pack (Nix natively on a nix host, else inside Docker)
     cmds:
-      - docker rm -f nvim-build 2>/dev/null || true
       - |
-        docker run --name nvim-build \
-          -v "{{.USER_WORKING_DIR}}:/repo" \
-          -w /repo \
-          nixos/nix \
-          sh -c "printf '[safe]\n\tdirectory = *\n' > /etc/gitconfig && nix build .#nvim-plugin-pack --no-sandbox --extra-experimental-features 'nix-command flakes' && cp -rL ./result/. /tmp/nvim-pack/ && chmod -R u+w /tmp/nvim-pack/"
+        if command -v nix &>/dev/null; then
+          nix build .#nvim-plugin-pack --extra-experimental-features 'nix-command flakes'
+        else
+          docker rm -f nvim-build 2>/dev/null || true
+          docker run --name nvim-build \
+            -v "{{.USER_WORKING_DIR}}:/repo" \
+            -w /repo \
+            nixos/nix \
+            sh -c "printf '[safe]\n\tdirectory = *\n' > /etc/gitconfig && nix build .#nvim-plugin-pack --no-sandbox --extra-experimental-features 'nix-command flakes' && cp -rL ./result/. /tmp/nvim-pack/ && chmod -R u+w /tmp/nvim-pack/"
+        fi
 
   install:
     desc: Install built plugin pack and wire Lua config symlinks to host paths
     cmds:
-      - |
-        if ! docker inspect nvim-build &>/dev/null; then
-          echo "Error: nvim-build container not found. Run 'task build' first."
-          exit 1
-        fi
       - |
         # Runtime host dependencies the installed config expects on PATH.
         # octo.nvim shells out to `gh` and aborts init.lua if it is missing.
@@ -45,62 +55,75 @@ tasks:
         fi
       - mkdir -p $HOME/.local/share/nvim/site/pack $HOME/.config/nvim
       - rm -rf $HOME/.local/share/nvim/site/pack/nix
-      - docker cp nvim-build:/tmp/nvim-pack/pack/nix $HOME/.local/share/nvim/site/pack/
+      - |
+        if command -v nix &>/dev/null; then
+          # `nix build` left the pack at ./result (a read-only store symlink).
+          cp -rL ./result/pack/nix $HOME/.local/share/nvim/site/pack/nix
+          chmod -R u+w $HOME/.local/share/nvim/site/pack/nix
+        else
+          if ! docker inspect nvim-build &>/dev/null; then
+            echo "Error: nvim-build container not found. Run 'task build' first." >&2
+            exit 1
+          fi
+          docker cp nvim-build:/tmp/nvim-pack/pack/nix $HOME/.local/share/nvim/site/pack/
+          docker rm nvim-build
+        fi
       - rm -f $HOME/.config/nvim/init.lua $HOME/.config/nvim/lua
       - ln -s "{{.USER_WORKING_DIR}}/lua/init.lua" $HOME/.config/nvim/init.lua
       - ln -s "{{.USER_WORKING_DIR}}/lua" $HOME/.config/nvim/lua
-      - docker rm nvim-build
 
   update:
-    desc: Update all flake inputs inside Docker (flake.lock updated on host via bind mount)
+    desc: Update all flake inputs (flake.lock updated on host)
     cmds:
-      - |
-        docker run --rm \
-          -v "{{.USER_WORKING_DIR}}:/repo" \
-          -w /repo \
-          nixos/nix \
-          sh -c "printf '[safe]\n\tdirectory = *\n' > /etc/gitconfig && nix flake update --extra-experimental-features 'nix-command flakes'"
+      - >-
+        "{{.USER_WORKING_DIR}}/scripts/nix-run.sh"
+        "nix flake update --extra-experimental-features 'nix-command flakes'"
 
   fmt:
     desc: Format all Lua and Nix files
     cmds:
-      - |
-        docker run --rm \
-          -v "{{.USER_WORKING_DIR}}:/repo" \
-          -w /repo \
-          nixos/nix \
-          sh -c "printf '[safe]\n\tdirectory = *\n' > /etc/gitconfig && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua . && nixfmt flake.nix modules/*.nix'"
+      - >-
+        "{{.USER_WORKING_DIR}}/scripts/nix-run.sh"
+        "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua . && nixfmt flake.nix modules/*.nix'"
 
   lint:
     desc: Check formatting without modifying files
     cmds:
-      - |
-        docker run --rm \
-          -v "{{.USER_WORKING_DIR}}:/repo" \
-          -w /repo \
-          nixos/nix \
-          sh -c "printf '[safe]\n\tdirectory = *\n' > /etc/gitconfig && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
+      - >-
+        "{{.USER_WORKING_DIR}}/scripts/nix-run.sh"
+        "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
 
   test:
     desc: Run luacheck (plugin loading is verified manually on the host after task install)
     cmds:
-      - |
-        docker run --rm \
-          -v "{{.USER_WORKING_DIR}}:/repo" \
-          -w /repo \
-          nixos/nix \
-          sh -c "printf '[safe]\n\tdirectory = *\n' > /etc/gitconfig && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/'"
+      - >-
+        "{{.USER_WORKING_DIR}}/scripts/nix-run.sh"
+        "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/'"
 
   lsp-build:
-    desc: Build the nvim-lsp Docker image (contains all language servers and formatters)
+    desc: Build language-server tooling (flake lsp-tools on a nix host, Docker image otherwise)
     cmds:
-      - docker build -t nvim-lsp .
+      - |
+        if command -v nix &>/dev/null; then
+          nix build .#lsp-tools --extra-experimental-features 'nix-command flakes'
+          echo "Built ./result. Install it on PATH with: task lsp-install"
+        else
+          docker build -t nvim-lsp .
+        fi
 
   lsp-install:
-    desc: Register nvim-lsp auto-start service for this machine
+    desc: Make language servers available (nix profile on a nix host, autostart container otherwise)
     cmds:
-      - chmod +x "{{.USER_WORKING_DIR}}/scripts/lsp-start.sh"
       - |
+        if command -v nix &>/dev/null; then
+          # Editor runs servers natively; put them on PATH via the nix profile.
+          # Re-run after `task lsp-build` to pick up tooling changes.
+          nix profile install .#lsp-tools --extra-experimental-features 'nix-command flakes' \
+            || echo "Already installed — run 'nix profile upgrade lsp-tools' to update."
+          echo "lsp-tools installed into your nix profile. No Docker container needed."
+          exit 0
+        fi
+        chmod +x "{{.USER_WORKING_DIR}}/scripts/lsp-start.sh"
         SCRIPT_PATH="{{.USER_WORKING_DIR}}/scripts/lsp-start.sh"
         if [ "$(uname)" = "Darwin" ]; then
           PLIST="$HOME/Library/LaunchAgents/com.local.nvim-lsp.plist"
