@@ -126,6 +126,14 @@ let
       name = "markview-nvim";
       pkg = pkgs.vimPlugins.markview-nvim;
     }
+    {
+      name = "csvview-nvim";
+      pkg = pkgs.vimPlugins.csvview-nvim;
+    }
+    {
+      name = "image-nvim";
+      pkg = pkgs.vimPlugins.image-nvim;
+    }
   ];
 in
 pkgs.runCommand "nvim-plugin-pack" { } ''
