@@ -14,9 +14,10 @@ wk.add({
   { "<leader>f", group = "Find" },
   { "<leader>g", group = "Git" },
   { "<leader>h", group = "Hunk" },
-  { "<leader>m", group = "Markdown" },
+  { "<leader>m", group = "Markdown/Mermaid" },
   { "<leader>r", group = "Rename/Refactor" },
   { "<leader>t", group = "Theme" },
+  { "<leader>v", group = "View" },
 
   -- Git sub-groups
   { "<leader>gp", group = "Pull Request" },

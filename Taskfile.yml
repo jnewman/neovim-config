@@ -24,6 +24,14 @@ tasks:
       - task: build
       - task: install
 
+  rebuild:
+    desc: Rebuild and reinstall everything — plugin pack and language tooling
+    cmds:
+      - task: build
+      - task: install
+      - task: lsp-build
+      - task: lsp-install
+
   build:
     desc: Build the Neovim plugin pack (Nix natively on a nix host, else inside Docker)
     cmds:

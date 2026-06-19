@@ -38,5 +38,11 @@ pkgs.buildEnv {
     scalafmt
     ormolu
     rubocop
+
+    # ── Editor preview tools ──────────────────────────────────────────────────
+    # Used by lua/config/mermaid.lua: mmdc renders mermaid to a PNG, image.nvim
+    # draws it inline via ImageMagick's CLI processor.
+    mermaid-cli # mmdc
+    imagemagick # magick / convert
   ];
 }

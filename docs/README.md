@@ -20,6 +20,12 @@ Each plugin has its own doc page covering purpose, keybindings, and config notes
 - [flash.nvim](plugins/flash.md) — jump-to-anywhere navigation
 - [indent-blankline.nvim](plugins/ibl.md) — indent guides and scope highlighting
 
+### Markdown & Data
+
+- [markview.nvim](plugins/markview.md) — in-editor markdown rendering
+- [csvview.nvim](plugins/csvview.md) — CSV/TSV table viewer
+- [mermaid preview](plugins/mermaid.md) — inline mermaid diagrams (image.nvim + mermaid-cli)
+
 ### UI
 
 - [lualine.nvim](plugins/lualine.md) — statusline
