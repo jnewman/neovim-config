@@ -56,3 +56,7 @@ task test     # Run luacheck
 ## Docs
 
 Plugin reference, keybindings, and config notes: [docs/](docs/README.md)
+
+## License
+
+[BSD 3-Clause](LICENSE) © Josh Newman
