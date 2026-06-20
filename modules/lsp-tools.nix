@@ -44,5 +44,12 @@ pkgs.buildEnv {
     # draws it inline via ImageMagick's CLI processor.
     mermaid-cli # mmdc
     imagemagick # magick / convert
+
+    # ── Treesitter parser build tools ─────────────────────────────────────────
+    # nvim-treesitter (main branch) compiles parsers on install. Grammars that
+    # don't ship a prebuilt parser.c (e.g. haskell) need the `tree-sitter` CLI to
+    # run `tree-sitter generate`; all parsers need a C compiler to build.
+    tree-sitter
+    gcc # cc
   ];
 }

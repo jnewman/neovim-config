@@ -1,4 +1,7 @@
 
+# Claude Code per-user local settings
+.claude/settings.local.json
+
 # Nix build output symlink
 result
 

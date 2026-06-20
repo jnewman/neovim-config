@@ -1,5 +1,14 @@
 {
   "enabledPlugins": {
     "agent-skills@addy-agent-skills": true
+  },
+  "permissions": {
+    "allow": [
+      "Read(**)"
+    ],
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)"
+    ]
   }
 }
