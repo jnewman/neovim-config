@@ -32,6 +32,8 @@ image.setup({
 local M = {}
 
 -- The single live preview: a vertical split reused across renders.
+-- `image` holds an image.nvim Image instance (untyped upstream, hence `any`).
+---@type { win: integer?, buf: integer?, image: any }
 local preview = { win = nil, buf = nil, image = nil }
 
 local function notify(msg, level)

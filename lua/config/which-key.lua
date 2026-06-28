@@ -10,6 +10,7 @@ wk.setup({
 
 wk.add({
   -- Top-level leader groups
+  { "<leader>a", group = "AI/Agent" },
   { "<leader>c", group = "Code" },
   { "<leader>f", group = "Find" },
   { "<leader>g", group = "Git" },

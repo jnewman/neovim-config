@@ -1,4 +1,8 @@
-{ pkgs, octo-nvim-src }:
+{
+  pkgs,
+  octo-nvim-src,
+  agentic-nvim-src,
+}:
 let
   plugins = [
     {
@@ -133,6 +137,20 @@ let
     {
       name = "image-nvim";
       pkg = pkgs.vimPlugins.image-nvim;
+    }
+    {
+      # Not in nixpkgs — built from the flake source input (pure Lua plugin).
+      name = "agentic-nvim";
+      pkg = pkgs.vimUtils.buildVimPlugin {
+        pname = "agentic-nvim";
+        version = "HEAD";
+        src = agentic-nvim-src;
+        # Skip the nvim require-check: it tries to load the plugin's bundled
+        # *.test modules, which depend on a test harness not present at build.
+        doCheck = false;
+        nvimSkipModules = [ ];
+        checkInputs = [ ];
+      };
     }
   ];
 in
