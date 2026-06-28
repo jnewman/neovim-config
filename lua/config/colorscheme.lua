@@ -52,11 +52,11 @@ vim.g.moonflyTransparent = false
 vim.opt.background = "dark"
 vim.g.aurora_italic = 1
 
-vim.cmd.colorscheme("miasma")
+vim.cmd.colorscheme("aurora")
 
 local themes = {
   "tokyonight",
-  "catppuccin",
+  "cyberdream",
   "cyberdream",
   "kanagawa",
   "moonfly",

@@ -38,6 +38,10 @@ Each plugin has its own doc page covering purpose, keybindings, and config notes
 - [diffview-nvim](plugins/diffview.md) — diff viewer and git history browser
 - [octo-nvim](plugins/octo.md) — GitHub PRs and issues in Neovim
 
+### AI / Agent
+
+- [agentic-nvim](plugins/agentic.md) — in-editor AI agent chat (ACP, defaults to Claude)
+
 ### Dependencies
 
 - [telescope-nvim](plugins/telescope.md) — fuzzy finder (used by octo)

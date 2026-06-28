@@ -7,6 +7,10 @@
       url = "github:pwntester/octo.nvim";
       flake = false;
     };
+    agentic-nvim-src = {
+      url = "github:carlos-algms/agentic.nvim";
+      flake = false;
+    };
   };
 
   outputs =
@@ -14,6 +18,7 @@
       self,
       nixpkgs,
       octo-nvim-src,
+      agentic-nvim-src,
       ...
     }:
     let
@@ -37,8 +42,8 @@
           };
         in
         {
-          nvim-plugin-pack = import ./modules/plugins.nix { inherit pkgs octo-nvim-src; };
-          default = import ./modules/plugins.nix { inherit pkgs octo-nvim-src; };
+          nvim-plugin-pack = import ./modules/plugins.nix { inherit pkgs octo-nvim-src agentic-nvim-src; };
+          default = import ./modules/plugins.nix { inherit pkgs octo-nvim-src agentic-nvim-src; };
           # Language servers + formatters the editor runs natively on a nix host.
           lsp-tools = import ./modules/lsp-tools.nix { pkgs = pkgsUnfree; };
         }
