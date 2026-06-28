@@ -126,9 +126,14 @@ tasks:
         if command -v nix &>/dev/null; then
           # Editor runs servers natively; put them on PATH via the nix profile.
           # Re-run after `task lsp-build` to pick up tooling changes.
-          nix profile install .#lsp-tools --extra-experimental-features 'nix-command flakes' \
-            || echo "Already installed — run 'nix profile upgrade lsp-tools' to update."
-          echo "lsp-tools installed into your nix profile. No Docker container needed."
+          export NIX_CONFIG="experimental-features = nix-command flakes"
+          if nix profile list 2>/dev/null | grep -q lsp-tools; then
+            nix profile upgrade lsp-tools
+            echo "lsp-tools upgraded in your nix profile. No Docker container needed."
+          else
+            nix profile add .#lsp-tools
+            echo "lsp-tools installed into your nix profile. No Docker container needed."
+          fi
           exit 0
         fi
         chmod +x "{{.USER_WORKING_DIR}}/scripts/lsp-start.sh"
