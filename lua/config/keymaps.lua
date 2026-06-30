@@ -25,3 +25,34 @@ map("n", "N", "Nzzzv", { desc = "Previous search result (centred)" })
 map("n", "<leader>cf", function()
   require("conform").format({ async = true, lsp_fallback = true })
 end, { desc = "Format file" })
+
+-- Toggle a terminal in a horizontal split at the bottom
+local terminal_state = { buf = nil, win = nil }
+local function toggle_terminal()
+  -- If the terminal window is open, close it (keeps the buffer/session alive).
+  if terminal_state.win and vim.api.nvim_win_is_valid(terminal_state.win) then
+    vim.api.nvim_win_hide(terminal_state.win)
+    terminal_state.win = nil
+    return
+  end
+
+  -- Open a bottom split sized to ~30% of the editor height.
+  vim.cmd("botright split")
+  terminal_state.win = vim.api.nvim_get_current_win()
+  vim.api.nvim_win_set_height(terminal_state.win, math.floor(vim.o.lines * 0.3))
+
+  -- Reuse the existing terminal buffer if we have one, else start a new shell.
+  if terminal_state.buf and vim.api.nvim_buf_is_valid(terminal_state.buf) then
+    vim.api.nvim_win_set_buf(terminal_state.win, terminal_state.buf)
+  else
+    vim.cmd("terminal")
+    terminal_state.buf = vim.api.nvim_get_current_buf()
+  end
+
+  vim.cmd("startinsert")
+end
+
+map({ "n", "t" }, "<C-/>", toggle_terminal, { desc = "Toggle bottom terminal" })
+
+-- Leave terminal-insert mode with <Esc><Esc>
+map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
