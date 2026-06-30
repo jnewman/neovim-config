@@ -2,6 +2,19 @@ require("agentic").setup({
   -- Talks to the `claude-agent-acp` CLI over the Agent Client Protocol.
   -- Install it on PATH first: npm i -g @agentclientprotocol/claude-agent-acp
   provider = "claude-agent-acp",
+
+  acp_providers = {
+    ["claude-agent-acp"] = {
+      env = {
+        -- claude-agent-acp's SDK bundles a prebuilt generic-linux `claude`
+        -- binary that requests /lib64/ld-linux-x86-64.so.2. On NixOS that is
+        -- the stub-ld, which refuses to run it, so the subprocess dies and the
+        -- SDK crashes with an unhandled `write EPIPE`. Point the SDK at the
+        -- nixpkgs `claude` (Claude Code) on PATH instead.
+        CLAUDE_CODE_EXECUTABLE = "claude",
+      },
+    },
+  },
 })
 
 local map = vim.keymap.set
