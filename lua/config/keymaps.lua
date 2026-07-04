@@ -26,6 +26,21 @@ map("n", "<leader>cf", function()
   require("conform").format({ async = true, lsp_fallback = true })
 end, { desc = "Format file" })
 
+-- Telescope fuzzy finding (<leader>f "Find" group)
+-- Require lazily so keymap setup doesn't depend on telescope being loaded yet.
+map("n", "<leader>ff", function()
+  require("telescope.builtin").find_files()
+end, { desc = "Find files" })
+map("n", "<leader>fg", function()
+  require("telescope.builtin").live_grep()
+end, { desc = "Grep files" })
+map("n", "<leader>fb", function()
+  require("telescope.builtin").buffers()
+end, { desc = "Find buffers" })
+map("n", "<leader>fh", function()
+  require("telescope.builtin").help_tags()
+end, { desc = "Find help" })
+
 -- Toggle a terminal in a horizontal split at the bottom
 local terminal_state = { buf = nil, win = nil }
 local function toggle_terminal()
