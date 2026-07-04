@@ -6,12 +6,19 @@ A fuzzy finder UI for files, grep results, buffers, and more. Used as the picker
 
 ## Keybindings
 
-No keymaps are explicitly configured. Use `:Telescope` commands or access through octo.nvim's picker UI.
+Configured under the `<leader>f` "Find" group (see `keymaps.lua`). Handlers
+require `telescope.builtin` lazily so keymap setup doesn't depend on telescope
+being loaded first.
 
-Common built-in commands:
-- `:Telescope find_files` — fuzzy find files
-- `:Telescope live_grep` — grep across the project
-- `:Telescope buffers` — switch between open buffers
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>ff` | Normal | Find files (fuzzy) |
+| `<leader>fg` | Normal | Grep across the project (live grep) |
+| `<leader>fb` | Normal | Find / switch open buffers |
+| `<leader>fh` | Normal | Find help tags |
+
+You can also invoke any picker directly via `:Telescope <builtin>` (e.g.
+`:Telescope find_files`), or reach telescope through octo.nvim's picker UI.
 
 ## Config Notes
 

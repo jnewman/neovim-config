@@ -36,6 +36,21 @@ cp -rf source dest          # NOT: cp -r source dest
 - `apt-get` - use `-y` flag
 - `brew` - use `HOMEBREW_NO_AUTO_UPDATE=1` env var
 
+## Keep Docs & Local Settings Current
+
+**Docs:** `docs/` is the usage reference — one page per plugin under `docs/plugins/`,
+core keymaps in `docs/editor.md`, all indexed from `docs/README.md`. Keybindings live
+in `lua/config/keymaps.lua` and each `lua/config/*.lua`. When you add or change a
+keybinding, plugin, or config option, update the matching doc page in the same change
+(add it to `docs/README.md` if it's new), and skim the docs you touched to confirm they
+still match the code.
+
+**Local settings:** `.claude/settings.local.json` accumulates ad-hoc
+`permissions.allow` entries as you approve commands. Periodically compress it — merge
+specific commands into broad globs (e.g. `Bash(bd *)`, `Bash(nix *)`), drop one-off
+entries that won't recur, and remove `Read(...)` rules already covered by
+`settings.json` (`Read(**)`). Keep the list short and pattern-based.
+
 <!-- BEGIN BEADS INTEGRATION v:1 profile:minimal hash:ca08a54f -->
 ## Beads Issue Tracker
 

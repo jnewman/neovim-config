@@ -6,7 +6,11 @@ Thin formatter integration layer. Runs formatters on save and falls back to the 
 
 ## Keybindings
 
-None — formatting runs automatically on save.
+| Key | Mode | Action |
+|-----|------|--------|
+| `<leader>cf` | Normal | Format the current buffer (async, LSP fallback) |
+
+Formatting also runs automatically on save; the keymap is for on-demand formatting.
 
 ## Config Notes
 
