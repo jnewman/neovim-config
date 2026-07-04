@@ -14,14 +14,17 @@ Prefix groups registered (shown as labels in the popup):
 
 | Prefix | Group |
 |--------|-------|
+| `<leader>a` | AI/Agent |
 | `<leader>c` | Code |
 | `<leader>f` | Find |
 | `<leader>g` | Git |
 | `<leader>gp` | Pull Request |
 | `<leader>gr` | Review |
 | `<leader>h` | Hunk |
+| `<leader>m` | Markdown/Mermaid |
 | `<leader>r` | Rename/Refactor |
 | `<leader>t` | Theme |
+| `<leader>v` | View |
 
 ## Config Notes
 

@@ -1,5 +1,9 @@
 # Documentation
 
+## Editor
+
+- [Core keymaps](editor.md) — non-plugin keybindings (window navigation, editing, bottom terminal)
+
 ## Plugins
 
 Each plugin has its own doc page covering purpose, keybindings, and config notes.

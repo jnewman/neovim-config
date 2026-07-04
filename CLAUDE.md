@@ -66,4 +66,27 @@ _Add a brief overview of your project architecture_
 
 ## Conventions & Patterns
 
-_Add your project-specific conventions here_
+### Keep docs in sync with config
+
+`docs/` is the usage reference: one page per plugin under `docs/plugins/`, core
+(non-plugin) keymaps in `docs/editor.md`, all indexed from `docs/README.md`.
+Keybindings live in `lua/config/keymaps.lua` and each `lua/config/*.lua`.
+
+When you add or change a keybinding, plugin, or config option, update the matching
+doc page **in the same change** — and add it to `docs/README.md` if it's a new page.
+Before wrapping up, skim the docs for the areas you touched and confirm they still
+match the code (e.g. a plugin doc claiming "no keymaps configured" when keymaps now
+exist).
+
+### Compress local Claude settings
+
+`.claude/settings.local.json` accumulates ad-hoc `permissions.allow` entries as you
+approve commands during sessions. Periodically clean it up:
+
+- Merge specific commands into broad glob patterns (e.g. many `bd ...` entries →
+  `Bash(bd *)`, granular `nix ...` entries → `Bash(nix *)`).
+- Drop one-off entries that won't recur (throwaway `python3 -c`/`node -e` checks,
+  debugging invocations).
+- Remove `Read(...)` rules already covered by `.claude/settings.json` (`Read(**)`).
+
+Keep the list short and pattern-based rather than a long log of exact commands.
