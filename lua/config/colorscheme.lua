@@ -28,6 +28,22 @@ require("cyberdream").setup({
   italic_comments = true,
   hide_fillchars = false,
   borderless_telescope = false,
+  -- Palette overridden to match the Ghostty "Cyberpunk" theme: a purple base
+  -- (#332a57) with mint-green / hot-pink / electric-cyan neon accents, rather
+  -- than cyberdream's default near-black bg and lime-green accents.
+  colors = {
+    bg = "#332a57",
+    bg_alt = "#3d3266",
+    fg = "#e5e5e5",
+    green = "#00fbac",
+    cyan = "#1bccfd",
+    blue = "#00bfff",
+    red = "#ff7092",
+    pink = "#ff7092",
+    magenta = "#df95ff",
+    purple = "#df95ff",
+    yellow = "#fffa6a",
+  },
 })
 
 require("tokyonight").setup({
@@ -52,7 +68,7 @@ vim.g.moonflyTransparent = false
 vim.opt.background = "dark"
 vim.g.aurora_italic = 1
 
-vim.cmd.colorscheme("aurora")
+vim.cmd.colorscheme("cyberdream")
 
 local themes = {
   "tokyonight",
