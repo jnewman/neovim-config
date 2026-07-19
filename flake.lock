@@ -32,6 +32,22 @@
         "type": "github"
       }
     },
+    "notion-nvim-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1782317505,
+        "narHash": "sha256-3GAq0ITP7PW1isLGZbgx6xVKf0Dm6GOrx4e5/G58ph8=",
+        "owner": "ALT-F4-LLC",
+        "repo": "notion.nvim",
+        "rev": "86c4862adae62b3cd41516788e5a3b28c5c8cd19",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ALT-F4-LLC",
+        "repo": "notion.nvim",
+        "type": "github"
+      }
+    },
     "octo-nvim-src": {
       "flake": false,
       "locked": {
@@ -52,6 +68,7 @@
       "inputs": {
         "agentic-nvim-src": "agentic-nvim-src",
         "nixpkgs": "nixpkgs",
+        "notion-nvim-src": "notion-nvim-src",
         "octo-nvim-src": "octo-nvim-src"
       }
     }

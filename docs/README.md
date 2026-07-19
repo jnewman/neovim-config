@@ -46,7 +46,11 @@ Each plugin has its own doc page covering purpose, keybindings, and config notes
 
 - [agentic-nvim](plugins/agentic.md) — in-editor AI agent chat (ACP, defaults to Claude)
 
+### Notes
+
+- [notion.nvim](plugins/notion.md) — create, browse, and sync Notion pages from Neovim
+
 ### Dependencies
 
-- [telescope-nvim](plugins/telescope.md) — fuzzy finder (used by octo)
-- [plenary-nvim](plugins/plenary.md) — Lua utility library (required by telescope and octo)
+- [telescope-nvim](plugins/telescope.md) — fuzzy finder (used by octo and notion)
+- [plenary-nvim](plugins/plenary.md) — Lua utility library (required by telescope, octo, and notion)
