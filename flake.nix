@@ -11,6 +11,10 @@
       url = "github:carlos-algms/agentic.nvim";
       flake = false;
     };
+    notion-nvim-src = {
+      url = "github:ALT-F4-LLC/notion.nvim";
+      flake = false;
+    };
   };
 
   outputs =
@@ -19,6 +23,7 @@
       nixpkgs,
       octo-nvim-src,
       agentic-nvim-src,
+      notion-nvim-src,
       ...
     }:
     let
@@ -42,8 +47,22 @@
           };
         in
         {
-          nvim-plugin-pack = import ./modules/plugins.nix { inherit pkgs octo-nvim-src agentic-nvim-src; };
-          default = import ./modules/plugins.nix { inherit pkgs octo-nvim-src agentic-nvim-src; };
+          nvim-plugin-pack = import ./modules/plugins.nix {
+            inherit
+              pkgs
+              octo-nvim-src
+              agentic-nvim-src
+              notion-nvim-src
+              ;
+          };
+          default = import ./modules/plugins.nix {
+            inherit
+              pkgs
+              octo-nvim-src
+              agentic-nvim-src
+              notion-nvim-src
+              ;
+          };
           # Language servers + formatters the editor runs natively on a nix host.
           lsp-tools = import ./modules/lsp-tools.nix { pkgs = pkgsUnfree; };
         }

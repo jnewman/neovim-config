@@ -2,6 +2,7 @@
   pkgs,
   octo-nvim-src,
   agentic-nvim-src,
+  notion-nvim-src,
 }:
 let
   plugins = [
@@ -147,6 +148,19 @@ let
         src = agentic-nvim-src;
         # Skip the nvim require-check: it tries to load the plugin's bundled
         # *.test modules, which depend on a test harness not present at build.
+        doCheck = false;
+        nvimSkipModules = [ ];
+        checkInputs = [ ];
+      };
+    }
+    {
+      # Not in nixpkgs — built from the flake source input (pure Lua plugin).
+      # Depends on plenary-nvim + telescope-nvim, both already in this pack.
+      name = "notion-nvim";
+      pkg = pkgs.vimUtils.buildVimPlugin {
+        pname = "notion-nvim";
+        version = "HEAD";
+        src = notion-nvim-src;
         doCheck = false;
         nvimSkipModules = [ ];
         checkInputs = [ ];
