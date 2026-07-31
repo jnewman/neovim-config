@@ -102,11 +102,11 @@ tasks:
         "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'stylua --check . && nixfmt --check flake.nix modules/*.nix'"
 
   test:
-    desc: Run luacheck (plugin loading is verified manually on the host after task install)
+    desc: Run luacheck and actionlint (plugin loading is verified manually on the host after task install)
     cmds:
       - >-
         "{{.USER_WORKING_DIR}}/scripts/nix-run.sh"
-        "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/'"
+        "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/ && actionlint'"
 
   lsp-build:
     desc: Build language-server tooling (flake lsp-tools on a nix host, Docker image otherwise)

@@ -1,0 +1,44 @@
+name: Update flake
+
+on:
+  schedule:
+    # Mondays at 06:00 UTC
+    - cron: "0 6 * * 1"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    name: Update flake inputs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Task
+        uses: arduino/setup-task@v2
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: task update
+        # Runs `nix flake update` inside the nixos/nix container (see
+        # scripts/nix-run.sh) and writes the refreshed flake.lock back into
+        # the workspace.
+        run: task update
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: update flake inputs"
+          title: "chore: update flake inputs"
+          body: |
+            Automated weekly `task update` — refreshes `flake.lock` with the
+            latest flake inputs.
+
+            Merge once CI passes.
+          branch: automated/flake-update
+          delete-branch: true
+          add-paths: flake.lock

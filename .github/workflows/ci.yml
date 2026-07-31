@@ -29,4 +29,4 @@ jobs:
             -v "${{ github.workspace }}:/repo" \
             -w /repo \
             nixos/nix \
-            sh -c "git config --global --add safe.directory /repo && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/'"
+            sh -c "git config --global --add safe.directory /repo && nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/ && actionlint'"

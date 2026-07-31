@@ -50,7 +50,7 @@ task install  # Re-install pack and refresh symlinks
 task update   # Update all flake inputs
 task fmt      # Format Lua and Nix files
 task lint     # Check formatting without modifying
-task test     # Run luacheck
+task test     # Run luacheck and actionlint
 ```
 
 ## Docs

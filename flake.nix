@@ -84,6 +84,7 @@
               pkgs.stylua
               pkgs.nixfmt
               pkgs.luajitPackages.luacheck
+              pkgs.actionlint
               pkgs.neovim
             ];
           };
