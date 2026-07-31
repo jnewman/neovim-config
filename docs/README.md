@@ -22,6 +22,7 @@ Each plugin has its own doc page covering purpose, keybindings, and config notes
 - [nvim-autopairs](plugins/autopairs.md) — auto-close brackets and quotes
 - [Comment.nvim](plugins/comment.md) — comment toggling
 - [flash.nvim](plugins/flash.md) — jump-to-anywhere navigation
+- [precognition.nvim](plugins/precognition.md) — virtual-text hints for available motions
 - [indent-blankline.nvim](plugins/ibl.md) — indent guides and scope highlighting
 
 ### Markdown & Data
