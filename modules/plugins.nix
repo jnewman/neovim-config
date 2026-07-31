@@ -124,6 +124,10 @@ let
       pkg = pkgs.vimPlugins.flash-nvim;
     }
     {
+      name = "precognition-nvim";
+      pkg = pkgs.vimPlugins.precognition-nvim;
+    }
+    {
       name = "SchemaStore-nvim";
       pkg = pkgs.vimPlugins.SchemaStore-nvim;
     }
