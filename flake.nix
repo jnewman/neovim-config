@@ -15,6 +15,10 @@
       url = "github:ALT-F4-LLC/notion.nvim";
       flake = false;
     };
+    diffbandit-nvim-src = {
+      url = "github:CoreyKaylor/diffbandit.nvim";
+      flake = false;
+    };
   };
 
   outputs =
@@ -24,6 +28,7 @@
       octo-nvim-src,
       agentic-nvim-src,
       notion-nvim-src,
+      diffbandit-nvim-src,
       ...
     }:
     let
@@ -53,6 +58,7 @@
               octo-nvim-src
               agentic-nvim-src
               notion-nvim-src
+              diffbandit-nvim-src
               ;
           };
           default = import ./modules/plugins.nix {
@@ -61,6 +67,7 @@
               octo-nvim-src
               agentic-nvim-src
               notion-nvim-src
+              diffbandit-nvim-src
               ;
           };
           # Language servers + formatters the editor runs natively on a nix host.
