@@ -3,6 +3,7 @@
   octo-nvim-src,
   agentic-nvim-src,
   notion-nvim-src,
+  diffbandit-nvim-src,
 }:
 let
   plugins = [
@@ -165,6 +166,19 @@ let
         pname = "notion-nvim";
         version = "HEAD";
         src = notion-nvim-src;
+        doCheck = false;
+        nvimSkipModules = [ ];
+        checkInputs = [ ];
+      };
+    }
+    {
+      # Not in nixpkgs — built from the flake source input (pure Lua plugin).
+      # Side-by-side diff viewer; only needs Neovim 0.10+ and (optionally) git.
+      name = "diffbandit-nvim";
+      pkg = pkgs.vimUtils.buildVimPlugin {
+        pname = "diffbandit-nvim";
+        version = "HEAD";
+        src = diffbandit-nvim-src;
         doCheck = false;
         nvimSkipModules = [ ];
         checkInputs = [ ];
