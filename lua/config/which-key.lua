@@ -22,7 +22,6 @@ wk.add({
   { "<leader>v", group = "View" },
 
   -- Git sub-groups
-  { "<leader>gb", group = "DiffBandit" },
   { "<leader>gp", group = "Pull Request" },
   { "<leader>gr", group = "Review" },
 
