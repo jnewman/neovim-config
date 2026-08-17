@@ -19,11 +19,11 @@
     "diffbandit-nvim-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1786149656,
-        "narHash": "sha256-wblXpOz19c8+kYGXYxpMsE754PLVMZ30Iwz8ermTIpA=",
+        "lastModified": 1786882460,
+        "narHash": "sha256-JQCgGuld5kOJNFcWgqAS8eSI8Zz5O/WlQZytaL+1jCU=",
         "owner": "CoreyKaylor",
         "repo": "diffbandit.nvim",
-        "rev": "46b959ba22035535adc0055be7565bc71e81e616",
+        "rev": "c5c251d9fcd60637c662ce637206e96c31acf7c4",
         "type": "github"
       },
       "original": {
@@ -34,11 +34,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1786599213,
-        "narHash": "sha256-yNJd40f11EzXBjSByCB7IPpeFFAdeoSKKM67dGkfFoU=",
+        "lastModified": 1786862985,
+        "narHash": "sha256-FBJRXmbGXiSUDvYEbfLYRkckayyZ6SK1UEqhCrIZ2Cs=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0e251e24a4f24e036a084b6b4b2d2491af4167f4",
+        "rev": "e5bdc4a41d4c072fe1e3787eaa0320a384741d44",
         "type": "github"
       },
       "original": {
