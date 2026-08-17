@@ -41,7 +41,6 @@ Each plugin has its own doc page covering purpose, keybindings, and config notes
 
 - [gitsigns-nvim](plugins/gitsigns.md) — git signs in the gutter, hunk actions
 - [diffview-nvim](plugins/diffview.md) — diff viewer and git history browser
-- [diffbandit-nvim](plugins/diffbandit.md) — side-by-side diff viewer with commit staging
 - [octo-nvim](plugins/octo.md) — GitHub PRs and issues in Neovim
 
 ### AI / Agent
