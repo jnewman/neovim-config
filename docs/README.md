@@ -10,7 +10,9 @@ Each plugin has its own doc page covering purpose, keybindings, and config notes
 
 ### Colorschemes
 
-- [catppuccin-nvim](plugins/catppuccin.md) — Mocha (default), Latte, Frappé, Macchiato
+- [belafonte-day](plugins/belafonte-day.md) — Ghostty's Belafonte Day, the light-mode default
+- [melange-nvim](plugins/melange.md) — warm low-contrast, the dark-mode default
+- [catppuccin-nvim](plugins/catppuccin.md) — Mocha, Latte, Frappé, Macchiato
 - [cyberdream-nvim](plugins/cyberdream.md) — neon cyberpunk
 - [tokyonight-nvim](plugins/tokyonight.md) — deep blue/purple
 

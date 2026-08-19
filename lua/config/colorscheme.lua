@@ -62,15 +62,30 @@ require("onenord").setup({
   theme = "dark",
 })
 
--- moonfly, melange, miasma, and aurora are configured via vim globals/options
--- rather than a setup() function.
+-- moonfly, melange, miasma, and aurora are configured via vim
+-- globals/options rather than a setup() function.
 vim.g.moonflyTransparent = false
-vim.opt.background = "dark"
 vim.g.aurora_italic = 1
 
-vim.cmd.colorscheme("melange")
+-- Follow the system appearance: belafonte-day (light) by day, melange by night.
+-- Both mirror the Ghostty theme pair in ~/.config/ghostty/config.
+-- Nvim queries the terminal for its background before running this config (see
+-- 'ttyfast') and re-queries when the terminal reports a theme change, so
+-- 'background' already tracks the OS light/dark setting. Never assign it here:
+-- that would clobber what the terminal reported.
+local function apply_background_theme()
+  vim.cmd.colorscheme(vim.o.background == "dark" and "melange" or "belafonte-day")
+end
+
+vim.api.nvim_create_autocmd("OptionSet", {
+  pattern = "background",
+  callback = apply_background_theme,
+})
+
+apply_background_theme()
 
 local themes = {
+  "belafonte-day",
   "tokyonight",
   "cyberdream",
   "cyberdream",
