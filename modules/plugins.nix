@@ -43,6 +43,11 @@ let
       pkg = pkgs.vimPlugins.aurora;
     }
     {
+      # Generates the belafonte-day colorscheme in colors/ from a base16 palette.
+      name = "mini-base16";
+      pkg = pkgs.vimPlugins.mini-base16;
+    }
+    {
       name = "nvim-treesitter";
       pkg = pkgs.vimPlugins.nvim-treesitter;
     }

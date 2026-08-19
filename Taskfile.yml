@@ -76,9 +76,10 @@ tasks:
           docker cp nvim-build:/tmp/nvim-pack/pack/nix $HOME/.local/share/nvim/site/pack/
           docker rm nvim-build
         fi
-      - rm -f $HOME/.config/nvim/init.lua $HOME/.config/nvim/lua
+      - rm -f $HOME/.config/nvim/init.lua $HOME/.config/nvim/lua $HOME/.config/nvim/colors
       - ln -s "{{.USER_WORKING_DIR}}/lua/init.lua" $HOME/.config/nvim/init.lua
       - ln -s "{{.USER_WORKING_DIR}}/lua" $HOME/.config/nvim/lua
+      - ln -s "{{.USER_WORKING_DIR}}/colors" $HOME/.config/nvim/colors
 
   update:
     desc: Update all flake inputs (flake.lock updated on host)
@@ -106,7 +107,7 @@ tasks:
     cmds:
       - >-
         "{{.USER_WORKING_DIR}}/scripts/nix-run.sh"
-        "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/ && actionlint'"
+        "nix develop --extra-experimental-features 'nix-command flakes' --command sh -c 'luacheck lua/ colors/ && actionlint'"
 
   lsp-build:
     desc: Build language-server tooling (flake lsp-tools on a nix host, Docker image otherwise)

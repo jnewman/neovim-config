@@ -10,4 +10,4 @@ allow_defined_top = true
 max_line_length = false
 
 -- Files to check
-include_files = { "lua/**/*.lua" }
+include_files = { "lua/**/*.lua", "colors/*.lua" }
