@@ -2,9 +2,10 @@
 
 ## Purpose
 
-The **light-mode** default theme: a port of Ghostty's "Belafonte Day" terminal
-theme, so Neovim matches the surrounding terminal. melange is the dark-mode
-counterpart.
+The day half of the **`earthy`** pair: a port of Ghostty's "Belafonte Day"
+terminal theme, so Neovim matches the surrounding terminal.
+[melange](melange.md) is the night half. This is the only pair whose day slot is
+actually a light-background theme.
 
 Belafonte Day exists only as a terminal palette, so the colorscheme lives in
 this repo at `colors/belafonte-day.lua` and generates its highlight groups with
@@ -14,14 +15,13 @@ and markview.
 
 ## Keybindings
 
-| Key | Mode | Action |
-|-----|------|--------|
-| `<leader>tt` | Normal | Cycle to the next colorscheme (belafonte-day is first in the rotation) |
+See [theme pairs](../themes.md) — `<leader>tt` cycles pairs, not individual
+themes.
 
 ## Config Notes
 
-- Applied automatically when `'background'` is `light` — see the light/dark
-  switch in `lua/config/colorscheme.lua`
+- Applied when the `earthy` pair is active and the OS is in light mode — see
+  [theme pairs](../themes.md) for how the day/night switch works
 - Background, foreground, visual selection, and ANSI red come verbatim from the
   Ghostty theme. The other accents keep Belafonte's hues but are darkened to
   4:1 contrast against the parchment background; at their terminal lightness

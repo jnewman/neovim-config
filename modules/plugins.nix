@@ -7,43 +7,16 @@
 let
   plugins = [
     {
-      name = "catppuccin-nvim";
-      pkg = pkgs.vimPlugins.catppuccin-nvim;
-    }
-    {
-      name = "cyberdream-nvim";
-      pkg = pkgs.vimPlugins.cyberdream-nvim;
-    }
-    {
       name = "tokyonight-nvim";
       pkg = pkgs.vimPlugins.tokyonight-nvim;
-    }
-    {
-      name = "kanagawa-nvim";
-      pkg = pkgs.vimPlugins.kanagawa-nvim;
-    }
-    {
-      name = "vim-moonfly-colors";
-      pkg = pkgs.vimPlugins.vim-moonfly-colors;
     }
     {
       name = "melange-nvim";
       pkg = pkgs.vimPlugins.melange-nvim;
     }
     {
-      name = "onenord-nvim";
-      pkg = pkgs.vimPlugins.onenord-nvim;
-    }
-    {
-      name = "miasma-nvim";
-      pkg = pkgs.vimPlugins.miasma-nvim;
-    }
-    {
-      name = "aurora";
-      pkg = pkgs.vimPlugins.aurora;
-    }
-    {
-      # Generates the belafonte-day colorscheme in colors/ from a base16 palette.
+      # Generates the belafonte-day, fairyfloss, django, and django-reborn-again
+      # colorschemes in colors/ from base16 palettes.
       name = "mini-base16";
       pkg = pkgs.vimPlugins.mini-base16;
     }

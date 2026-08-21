@@ -3,6 +3,7 @@
 ## Editor
 
 - [Core keymaps](editor.md) — non-plugin keybindings (window navigation, editing, bottom terminal)
+- [Theme pairs](themes.md) — day/night colorscheme pairs, `<leader>tt`, OS appearance detection
 
 ## Plugins
 
@@ -10,11 +11,14 @@ Each plugin has its own doc page covering purpose, keybindings, and config notes
 
 ### Colorschemes
 
-- [belafonte-day](plugins/belafonte-day.md) — Ghostty's Belafonte Day, the light-mode default
-- [melange-nvim](plugins/melange.md) — warm low-contrast, the dark-mode default
-- [catppuccin-nvim](plugins/catppuccin.md) — Mocha, Latte, Frappé, Macchiato
-- [cyberdream-nvim](plugins/cyberdream.md) — neon cyberpunk
-- [tokyonight-nvim](plugins/tokyonight.md) — deep blue/purple
+Grouped into three day/night [theme pairs](themes.md).
+
+- [belafonte-day](plugins/belafonte-day.md) — `earthy` day: Ghostty's Belafonte Day
+- [melange-nvim](plugins/melange.md) — `earthy` night: warm low-contrast
+- [fairyfloss](plugins/fairyfloss.md) — `cyber` day: soft purple with pastel accents
+- [tokyonight-nvim](plugins/tokyonight.md) — `cyber` night: deep blue/purple (Moon)
+- [django](plugins/django.md) — `emerald` day: dark green with warm accents
+- [django-reborn-again](plugins/django-reborn-again.md) — `emerald` night: darker green
 
 ### Editor
 
