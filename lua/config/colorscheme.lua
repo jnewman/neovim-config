@@ -1,105 +1,160 @@
-require("catppuccin").setup({
-  flavour = "mocha",
-  transparent_background = false,
-  show_end_of_buffer = false,
-  term_colors = true,
-  dim_inactive = { enabled = false },
-  integrations = {
-    treesitter = true,
-    native_lsp = {
-      enabled = true,
-      underlines = {
-        errors = { "undercurl" },
-        hints = { "undercurl" },
-        warnings = { "undercurl" },
-        information = { "undercurl" },
-      },
-    },
-    blink_cmp = true,
-    gitsigns = true,
-    indent_blankline = { enabled = true },
-    lualine = true,
-    which_key = true,
-  },
-})
-
-require("cyberdream").setup({
-  transparent = false,
-  italic_comments = true,
-  hide_fillchars = false,
-  borderless_telescope = false,
-  -- Palette overridden to match the Ghostty "Cyberpunk" theme: a purple base
-  -- (#332a57) with mint-green / hot-pink / electric-cyan neon accents, rather
-  -- than cyberdream's default near-black bg and lime-green accents.
-  colors = {
-    bg = "#332a57",
-    bg_alt = "#3d3266",
-    fg = "#e5e5e5",
-    green = "#00fbac",
-    cyan = "#1bccfd",
-    blue = "#00bfff",
-    red = "#ff7092",
-    pink = "#ff7092",
-    magenta = "#df95ff",
-    purple = "#df95ff",
-    yellow = "#fffa6a",
-  },
-})
-
 require("tokyonight").setup({
-  style = "night",
+  style = "moon",
   transparent = false,
   terminal_colors = true,
 })
 
-require("kanagawa").setup({
-  theme = "wave",
-  transparent = false,
-  terminalColors = true,
-})
+-- melange is configured via vim globals rather than a setup() function, and needs
+-- none of them at their non-default values. belafonte-day, fairyfloss, django, and
+-- django-reborn-again live in colors/ and generate their groups with mini.base16.
 
-require("onenord").setup({
-  theme = "dark",
-})
+-- Theme pairs, each mirroring a Ghostty `theme = light:...,dark:...` line. `bg` is
+-- the colorscheme's actual luminance, which is NOT the same as its slot: fairyfloss
+-- and both django themes are dark-background themes sitting in day slots, so "day"
+-- names the pair member rather than a claim about lightness. melange and tokyonight
+-- both read 'background', so this config assigns it instead of letting the terminal
+-- decide.
+local theme_pairs = {
+  {
+    id = "earthy",
+    day = { scheme = "belafonte-day", bg = "light" },
+    night = { scheme = "melange", bg = "dark" },
+  },
+  {
+    id = "cyber",
+    day = { scheme = "fairyfloss", bg = "dark" },
+    night = { scheme = "tokyonight-moon", bg = "dark" },
+  },
+  {
+    id = "emerald",
+    day = { scheme = "django", bg = "dark" },
+    night = { scheme = "django-reborn-again", bg = "dark" },
+  },
+}
 
--- moonfly, melange, miasma, and aurora are configured via vim
--- globals/options rather than a setup() function.
-vim.g.moonflyTransparent = false
-vim.g.aurora_italic = 1
+local is_mac = vim.fn.has("mac") == 1
+local state_file = vim.fs.joinpath(vim.fn.stdpath("state"), "theme-pair.txt")
 
--- Follow the system appearance: belafonte-day (light) by day, melange by night.
--- Both mirror the Ghostty theme pair in ~/.config/ghostty/config.
--- Nvim queries the terminal for its background before running this config (see
--- 'ttyfast') and re-queries when the terminal reports a theme change, so
--- 'background' already tracks the OS light/dark setting. Never assign it here:
--- that would clobber what the terminal reported.
-local function apply_background_theme()
-  vim.cmd.colorscheme(vim.o.background == "dark" and "melange" or "belafonte-day")
+local function index_of(id)
+  for i, pair in ipairs(theme_pairs) do
+    if pair.id == id then
+      return i
+    end
+  end
 end
 
-vim.api.nvim_create_autocmd("OptionSet", {
-  pattern = "background",
-  callback = apply_background_theme,
+-- readfile() throws when the file does not exist, which is the ordinary first-run
+-- case. A missing, empty, or unrecognized value falls back to the first pair.
+local function load_pair()
+  local ok, lines = pcall(vim.fn.readfile, state_file)
+  if not ok or not lines[1] then
+    return 1
+  end
+  return index_of(vim.trim(lines[1])) or 1
+end
+
+local current = load_pair()
+
+-- Seeded from whatever the terminal already reported so the first paint is right
+-- in the common case; the OS query below corrects it if the two disagree.
+local slot = vim.o.background == "dark" and "night" or "day"
+
+-- Assigning 'background' reloads the active colorscheme, so it has to come first:
+-- setting it afterwards would re-source the theme we just replaced.
+local function apply()
+  local entry = theme_pairs[current][slot]
+  vim.o.background = entry.bg
+  vim.cmd.colorscheme(entry.scheme)
+end
+
+-- The OS light/dark setting, not the terminal background, decides the slot: four of
+-- the six themes are dark-background, so the terminal cannot tell the slots apart.
+-- Linux reads the XDG desktop portal because it is desktop-agnostic — COSMIC ships
+-- no gsettings schemas. macOS reads the global domain.
+local appearance_cmd = is_mac and { "defaults", "read", "-g", "AppleInterfaceStyle" }
+  or {
+    "gdbus",
+    "call",
+    "--session",
+    "--dest",
+    "org.freedesktop.portal.Desktop",
+    "--object-path",
+    "/org/freedesktop/portal/desktop",
+    "--method",
+    "org.freedesktop.portal.Settings.ReadOne",
+    "org.freedesktop.appearance",
+    "color-scheme",
+  }
+
+-- Portal `color-scheme`: 0 = no preference, 1 = prefer dark, 2 = prefer light.
+-- `defaults read` exits non-zero when the key is absent, which itself means light.
+local function parse_appearance(out)
+  local stdout = out.stdout or ""
+  if is_mac then
+    return (out.code == 0 and stdout:find("Dark")) and "night" or "day"
+  end
+  return stdout:match("uint32%s+1") and "night" or "day"
+end
+
+local function refresh()
+  if vim.fn.executable(appearance_cmd[1]) == 0 then
+    return
+  end
+  vim.system(appearance_cmd, { text = true }, function(out)
+    local next_slot = parse_appearance(out)
+    vim.schedule(function()
+      if next_slot ~= slot then
+        slot = next_slot
+        apply()
+      end
+    end)
+  end)
+end
+
+-- One long-lived subscription rather than polling. The signal is only a trigger —
+-- its payload is never parsed, so the monitor's output format is not a correctness
+-- dependency; the authoritative value always comes from a fresh query. Hosts
+-- without the portal fall back to re-checking when the terminal regains focus.
+local monitor
+
+local function watch_appearance()
+  if is_mac or vim.fn.executable("gdbus") == 0 then
+    vim.api.nvim_create_autocmd("FocusGained", { callback = refresh })
+    return
+  end
+  monitor = vim.system({
+    "gdbus",
+    "monitor",
+    "--session",
+    "--dest",
+    "org.freedesktop.portal.Desktop",
+    "--object-path",
+    "/org/freedesktop/portal/desktop",
+  }, {
+    text = true,
+    stdout = function(_, data)
+      if data and data:find("color%-scheme") then
+        vim.schedule(refresh)
+      end
+    end,
+  })
+end
+
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    if monitor then
+      monitor:kill("sigterm")
+    end
+  end,
 })
 
-apply_background_theme()
-
-local themes = {
-  "belafonte-day",
-  "tokyonight",
-  "cyberdream",
-  "cyberdream",
-  "kanagawa",
-  "moonfly",
-  "melange",
-  "onenord",
-  "miasma",
-  "aurora",
-}
-local current = 1
+apply()
+refresh()
+watch_appearance()
 
 vim.keymap.set("n", "<leader>tt", function()
-  current = (current % #themes) + 1
-  vim.cmd.colorscheme(themes[current])
-  vim.notify("Theme: " .. themes[current], vim.log.levels.INFO)
-end, { desc = "Cycle colorscheme" })
+  current = (current % #theme_pairs) + 1
+  apply()
+  vim.fn.writefile({ theme_pairs[current].id }, state_file)
+  vim.notify(("Theme: %s (%s)"):format(theme_pairs[current].id, slot), vim.log.levels.INFO)
+end, { desc = "Cycle theme pair" })
