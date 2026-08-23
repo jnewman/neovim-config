@@ -122,6 +122,13 @@ let
       pkg = pkgs.vimPlugins.image-nvim;
     }
     {
+      # HTTP/GraphQL/gRPC/WebSocket client (.http / .rest files). Requests are
+      # run by the bundled `kulala-core` binary; needs `curl` and, for the
+      # tree-sitter http parser, the `tree-sitter` CLI on PATH.
+      name = "kulala-nvim";
+      pkg = pkgs.vimPlugins.kulala-nvim;
+    }
+    {
       # Not in nixpkgs — built from the flake source input (pure Lua plugin).
       name = "agentic-nvim";
       pkg = pkgs.vimUtils.buildVimPlugin {
