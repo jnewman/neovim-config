@@ -37,6 +37,10 @@ Grouped into three day/night [theme pairs](themes.md).
 - [csvview.nvim](plugins/csvview.md) — CSV/TSV table viewer
 - [mermaid preview](plugins/mermaid.md) — inline mermaid diagrams (image.nvim + mermaid-cli)
 
+### HTTP / API
+
+- [kulala.nvim](plugins/kulala.md) — HTTP/GraphQL/gRPC/WebSocket client for `.http`/`.rest` files (`<leader>R`)
+
 ### UI
 
 - [lualine.nvim](plugins/lualine.md) — statusline
