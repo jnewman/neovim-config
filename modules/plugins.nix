@@ -122,6 +122,54 @@ let
       pkg = pkgs.vimPlugins.image-nvim;
     }
     {
+      name = "bufferline-nvim";
+      pkg = pkgs.vimPlugins.bufferline-nvim;
+    }
+    {
+      name = "incline-nvim";
+      pkg = pkgs.vimPlugins.incline-nvim;
+    }
+    {
+      # Dependency of noice-nvim (required) and hardtime-nvim (required, for
+      # its report popup).
+      name = "nui-nvim";
+      pkg = pkgs.vimPlugins.nui-nvim;
+    }
+    {
+      # Optional dependency of noice-nvim: renders its "notify" view as
+      # popup toasts instead of noice's built-in mini/split view.
+      name = "nvim-notify";
+      pkg = pkgs.vimPlugins.nvim-notify;
+    }
+    {
+      name = "noice-nvim";
+      pkg = pkgs.vimPlugins.noice-nvim;
+    }
+    {
+      name = "rainbow-delimiters-nvim";
+      pkg = pkgs.vimPlugins.rainbow-delimiters-nvim;
+    }
+    {
+      name = "visual-whitespace-nvim";
+      pkg = pkgs.vimPlugins.visual-whitespace-nvim;
+    }
+    {
+      name = "fidget-nvim";
+      pkg = pkgs.vimPlugins.fidget-nvim;
+    }
+    {
+      name = "hardtime-nvim";
+      pkg = pkgs.vimPlugins.hardtime-nvim;
+    }
+    {
+      name = "neorepl-nvim";
+      pkg = pkgs.vimPlugins.neorepl-nvim;
+    }
+    {
+      name = "resession-nvim";
+      pkg = pkgs.vimPlugins.resession-nvim;
+    }
+    {
       # HTTP/GraphQL/gRPC/WebSocket client (.http / .rest files). Requests are
       # run by the bundled `kulala-core` binary; needs `curl` and, for the
       # tree-sitter http parser, the `tree-sitter` CLI on PATH.

@@ -30,6 +30,11 @@ Grouped into three day/night [theme pairs](themes.md).
 - [flash.nvim](plugins/flash.md) — jump-to-anywhere navigation
 - [precognition.nvim](plugins/precognition.md) — virtual-text hints for available motions
 - [indent-blankline.nvim](plugins/ibl.md) — indent guides and scope highlighting
+- [rainbow-delimiters.nvim](plugins/rainbow-delimiters.md) — rainbow nested-delimiter highlighting
+- [visual-whitespace.nvim](plugins/visual-whitespace.md) — highlight whitespace in the visual selection
+- [hardtime.nvim](plugins/hardtime.md) — nudges toward better Vim motions
+- [neorepl.nvim](plugins/neorepl.md) — in-editor Lua/Vimscript REPL (`:Repl`)
+- [resession.nvim](plugins/resession.md) — save/restore editor sessions
 
 ### Markdown & Data
 
@@ -44,6 +49,11 @@ Grouped into three day/night [theme pairs](themes.md).
 ### UI
 
 - [lualine.nvim](plugins/lualine.md) — statusline
+- [bufferline.nvim](plugins/bufferline.md) — buffer tab bar
+- [incline.nvim](plugins/incline.md) — floating per-window filename label
+- [noice.nvim](plugins/noice.md) — cmdline/messages/popupmenu UI
+- [nvim-notify](plugins/notify.md) — popup toast notifications (noice's notify view)
+- [fidget.nvim](plugins/fidget.md) — LSP progress notifications
 - [which-key.nvim](plugins/which-key.md) — keymap prefix legend
 - [oil.nvim](plugins/oil.md) — file explorer as an editable buffer
 
@@ -65,3 +75,4 @@ Grouped into three day/night [theme pairs](themes.md).
 
 - [telescope-nvim](plugins/telescope.md) — fuzzy finder (used by octo and notion)
 - [plenary-nvim](plugins/plenary.md) — Lua utility library (required by telescope, octo, and notion)
+- [nui.nvim](plugins/nui.md) — UI component library (required by noice and hardtime)

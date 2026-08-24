@@ -11,6 +11,7 @@ wk.setup({
 wk.add({
   -- Top-level leader groups
   { "<leader>a", group = "AI/Agent" },
+  { "<leader>b", group = "Buffer" },
   { "<leader>c", group = "Code" },
   { "<leader>f", group = "Find" },
   { "<leader>g", group = "Git" },
@@ -19,6 +20,7 @@ wk.add({
   { "<leader>n", group = "Notion" },
   { "<leader>R", group = "REST/Kulala" },
   { "<leader>r", group = "Rename/Refactor" },
+  { "<leader>s", group = "Session" },
   { "<leader>t", group = "Theme" },
   { "<leader>v", group = "View" },
 
