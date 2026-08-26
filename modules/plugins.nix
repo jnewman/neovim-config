@@ -170,6 +170,14 @@ let
       pkg = pkgs.vimPlugins.resession-nvim;
     }
     {
+      # Large plugin suite; only the `scratch` module is enabled in
+      # lua/config/snacks.lua. Everything else stays off so it does not
+      # collide with noice/nvim-notify, telescope, indent-blankline, or
+      # image-nvim, which already cover those jobs here.
+      name = "snacks-nvim";
+      pkg = pkgs.vimPlugins.snacks-nvim;
+    }
+    {
       # HTTP/GraphQL/gRPC/WebSocket client (.http / .rest files). Requests are
       # run by the bundled `kulala-core` binary; needs `curl` and, for the
       # tree-sitter http parser, the `tree-sitter` CLI on PATH.

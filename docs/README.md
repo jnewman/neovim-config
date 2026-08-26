@@ -35,6 +35,7 @@ Grouped into three day/night [theme pairs](themes.md).
 - [hardtime.nvim](plugins/hardtime.md) — nudges toward better Vim motions
 - [neorepl.nvim](plugins/neorepl.md) — in-editor Lua/Vimscript REPL (`:Repl`)
 - [resession.nvim](plugins/resession.md) — save/restore editor sessions
+- [snacks.nvim](plugins/snacks.md) — persistent scratch buffers (`<leader>.`, `<leader>S`)
 
 ### Markdown & Data
 
