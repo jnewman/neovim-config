@@ -16,7 +16,10 @@ local function show_body_as_yaml()
 
   local result = vim.system({ "yq", "-p", "json", "-o", "yaml", body_file }, { text = true }):wait()
   if result.code ~= 0 then
-    return vim.notify("kulala: yq failed — " .. vim.trim(result.stderr or ""), vim.log.levels.ERROR)
+    return vim.notify(
+      "kulala: yq failed — " .. vim.trim(result.stderr or ""),
+      vim.log.levels.ERROR
+    )
   end
 
   local buf = vim.api.nvim_create_buf(false, true)
@@ -39,7 +42,13 @@ local function open_scratchpad()
   vim.cmd("edit " .. vim.fn.fnameescape(scratchpad_file))
 
   if is_new then
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, require("kulala.config").get().scratchpad_default_contents)
+    vim.api.nvim_buf_set_lines(
+      0,
+      0,
+      -1,
+      false,
+      require("kulala.config").get().scratchpad_default_contents
+    )
   end
 end
 
