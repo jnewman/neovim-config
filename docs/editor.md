@@ -38,6 +38,8 @@ Vim's `<C-w>` defaults still work; these are convenience shortcuts.
 
 A shell in a horizontal split at the bottom (~30% of editor height). The buffer
 is kept alive when hidden, so toggling off and back on resumes the same session.
+Moving focus back into the terminal window automatically re-enters terminal-insert
+mode, so the cursor returns to the prompt without hiding and re-showing the split.
 
 | Key | Mode | Action |
 |-----|------|--------|
