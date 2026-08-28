@@ -2,6 +2,12 @@
 
 Status: **Draft — awaiting review** · Branch: `feat/jnewman/sedira-theme` · Date: 2026-08-21
 
+> **Amended 2026-08-28.** The pair list has since grown to five: `emerald`'s day
+> slot moved from Django to Django Smooth, and two pairs were added — `black`
+> (Chalk / Gruvbox Dark Hard) and `blue` (Blue Dolphin / Hivacruz). The
+> mechanism described below is unchanged; see [themes.md](../themes.md) for the
+> current list.
+
 ## Objective
 
 Replace the current nine-theme cycle with **three named theme pairs**, each

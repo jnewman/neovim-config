@@ -11,14 +11,18 @@ Each plugin has its own doc page covering purpose, keybindings, and config notes
 
 ### Colorschemes
 
-Grouped into three day/night [theme pairs](themes.md).
+Grouped into five day/night [theme pairs](themes.md).
 
 - [belafonte-day](plugins/belafonte-day.md) — `earthy` day: Ghostty's Belafonte Day
 - [melange-nvim](plugins/melange.md) — `earthy` night: warm low-contrast
 - [fairyfloss](plugins/fairyfloss.md) — `cyber` day: soft purple with pastel accents
 - [tokyonight-nvim](plugins/tokyonight.md) — `cyber` night: deep blue/purple (Moon)
-- [django](plugins/django.md) — `emerald` day: dark green with warm accents
+- [django-smooth](plugins/django-smooth.md) — `emerald` day: soft green with warm accents
 - [django-reborn-again](plugins/django-reborn-again.md) — `emerald` night: darker green
+- [chalk](plugins/chalk.md) — `black` day: charcoal with saturated accents
+- [gruvbox-dark-hard](plugins/gruvbox-dark-hard.md) — `black` night: near-black gruvbox
+- [blue-dolphin](plugins/blue-dolphin.md) — `blue` day: pastels over saturated teal
+- [hivacruz](plugins/hivacruz.md) — `blue` night: dark navy, Atelier Sulphurpool accents
 
 ### Editor
 

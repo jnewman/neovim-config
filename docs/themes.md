@@ -3,34 +3,37 @@
 Core, non-plugin colorscheme config set in
 [`lua/config/colorscheme.lua`](../lua/config/colorscheme.lua).
 
-Three named **pairs**, each holding a day and a night colorscheme. The OS
+Five named **pairs**, each holding a day and a night colorscheme. The OS
 light/dark setting picks the slot; `<leader>tt` picks the pair.
 
 | Pair | Day | Night |
 |------|-----|-------|
 | `earthy` | [belafonte-day](plugins/belafonte-day.md) | [melange](plugins/melange.md) |
 | `cyber` | [fairyfloss](plugins/fairyfloss.md) | [tokyonight](plugins/tokyonight.md) (Moon) |
-| `emerald` | [django](plugins/django.md) | [django-reborn-again](plugins/django-reborn-again.md) |
+| `emerald` | [django-smooth](plugins/django-smooth.md) | [django-reborn-again](plugins/django-reborn-again.md) |
+| `black` | [chalk](plugins/chalk.md) | [gruvbox-dark-hard](plugins/gruvbox-dark-hard.md) |
+| `blue` | [blue-dolphin](plugins/blue-dolphin.md) | [hivacruz](plugins/hivacruz.md) |
 
 Each pair mirrors a Ghostty `theme = light:...,dark:...` line, so the editor
 matches the surrounding terminal.
 
 > **"Day" is the pair member, not the luminance.** Only `earthy` is a genuine
-> light/dark pair. fairyfloss (`#5a5475`) and both django themes are
-> dark-background themes that happen to sit in day slots.
+> light/dark pair. fairyfloss (`#5a5475`), both django themes, chalk (`#2b2d2e`),
+> and blue-dolphin (`#006984`) are dark-background themes that happen to sit in
+> day slots.
 
 ## Keybindings
 
 | Key | Mode | Action |
 |-----|------|--------|
-| `<leader>tt` | Normal | Cycle to the next pair (`earthy` → `cyber` → `emerald`) |
+| `<leader>tt` | Normal | Cycle to the next pair (`earthy` → `cyber` → `emerald` → `black` → `blue`) |
 
 The active pair is written to `stdpath("state")/theme-pair.txt` and restored on
 next launch. Delete that file to reset to `earthy`.
 
 ## How the day/night switch works
 
-Because four of the six themes are dark-background, the terminal's reported
+Because nine of the ten themes are dark-background, the terminal's reported
 background colour cannot tell the two slots apart. The **OS appearance setting**
 is used instead:
 
@@ -62,11 +65,11 @@ without `gdbus`, the check runs on `FocusGained` instead.
 
 - `lua/config/colorscheme.lua` **assigns** `'background'` from each theme's
   declared luminance before calling `:colorscheme`. melange and tokyonight both
-  read `'background'`, and the terminal reports `dark` for the fairyfloss and
-  django slots, so it cannot be left to the terminal.
+  read `'background'`, and the terminal reports `dark` for every slot except
+  `earthy` day, so it cannot be left to the terminal.
 - Order matters: assigning `'background'` makes Neovim reload the active
   colorscheme, so it has to happen *before* the `:colorscheme` call.
-- The four themes with no upstream Neovim plugin live in `colors/` and generate
+- The eight themes with no upstream Neovim plugin live in `colors/` and generate
   their highlight groups with
   [mini.base16](https://github.com/nvim-mini/mini.base16). `task install`
   symlinks `colors/` into `~/.config/nvim`.

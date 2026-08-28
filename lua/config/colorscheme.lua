@@ -5,15 +5,14 @@ require("tokyonight").setup({
 })
 
 -- melange is configured via vim globals rather than a setup() function, and needs
--- none of them at their non-default values. belafonte-day, fairyfloss, django, and
--- django-reborn-again live in colors/ and generate their groups with mini.base16.
+-- none of them at their non-default values. Every other scheme below lives in
+-- colors/ and generates its groups with mini.base16.
 
 -- Theme pairs, each mirroring a Ghostty `theme = light:...,dark:...` line. `bg` is
--- the colorscheme's actual luminance, which is NOT the same as its slot: fairyfloss
--- and both django themes are dark-background themes sitting in day slots, so "day"
--- names the pair member rather than a claim about lightness. melange and tokyonight
--- both read 'background', so this config assigns it instead of letting the terminal
--- decide.
+-- the colorscheme's actual luminance, which is NOT the same as its slot: every day
+-- scheme except belafonte-day is a dark-background theme, so "day" names the pair
+-- member rather than a claim about lightness. melange and tokyonight both read
+-- 'background', so this config assigns it instead of letting the terminal decide.
 local theme_pairs = {
   {
     id = "earthy",
@@ -27,8 +26,18 @@ local theme_pairs = {
   },
   {
     id = "emerald",
-    day = { scheme = "django", bg = "dark" },
+    day = { scheme = "django-smooth", bg = "dark" },
     night = { scheme = "django-reborn-again", bg = "dark" },
+  },
+  {
+    id = "black",
+    day = { scheme = "chalk", bg = "dark" },
+    night = { scheme = "gruvbox-dark-hard", bg = "dark" },
+  },
+  {
+    id = "blue",
+    day = { scheme = "blue-dolphin", bg = "dark" },
+    night = { scheme = "hivacruz", bg = "dark" },
   },
 }
 
@@ -67,8 +76,8 @@ local function apply()
   vim.cmd.colorscheme(entry.scheme)
 end
 
--- The OS light/dark setting, not the terminal background, decides the slot: four of
--- the six themes are dark-background, so the terminal cannot tell the slots apart.
+-- The OS light/dark setting, not the terminal background, decides the slot: nine of
+-- the ten themes are dark-background, so the terminal cannot tell the slots apart.
 -- Linux reads the XDG desktop portal because it is desktop-agnostic — COSMIC ships
 -- no gsettings schemas. macOS reads the global domain.
 local appearance_cmd = is_mac and { "defaults", "read", "-g", "AppleInterfaceStyle" }

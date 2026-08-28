@@ -15,7 +15,8 @@ let
       pkg = pkgs.vimPlugins.melange-nvim;
     }
     {
-      # Generates the belafonte-day, fairyfloss, django, and django-reborn-again
+      # Generates the belafonte-day, fairyfloss, chalk, gruvbox-dark-hard,
+      # blue-dolphin, hivacruz, django-smooth, and django-reborn-again
       # colorschemes in colors/ from base16 palettes.
       name = "mini-base16";
       pkg = pkgs.vimPlugins.mini-base16;
