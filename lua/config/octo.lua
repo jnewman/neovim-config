@@ -54,7 +54,8 @@ vim.api.nvim_create_autocmd("ColorScheme", {
       vim.api.nvim_set_hl(0, name, def)
     end
 
-    local float_bg = require("octo.ui.colors").get_background_color_of_highlight_group("NormalFloat")
+    local float_bg =
+      require("octo.ui.colors").get_background_color_of_highlight_group("NormalFloat")
     for _, name in ipairs(float_bg_groups) do
       vim.api.nvim_set_hl(0, name, vim.tbl_extend("force", octo_hl[name] or {}, { bg = float_bg }))
     end
