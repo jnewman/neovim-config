@@ -71,3 +71,14 @@ map({ "n", "t" }, "<C-/>", toggle_terminal, { desc = "Toggle bottom terminal" })
 
 -- Leave terminal-insert mode with <Esc><Esc>
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+-- Re-enter terminal-insert mode when focus returns to the bottom terminal, so
+-- the cursor lands at the prompt instead of wherever normal mode left it.
+vim.api.nvim_create_autocmd({ "BufEnter", "WinEnter" }, {
+  group = vim.api.nvim_create_augroup("BottomTerminalInsert", { clear = true }),
+  callback = function()
+    if terminal_state.buf and vim.api.nvim_get_current_buf() == terminal_state.buf then
+      vim.cmd("startinsert")
+    end
+  end,
+})
