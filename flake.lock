@@ -18,11 +18,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1787360063,
-        "narHash": "sha256-dt4WdcvsA8/RCe+VZZwqU0X+XMM3wBbGCWA0/sFWzGo=",
+        "lastModified": 1787736819,
+        "narHash": "sha256-cV5xEJJK3BvhU8rEd4mC9UsmDi5qscv/kzGPhBRC5WA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "2c423e03bbafcff28bfadc6781a4a8257f205cb5",
+        "rev": "9fbb54b33e91ee4ca368e35a78e0613c720600b3",
         "type": "github"
       },
       "original": {
@@ -51,11 +51,11 @@
     "octo-nvim-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1787552181,
-        "narHash": "sha256-CacI1xghdnBSGUBWRlKUs/dlK4tvYZ8ZWXGe20MnXl8=",
+        "lastModified": 1787949398,
+        "narHash": "sha256-+99/ZSM+t+sQMLo1STpgoGsPZcR2SXnUOxYQ093cMYw=",
         "owner": "pwntester",
         "repo": "octo.nvim",
-        "rev": "cc0d539104d778de8ba6fc1142bdf8c1ce14dee1",
+        "rev": "af2411604b51cb4a0f3e2de50b1b7cacc2581c48",
         "type": "github"
       },
       "original": {
