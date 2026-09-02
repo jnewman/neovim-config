@@ -107,6 +107,8 @@ vim.lsp.config("hls", {
   root_markers = { "*.cabal", "stack.yaml", "cabal.project", "package.yaml", ".git" },
 })
 
+vim.filetype.add({ extension = { podspec = "ruby" } })
+
 vim.lsp.config("ruby_lsp", {
   cmd = cmd("ruby-lsp"),
   filetypes = { "ruby" },
