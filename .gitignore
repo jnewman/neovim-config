@@ -11,3 +11,5 @@ result
 .beads-credential-key
 .claude/settings.local.json
 
+# these are mostly used locally and annoying to keep merging..
+.beads/
