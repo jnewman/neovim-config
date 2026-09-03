@@ -68,6 +68,12 @@ local function cmd(bin, ...)
   return vim.list_extend({ native_bin }, { ... })
 end
 
+vim.filetype.add({
+  filename = {
+    ["Tiltfile"] = "python",
+  },
+})
+
 vim.lsp.config("pyright", {
   cmd = cmd("pyright-langserver", "--stdio"),
   filetypes = { "python" },
