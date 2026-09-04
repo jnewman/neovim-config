@@ -155,6 +155,11 @@ let
       pkg = pkgs.vimPlugins.visual-whitespace-nvim;
     }
     {
+      # nixpkgs tracks the maintained catgoose fork, not norcalli's original.
+      name = "nvim-colorizer-lua";
+      pkg = pkgs.vimPlugins.nvim-colorizer-lua;
+    }
+    {
       name = "fidget-nvim";
       pkg = pkgs.vimPlugins.fidget-nvim;
     }
