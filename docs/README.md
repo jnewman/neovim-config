@@ -36,6 +36,7 @@ Grouped into five day/night [theme pairs](themes.md).
 - [indent-blankline.nvim](plugins/ibl.md) — indent guides and scope highlighting
 - [rainbow-delimiters.nvim](plugins/rainbow-delimiters.md) — rainbow nested-delimiter highlighting
 - [visual-whitespace.nvim](plugins/visual-whitespace.md) — highlight whitespace in the visual selection
+- [nvim-colorizer.lua](plugins/colorizer.md) — inline previews for hex/rgb/hsl colors (`<leader>vC`)
 - [hardtime.nvim](plugins/hardtime.md) — nudges toward better Vim motions
 - [neorepl.nvim](plugins/neorepl.md) — in-editor Lua/Vimscript REPL (`:Repl`)
 - [resession.nvim](plugins/resession.md) — save/restore editor sessions
