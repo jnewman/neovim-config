@@ -1,6 +1,6 @@
 
 # Claude Code per-user local settings
-.claude/settings.local.json
+.claude/
 
 # Nix build output symlink
 result
@@ -9,7 +9,6 @@ result
 .dolt/
 *.db
 .beads-credential-key
-.claude/settings.local.json
 
 # these are mostly used locally and annoying to keep merging..
 .beads/

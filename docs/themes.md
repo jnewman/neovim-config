@@ -73,3 +73,9 @@ without `gdbus`, the check runs on `FocusGained` instead.
   their highlight groups with
   [mini.base16](https://github.com/nvim-mini/mini.base16). `task install`
   symlinks `colors/` into `~/.config/nvim`.
+- `apply()` also overrides the `Cursor` highlight group to a high-contrast
+  "glow" color on every switch, since no theme's own default is this vivid.
+  It's picked from the pair member's `bg` field, not per colorscheme: amber
+  (`#ffdb73`) on the nine dark-background themes, a deep burnt orange
+  (`#7a2f00`) on belafonte-day's light background. Both clear a 4.5:1 contrast
+  floor against every background they're used on.

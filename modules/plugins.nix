@@ -123,6 +123,11 @@ let
       pkg = pkgs.vimPlugins.image-nvim;
     }
     {
+      # Dependency of bufferline-nvim: supplies the per-buffer filetype icons.
+      name = "nvim-web-devicons";
+      pkg = pkgs.vimPlugins.nvim-web-devicons;
+    }
+    {
       name = "bufferline-nvim";
       pkg = pkgs.vimPlugins.bufferline-nvim;
     }
