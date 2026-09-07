@@ -1,7 +1,8 @@
 require("bufferline").setup({
   options = {
-    -- No nvim-web-devicons installed; keep the tabs text-only.
-    show_buffer_icons = false,
+    -- nvim-web-devicons is installed for these; close icons stay off to match
+    -- the icon-free look used elsewhere (lualine, incline).
+    show_buffer_icons = true,
     show_buffer_close_icons = false,
     show_close_icon = false,
     diagnostics = "nvim_lsp",

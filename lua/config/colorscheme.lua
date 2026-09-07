@@ -41,6 +41,17 @@ local theme_pairs = {
   },
 }
 
+-- Cursor "glow": none of the ten themes' default Cursor group is this vivid, so
+-- it's overridden on every apply(). Picked per pair-member `bg` rather than per
+-- colorscheme -- amber on the nine dark-background themes, a deep burnt orange
+-- on belafonte-day's lone light background. Both clear a 4.5:1 contrast floor
+-- against every background they're used on (blue-dolphin's teal is the
+-- tightest dark case at 4.66:1; belafonte-day is 5.9:1).
+local glow = {
+  dark = { bg = "#ffdb73", fg = "#000000" },
+  light = { bg = "#7a2f00", fg = "#ffffff" },
+}
+
 local is_mac = vim.fn.has("mac") == 1
 local state_file = vim.fs.joinpath(vim.fn.stdpath("state"), "theme-pair.txt")
 
@@ -74,6 +85,7 @@ local function apply()
   local entry = theme_pairs[current][slot]
   vim.o.background = entry.bg
   vim.cmd.colorscheme(entry.scheme)
+  vim.api.nvim_set_hl(0, "Cursor", glow[entry.bg])
 end
 
 -- The OS light/dark setting, not the terminal background, decides the slot: nine of

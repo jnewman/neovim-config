@@ -3,8 +3,7 @@
 ## Purpose
 
 A tab-style bar across the top listing open buffers, with LSP diagnostic
-counts per buffer. Text-only — no `nvim-web-devicons` is installed, so file
-icons are disabled rather than left broken.
+counts per buffer and a filetype icon per tab (via `nvim-web-devicons`).
 
 ## Keybindings
 
@@ -20,6 +19,7 @@ The `<leader>b` group is registered as "Buffer" in which-key.
 
 ## Config Notes
 
-- `show_buffer_icons`, `show_buffer_close_icons`, `show_close_icon` are all
-  `false` to match the icon-free look used elsewhere (lualine, incline).
+- `show_buffer_icons` is `true` (needs `nvim-web-devicons`, added for this).
+  `show_buffer_close_icons` and `show_close_icon` stay `false` to match the
+  icon-free look used elsewhere (lualine, incline).
 - `diagnostics = "nvim_lsp"` shows an error/warning count badge per buffer.
