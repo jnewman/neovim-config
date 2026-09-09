@@ -17,14 +17,31 @@ require("notion").setup({
 
 local function use_project(profile)
   local db = vim.fn.system({
-    "secretspec", "get", "NOTION_DATABASE_ID", "-f", secretspec_manifest, "-P", profile,
+    "secretspec",
+    "get",
+    "NOTION_DATABASE_ID",
+    "-f",
+    secretspec_manifest,
+    "-P",
+    profile,
   })
   if vim.v.shell_error ~= 0 then
-    vim.notify("secretspec: could not read Notion DB id for '" .. profile .. "'", vim.log.levels.ERROR)
+    vim.notify(
+      "secretspec: could not read Notion DB id for '" .. profile .. "'",
+      vim.log.levels.ERROR
+    )
     return
   end
   require("notion").setup({
-    notion_token_cmd = { "secretspec", "get", "NOTION_TOKEN", "-f", secretspec_manifest, "-P", profile },
+    notion_token_cmd = {
+      "secretspec",
+      "get",
+      "NOTION_TOKEN",
+      "-f",
+      secretspec_manifest,
+      "-P",
+      profile,
+    },
     database_id = vim.trim(db),
     page_size = 10,
     debug = false,
