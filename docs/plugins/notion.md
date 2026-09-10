@@ -9,25 +9,39 @@ telescope.nvim (already in this config) when available.
 
 ## Prerequisite
 
-The plugin needs a Notion API token and a database ID. To keep secrets out of the
-repo, `lua/config/notion.lua` leaves them unset so the plugin falls back to
-environment variables:
+The plugin needs a Notion API token and a database ID per workspace. Both are
+fetched from [secretspec](https://secretspec.dev) (1Password provider) **on
+demand** — nothing is read at startup, so launching nvim never prompts 1Password.
+Each Notion workspace is a secretspec **profile** in
+`~/.config/secretspec/notion.toml`:
+
+- `family` — personal workspace
+- `sedira` — work workspace
+
+The manifest holds declarations only (no secret values); the values live in
+1Password. Populate them once per profile:
 
 ```bash
-export NOTION_TOKEN="secret_xxx"        # integration token
-export NOTION_DATABASE_ID="xxxxxxxx"    # target database
+SS=~/.config/secretspec/notion.toml
+secretspec check -f $SS -P family    # prompts for NOTION_TOKEN + NOTION_DATABASE_ID
+secretspec check -f $SS -P sedira
 ```
 
 Create an integration and grab the token at
-<https://www.notion.so/my-integrations>, then share the target database with it.
-A missing token does **not** abort `init.lua` — setup only emits a warning, and
-the error surfaces when you run a command. To pull the token from a secrets
-manager instead, uncomment `notion_token_cmd` in `lua/config/notion.lua`.
+<https://www.notion.so/my-integrations>, then share the target database with it;
+the database ID is the 32-char hex in the database URL.
+
+Select a workspace with `<leader>nP` (or `:NotionProject family|sedira`). That
+re-runs `notion.setup()` with the chosen profile, resolving `NOTION_TOKEN` and
+`NOTION_DATABASE_ID` from 1Password at that moment. Before a project is selected,
+Notion actions just warn that no token is configured — the plugin loads
+token-less at startup.
 
 ## Keybindings
 
 | Key | Mode | Action |
 |-----|------|--------|
+| `<leader>nP` | Normal | Switch active Notion project (secretspec profile) |
 | `<leader>nc` | Normal | Create a page (prompts for a title) |
 | `<leader>ne` | Normal | Browse and edit pages |
 | `<leader>nd` | Normal | Delete (archive) a page |
@@ -36,15 +50,19 @@ manager instead, uncomment `notion_token_cmd` in `lua/config/notion.lua`.
 
 The `<leader>n` prefix is registered as the **Notion** group in which-key.
 
-The plugin also exposes commands directly: `:Notion create <title>`,
+`:NotionProject <family|sedira>` switches the active workspace (with tab
+completion). The plugin also exposes commands directly: `:Notion create <title>`,
 `:Notion edit [page_id]`, `:Notion delete`, plus `:NotionBrowser` and
 `:NotionSync` (and the `:NotionCreate` / `:NotionEdit` / `:NotionDelete`
 aliases).
 
 ## Config Notes
 
-- Token/database resolve from `$NOTION_TOKEN` / `$NOTION_DATABASE_ID` — nothing is
-  hardcoded. Set `notion_token_cmd` to source the token from a secrets manager.
+- Token/database resolve per-project from secretspec (1Password) via
+  `notion_token_cmd` + a fetched `database_id`; `use_project()` in
+  `lua/config/notion.lua` re-runs `setup()` with the selected profile. The plugin
+  still honors `$NOTION_TOKEN` / `$NOTION_DATABASE_ID` as a fallback, but this
+  config never sets them.
 - `page_size = 10` — pages fetched per API request.
 - `use_telescope = nil` — auto-detect; telescope-nvim is bundled so browsing uses
   it.
