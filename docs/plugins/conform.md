@@ -14,6 +14,8 @@ Formatting also runs automatically on save; the keymap is for on-demand formatti
 
 ## Config Notes
 
-- `formatters_by_ft.lua = { "stylua" }` — stylua is the only declared formatter (installed via Homebrew)
+- Formatters are declared per filetype in `lua/config/format.lua` (stylua, ruff,
+  prettier, gofmt, rustfmt, …) and run natively off PATH — every one is bundled
+  into the editor by the flake (`modules/lsp-tools.nix`)
 - `format_on_save.lsp_fallback = true` — any file type without an explicit formatter entry falls back to the LSP's formatting capability
-- `timeout_ms = 500` — format requests that exceed 500ms are abandoned to avoid blocking saves
+- `timeout_ms = 10000` — format requests that exceed 10s are abandoned to avoid blocking saves

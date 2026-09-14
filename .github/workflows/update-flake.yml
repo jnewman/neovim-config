@@ -17,17 +17,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Task
-        uses: arduino/setup-task@v2
+      - name: Install Nix
+        uses: cachix/install-nix-action@v31
         with:
-          version: 3.x
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: |
+            experimental-features = nix-command flakes
 
-      - name: task update
-        # Runs `nix flake update` inside the nixos/nix container (see
-        # scripts/nix-run.sh) and writes the refreshed flake.lock back into
-        # the workspace.
-        run: task update
+      - name: nix flake update
+        # Refreshes flake.lock with the latest flake inputs.
+        run: nix flake update
 
       - name: Create pull request
         uses: peter-evans/create-pull-request@v7
@@ -35,7 +33,7 @@ jobs:
           commit-message: "chore: update flake inputs"
           title: "chore: update flake inputs"
           body: |
-            Automated weekly `task update` — refreshes `flake.lock` with the
+            Automated weekly `nix flake update` — refreshes `flake.lock` with the
             latest flake inputs.
 
             Merge once CI passes.

@@ -17,7 +17,7 @@ A fast, extensible completion engine. Replaces nvim-cmp with lower latency and a
 
 ## Config Notes
 
-- `fuzzy.implementation = "lua"` — the Nix build produces a native fuzzy binary for Linux; the Lua fallback is used on the macOS host since we don't run Nix natively
+- Fuzzy matching uses blink's native (Rust) binary — the Nix build produces it for every target system, so the default `prefer_rust` implementation always finds it (no explicit `fuzzy.implementation`)
 - `auto_brackets.enabled = false` — bracket insertion is delegated to nvim-autopairs to avoid conflicts
 - `auto_show = true` with `auto_show_delay_ms = 200` — docs pop up automatically after a short delay
 - `treesitter = { "lsp" }` — LSP items render with treesitter-aware highlighting in the menu

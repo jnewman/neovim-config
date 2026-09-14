@@ -223,10 +223,37 @@ let
       };
     }
   ];
+
+  # Prebuilt tree-sitter parsers + queries, kept in sync with the ensure_installed
+  # set in lua/config/treesitter.lua. Shipped ALONGSIDE the nvim-treesitter plugin
+  # above (which supplies indentexpr() + healthcheck); this pack supplies the
+  # compiled parsers and curated queries so no `:TSInstall`/compiler is needed.
+  treesitterParsers = import ./treesitter-parsers.nix {
+    inherit pkgs;
+    nvim-treesitter = pkgs.vimPlugins.nvim-treesitter;
+    languages = [
+      "bash"
+      "c"
+      "go"
+      "gomod"
+      "gowork"
+      "haskell"
+      "hcl"
+      "html"
+      "json"
+      "markdown"
+      "markdown_inline"
+      "python"
+      "ruby"
+      "rust"
+      "scala"
+      "tsx"
+      "typescript"
+      "xml"
+      "yaml"
+    ];
+  };
 in
-pkgs.runCommand "nvim-plugin-pack" { } ''
-  mkdir -p $out/pack/nix/start
-  ${pkgs.lib.concatMapStrings (p: ''
-    cp -rL ${p.pkg} $out/pack/nix/start/${p.name}
-  '') plugins}
-''
+# The list of plugin derivations for neovimUtils.makeNeovimConfig. Order is not
+# significant (all load at startup); the parser pack is appended last.
+(map (p: p.pkg) plugins) ++ [ treesitterParsers ]
