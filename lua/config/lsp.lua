@@ -1,13 +1,6 @@
--- A nix host (detected by the `nix` executable being on PATH) runs every language
--- server natively from this repo's flake `lsp-tools` package. Every other host runs
--- them inside the nvim-lsp Docker container. `use_docker` drives that choice below.
-local use_docker = vim.fn.executable("nix") == 0
-
--- Binary name for a server that always runs on the host (lua_ls/yamlls/jsonls are
--- never containerised): the nixpkgs name on a nix host, else the Homebrew/npm name.
-local function host_bin(non_nix, nix)
-  return use_docker and non_nix or nix
-end
+-- Every language server runs natively off PATH — the flake wraps nvim with the
+-- `lsp-tools` bundle (modules/lsp-tools.nix) on its PATH, so the binary names
+-- below are the nixpkgs ones.
 
 vim.lsp.config("lua_ls", {
   cmd = { "lua-language-server" },
@@ -41,7 +34,7 @@ vim.lsp.config("yamlls", {
 })
 
 vim.lsp.config("jsonls", {
-  cmd = { host_bin("vscode-json-languageserver", "vscode-json-language-server"), "--stdio" },
+  cmd = { "vscode-json-language-server", "--stdio" },
   filetypes = { "json", "jsonc" },
   root_markers = { ".git" },
   settings = {
@@ -52,20 +45,9 @@ vim.lsp.config("jsonls", {
   },
 })
 
--- Command for a containerised server: run the binary directly on a nix host,
--- otherwise via `docker exec -i nvim-lsp <binary>`. `bin` is the executable name,
--- or { docker = "...", native = "..." } when nixpkgs names it differently.
+-- The argv for a server: the binary name followed by any extra arguments.
 local function cmd(bin, ...)
-  local docker_bin, native_bin
-  if type(bin) == "table" then
-    docker_bin, native_bin = bin.docker, bin.native
-  else
-    docker_bin, native_bin = bin, bin
-  end
-  if use_docker then
-    return vim.list_extend({ "docker", "exec", "-i", "nvim-lsp", docker_bin }, { ... })
-  end
-  return vim.list_extend({ native_bin }, { ... })
+  return { bin, ... }
 end
 
 vim.filetype.add({
@@ -134,10 +116,7 @@ vim.lsp.config("bashls", {
 })
 
 vim.lsp.config("html", {
-  cmd = cmd(
-    { docker = "vscode-html-languageserver", native = "vscode-html-language-server" },
-    "--stdio"
-  ),
+  cmd = cmd("vscode-html-language-server", "--stdio"),
   filetypes = { "html" },
   root_markers = { ".git" },
 })

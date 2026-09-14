@@ -1,6 +1,6 @@
 require("blink.cmp").setup({
-  -- Nix builds the fuzzy binary for Linux; use Lua fallback on macOS host
-  fuzzy = { implementation = (vim.fn.has("mac") == 1 and "lua" or nil) },
+  -- Nix builds blink's native (Rust) fuzzy binary for every target system, so the
+  -- default implementation ("prefer_rust") always finds it — no Lua fallback.
   keymap = {
     ["<C-Space>"] = { "show", "fallback" },
     ["<C-e>"] = { "cancel", "fallback" },

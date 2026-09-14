@@ -20,8 +20,8 @@ browser round-trip.
 
 - A graphics-capable terminal: **kitty**, **ghostty**, or **wezterm**. In any
   other terminal the command runs but no image appears.
-- `mmdc` (mermaid-cli) and ImageMagick on PATH — shipped via `lsp-tools.nix`
-  (nix hosts, `task lsp-install`) and the `Brewfile` (non-nix hosts).
+- `mmdc` (mermaid-cli) and ImageMagick on PATH — bundled onto the editor's PATH
+  by the flake wrapper (`modules/neovim.nix`).
 
 ## Keybindings
 

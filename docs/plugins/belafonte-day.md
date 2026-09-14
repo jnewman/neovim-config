@@ -29,4 +29,5 @@ themes.
   colors. Neutral ramp steps Belafonte doesn't define are interpolated.
 - Belafonte has six accent hues where base16 wants eight, so keywords and
   numbers share the same warm brown, and its "cyan" is a near-neutral grey.
-- `task install` symlinks `colors/` into `~/.config/nvim`, alongside `lua/`
+- `colors/` is packaged onto the runtimepath by the flake (`modules/config.nix`),
+  alongside `lua/`

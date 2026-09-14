@@ -1,5 +1,5 @@
 {
-  description = "Joshua's Neovim configuration — plugin pack built via Nix, nvim runs on host";
+  description = "Joshua's Neovim configuration — a self-contained nvim built via Nix";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -45,28 +45,48 @@
             inherit system;
             config.allowUnfree = true;
           };
+          # Language servers + formatters bundled onto the editor's PATH.
+          lspTools = import ./modules/lsp-tools.nix { pkgs = pkgsUnfree; };
+          # All plugin derivations (includes the prebuilt tree-sitter parser pack).
+          plugins = import ./modules/plugins.nix {
+            inherit
+              pkgs
+              octo-nvim-src
+              agentic-nvim-src
+              notion-nvim-src
+              ;
+          };
+          # The lua/ + colors/ config, packaged as a plugin. `./.` is a real path
+          # (lib.fileset needs a path, not the string-like `self`).
+          configPlugin = import ./modules/config.nix {
+            inherit pkgs;
+            src = ./.;
+          };
         in
         {
-          nvim-plugin-pack = import ./modules/plugins.nix {
+          # The self-contained editor: plugins + config + parsers + tooling, all
+          # in one `nvim`. `nix run` / `nix profile install .#`.
+          default = import ./modules/neovim.nix {
             inherit
               pkgs
-              octo-nvim-src
-              agentic-nvim-src
-              notion-nvim-src
+              plugins
+              configPlugin
+              lspTools
               ;
           };
-          default = import ./modules/plugins.nix {
-            inherit
-              pkgs
-              octo-nvim-src
-              agentic-nvim-src
-              notion-nvim-src
-              ;
-          };
-          # Language servers + formatters the editor runs natively on a nix host.
-          lsp-tools = import ./modules/lsp-tools.nix { pkgs = pkgsUnfree; };
+          # The language-server/formatter bundle on its own (also on the editor's
+          # PATH above); handy for `nix profile install .#lsp-tools` or reuse.
+          lsp-tools = lspTools;
         }
       );
+
+      apps = forAllSystems (system: {
+        default = {
+          type = "app";
+          program = "${self.packages.${system}.default}/bin/nvim";
+          meta.description = "Joshua's self-contained Neovim";
+        };
+      });
 
       devShells = forAllSystems (
         system:
