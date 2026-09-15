@@ -244,6 +244,7 @@ let
       "markdown"
       "markdown_inline"
       "python"
+      "regex" # cmdline regex highlighting (noice) + snacks.picker
       "ruby"
       "rust"
       "scala"
