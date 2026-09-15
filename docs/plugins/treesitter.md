@@ -18,7 +18,9 @@ ignored. Highlighting and indentation are therefore driven by Neovim core in
 - Parsers and their queries are **prebuilt by Nix** and placed on the runtimepath
   (`modules/treesitter-parsers.nix`) — there is no `:TSInstall` and no compiler at
   runtime. The bundled language set is defined there; keep it in sync with the
-  filetypes you want highlighted.
+  filetypes you want highlighted. A few parsers are bundled for other plugins
+  rather than an editable filetype — e.g. `regex` powers cmdline highlighting in
+  noice and `snacks.picker`.
 - A `FileType` autocmd enables highlighting via `vim.treesitter.start()` and wires
   `indentexpr` to `require('nvim-treesitter').indentexpr()`. A filetype with no
   bundled parser silently keeps regex syntax.
