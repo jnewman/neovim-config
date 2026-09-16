@@ -1,7 +1,6 @@
 {
   pkgs,
   octo-nvim-src,
-  agentic-nvim-src,
   notion-nvim-src,
 }:
 let
@@ -194,20 +193,6 @@ let
       # tree-sitter http parser, the `tree-sitter` CLI on PATH.
       name = "kulala-nvim";
       pkg = pkgs.vimPlugins.kulala-nvim;
-    }
-    {
-      # Not in nixpkgs — built from the flake source input (pure Lua plugin).
-      name = "agentic-nvim";
-      pkg = pkgs.vimUtils.buildVimPlugin {
-        pname = "agentic-nvim";
-        version = "HEAD";
-        src = agentic-nvim-src;
-        # Skip the nvim require-check: it tries to load the plugin's bundled
-        # *.test modules, which depend on a test harness not present at build.
-        doCheck = false;
-        nvimSkipModules = [ ];
-        checkInputs = [ ];
-      };
     }
     {
       # Not in nixpkgs — built from the flake source input (pure Lua plugin).

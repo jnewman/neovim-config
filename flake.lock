@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "agentic-nvim-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1787489109,
-        "narHash": "sha256-gGesKupHCLVTQ27vj2OTllOPNG1hubZdUrYTqpofEVM=",
-        "owner": "carlos-algms",
-        "repo": "agentic.nvim",
-        "rev": "81628c1dc07edadd1c2c3c27d8dbcb424da1dea0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "carlos-algms",
-        "repo": "agentic.nvim",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1789286504,
@@ -66,7 +50,6 @@
     },
     "root": {
       "inputs": {
-        "agentic-nvim-src": "agentic-nvim-src",
         "nixpkgs": "nixpkgs",
         "notion-nvim-src": "notion-nvim-src",
         "octo-nvim-src": "octo-nvim-src"

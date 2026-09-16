@@ -7,10 +7,6 @@
       url = "github:pwntester/octo.nvim";
       flake = false;
     };
-    agentic-nvim-src = {
-      url = "github:carlos-algms/agentic.nvim";
-      flake = false;
-    };
     notion-nvim-src = {
       url = "github:ALT-F4-LLC/notion.nvim";
       flake = false;
@@ -22,7 +18,6 @@
       self,
       nixpkgs,
       octo-nvim-src,
-      agentic-nvim-src,
       notion-nvim-src,
       ...
     }:
@@ -52,7 +47,6 @@
             inherit
               pkgs
               octo-nvim-src
-              agentic-nvim-src
               notion-nvim-src
               ;
           };
