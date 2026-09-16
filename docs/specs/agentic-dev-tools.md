@@ -1,5 +1,7 @@
 # Spec: Agentic Dev Tools (agentic.nvim)
 
+DEPRECATED - didn't like the workflow with this
+
 > Status: **APPROVED — implementing** (spec-driven-development)
 > Created: 2026-06-28
 
@@ -157,21 +159,21 @@ Sequenced; each step verifiable.
 1. **Flake input** — add `agentic-nvim-src` to `flake.nix` inputs and the
    `outputs` arg list; thread it into both `import ./modules/plugins.nix` calls.
    Run `task update` (or `nix flake lock`) to populate `flake.lock`.
-   *Verify:* `flake.lock` gains the input; `nix flake metadata` lists it.
+   _Verify:_ `flake.lock` gains the input; `nix flake metadata` lists it.
 2. **Pack entry** — accept `agentic-nvim-src` in `modules/plugins.nix`, build the
    pkg, add `{ name = "agentic-nvim"; pkg = ...; }` to the list.
-   *Verify:* `task build` succeeds; `result/pack/nix/start/agentic-nvim/` exists.
+   _Verify:_ `task build` succeeds; `result/pack/nix/start/agentic-nvim/` exists.
 3. **Lua config** — create `lua/config/agentic.lua` with the verified `setup()`
    opts (provider `claude-agent-acp`) + keymaps; add `require("config.agentic")`
    to `lua/init.lua`; add the `<leader>a` group to `which-key.lua`.
-   *Verify:* `task test` (luacheck) clean.
+   _Verify:_ `task test` (luacheck) clean.
 4. **Install + smoke test** — `task install`; run the headless load smoke test
    and interactive toggle.
-   *Verify:* module loads, widget opens, existing plugins unaffected.
+   _Verify:_ module loads, widget opens, existing plugins unaffected.
 5. **Docs** — add `docs/plugins/agentic.md`; note the
    `@agentclientprotocol/claude-agent-acp` install step in the doc (and README if
    appropriate).
-   *Verify:* doc matches actual keybindings/opts.
+   _Verify:_ doc matches actual keybindings/opts.
 
 ## Success Criteria
 
@@ -202,4 +204,7 @@ Sequenced; each step verifiable.
    (Listed under "Ask first".)
 4. **Keymap surface.** Proposed `<C-\>` toggle + `<leader>a` group. Confirm the
    `<leader>a` namespace and which actions to bind.
+
+```
+
 ```
