@@ -11,6 +11,8 @@ local map = vim.keymap.set
 map("n", "<leader>gpl", "<cmd>Octo pr list<cr>", { desc = "List PRs" })
 map("n", "<leader>gpo", "<cmd>Octo pr edit<cr>", { desc = "Open PR (picker)" })
 map("n", "<leader>gpc", "<cmd>Octo pr create<cr>", { desc = "Create PR" })
+map("n", "<leader>gpr", "<cmd>Octo pr reload<cr>", { desc = "Reload PR" })
+map("n", "<leader>gpm", "<cmd>Octo pr merge squash<cr>", { desc = "Merge (squash) PR" })
 map("n", "<leader>grs", "<cmd>Octo review start<cr>", { desc = "Start PR review" })
 map("n", "<leader>grS", "<cmd>Octo review submit<cr>", { desc = "Submit PR review" })
 
