@@ -79,3 +79,13 @@ without `gdbus`, the check runs on `FocusGained` instead.
   (`#ffdb73`) on the nine dark-background themes, a deep burnt orange
   (`#7a2f00`) on belafonte-day's light background. Both clear a 4.5:1 contrast
   floor against every background they're used on.
+- `apply()` then **clears the background** of the base editor groups
+  (`Normal`, `NormalNC`, `SignColumn`, `FoldColumn`, `LineNr`, `CursorLineNr`,
+  `EndOfBuffer`, `StatusLine`, `StatusLineNC`, `WinSeparator`). Neovim draws
+  them in the terminal's default background, so Ghostty's
+  `background-opacity` (or any terminal's transparency) shows through. A
+  terminal can't report its opacity, so leaving these unpainted is the only way
+  to inherit it. The theme's own background colour still comes from the
+  matching Ghostty theme. Floats and popups keep their theme background so
+  they stand out from the buffer behind them. Add a group name to
+  `transparent_groups` to make it transparent too.

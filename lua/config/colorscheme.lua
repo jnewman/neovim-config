@@ -52,6 +52,35 @@ local glow = {
   light = { bg = "#7a2f00", fg = "#ffffff" },
 }
 
+-- Groups whose background is cleared on every apply() so the terminal's own
+-- background -- and its opacity -- shows through. A terminal cannot report its
+-- transparency, so leaving these unpainted is the only way to inherit it. Floats
+-- and popups keep their bg so they stay distinct from the buffer behind them.
+local transparent_groups = {
+  "Normal",
+  "NormalNC",
+  "SignColumn",
+  "FoldColumn",
+  "LineNr",
+  "CursorLineNr",
+  "EndOfBuffer",
+  "StatusLine",
+  "StatusLineNC",
+  "WinSeparator",
+}
+
+-- nvim_set_hl replaces the whole definition, so each group is read back and
+-- re-set without its bg. Linked groups are skipped: they inherit from their target.
+local function clear_backgrounds()
+  for _, name in ipairs(transparent_groups) do
+    local hl = vim.api.nvim_get_hl(0, { name = name })
+    if not hl.link then
+      hl.bg, hl.ctermbg = nil, nil
+      vim.api.nvim_set_hl(0, name, hl)
+    end
+  end
+end
+
 local is_mac = vim.fn.has("mac") == 1
 local state_file = vim.fs.joinpath(vim.fn.stdpath("state"), "theme-pair.txt")
 
@@ -85,6 +114,7 @@ local function apply()
   local entry = theme_pairs[current][slot]
   vim.o.background = entry.bg
   vim.cmd.colorscheme(entry.scheme)
+  clear_backgrounds()
   vim.api.nvim_set_hl(0, "Cursor", glow[entry.bg])
 end
 
