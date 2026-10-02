@@ -10,6 +10,13 @@
   configPlugin,
   # Language servers + formatters bundle (modules/lsp-tools.nix).
   lspTools,
+  # Theme pair id (e.g. "cyber") to start in, overriding the pair persisted by
+  # `<leader>tt`. null keeps the persisted pair. Set from a consuming config with
+  # `neovim-config.packages.${system}.default.override { themePair = "cyber"; }`.
+  themePair ? null,
+  # Leave the editor's base backgrounds unpainted so the terminal's background and
+  # opacity show through. false keeps the theme's own opaque background.
+  transparent ? true,
 }:
 let
   # Everything the config invokes at runtime, resolved off the wrapper's PATH:
@@ -34,8 +41,12 @@ pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
   withRuby = false;
   withNodeJs = false;
   plugins = map (p: { plugin = p; }) (plugins ++ [ configPlugin ]);
-  # Run the config's require-chain (configPlugin ships lua/init.lua on rtp).
-  luaRcContent = "require('init')";
+  # Nix-side settings are handed to the Lua config as vim.g globals, set before
+  # the config's require-chain (configPlugin ships lua/init.lua on rtp) runs.
+  luaRcContent =
+    pkgs.lib.optionalString (themePair != null) "vim.g.theme_pair = ${builtins.toJSON themePair}\n"
+    + "vim.g.theme_transparent = ${pkgs.lib.boolToString transparent}\n"
+    + "require('init')";
   wrapperArgs = [
     "--suffix"
     "PATH"
