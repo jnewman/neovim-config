@@ -11,4 +11,9 @@ None.
 
 ## Config Notes
 
-Default config (`require("notify").setup()` with no options).
+- `background_colour` is a function returning the active theme's background
+  (`require("config.colorscheme").background`), captured before
+  [transparency](../themes.md#config-notes) clears `Normal`. The default
+  (`NotifyBackground` → `Normal`) has no bg when transparent, which made
+  nvim-notify warn and fade popups through `#000000`.
+- Otherwise default config.
