@@ -121,12 +121,19 @@ local current = load_pair()
 -- in the common case; the OS query below corrects it if the two disagree.
 local slot = vim.o.background == "dark" and "night" or "day"
 
+-- The theme's own Normal bg, captured before clear_backgrounds() erases it.
+-- Plugins that blend toward the background (nvim-notify's fades) read it via
+-- background() instead of the now-empty Normal group.
+local theme_bg = "#000000"
+
 -- Assigning 'background' reloads the active colorscheme, so it has to come first:
 -- setting it afterwards would re-source the theme we just replaced.
 local function apply()
   local entry = theme_pairs[current][slot]
   vim.o.background = entry.bg
   vim.cmd.colorscheme(entry.scheme)
+  local normal_bg = vim.api.nvim_get_hl(0, { name = "Normal", link = false }).bg
+  theme_bg = normal_bg and ("#%06x"):format(normal_bg) or "#000000"
   if transparent then
     clear_backgrounds()
   end
@@ -224,3 +231,11 @@ vim.keymap.set("n", "<leader>tt", function()
   vim.fn.writefile({ theme_pairs[current].id }, state_file)
   vim.notify(("Theme: %s (%s)"):format(theme_pairs[current].id, slot), vim.log.levels.INFO)
 end, { desc = "Cycle theme pair" })
+
+return {
+  -- The active theme's background as "#rrggbb", even when transparency has
+  -- cleared it from Normal.
+  background = function()
+    return theme_bg
+  end,
+}

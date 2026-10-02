@@ -117,3 +117,7 @@ without `gdbus`, the check runs on `FocusGained` instead.
   they stand out from the buffer behind them. Add a group name to
   `transparent_groups` to make it transparent too. Building with
   `transparent = false` skips this step.
+- Before clearing, `apply()` saves the theme's real `Normal` background;
+  `require("config.colorscheme").background()` returns it as `#rrggbb` for
+  plugins that blend toward the background
+  ([nvim-notify](plugins/notify.md)'s fades).
