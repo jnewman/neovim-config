@@ -59,10 +59,10 @@
         in
         {
           # The self-contained editor: plugins + config + parsers + tooling, all
-          # in one `nvim`. `nix run` / `nix profile install .#`.
-          default = import ./modules/neovim.nix {
+          # in one `nvim`. `nix run` / `nix profile install .#`. Built with
+          # callPackage so consumers can `.override { themePair = "cyber"; transparent = false; }`.
+          default = pkgs.callPackage ./modules/neovim.nix {
             inherit
-              pkgs
               plugins
               configPlugin
               lspTools

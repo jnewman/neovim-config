@@ -31,6 +31,33 @@ matches the surrounding terminal.
 The active pair is written to `stdpath("state")/theme-pair.txt` and restored on
 next launch. Delete that file to reset to `earthy`.
 
+## Setting the pair and opacity from Nix
+
+The package takes two arguments:
+
+| Argument | Default | Effect |
+|---|---|---|
+| `themePair` | `null` | Pair used at every launch; wins over `theme-pair.txt` |
+| `transparent` | `true` | Inherit the terminal's background/opacity; `false` paints the theme's opaque background |
+
+`<leader>tt` still cycles pairs within a session. In a consuming nix-config
+(home-manager, NixOS, etc.):
+
+```nix
+home.packages = [
+  (inputs.neovim-config.packages.${pkgs.system}.default.override {
+    themePair = "cyber"; # earthy | cyber | emerald | black | blue
+    transparent = false;
+  })
+];
+```
+
+The wrapper sets these as `vim.g.theme_pair` / `vim.g.theme_transparent` before
+`init` runs. If the pair id isn't recognized, you get a warning and the persisted
+pair is used instead. A terminal app can't set its own opacity, so the opacity
+level itself still comes from the terminal (e.g. Ghostty's `background-opacity`);
+`transparent` only decides whether Neovim lets it show through.
+
 ## How the day/night switch works
 
 Because nine of the ten themes are dark-background, the terminal's reported
@@ -88,4 +115,5 @@ without `gdbus`, the check runs on `FocusGained` instead.
   to inherit it. The theme's own background colour still comes from the
   matching Ghostty theme. Floats and popups keep their theme background so
   they stand out from the buffer behind them. Add a group name to
-  `transparent_groups` to make it transparent too.
+  `transparent_groups` to make it transparent too. Building with
+  `transparent = false` skips this step.

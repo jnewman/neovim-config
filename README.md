@@ -31,6 +31,10 @@ Language servers are also available on their own as `packages.lsp-tools` if you
 want them on your PATH outside the editor
 (`nix profile install github:jnewman/neovim-config#lsp-tools`).
 
+To choose the theme pair or opacity from a nix-config, override the package:
+`packages.${system}.default.override { themePair = "cyber"; transparent = false; }`
+(see [docs/themes.md](docs/themes.md#setting-the-pair-and-opacity-from-nix)).
+
 ## Working on the config
 
 From a clone, the `task` commands wrap `nix` (all require Nix with flakes):

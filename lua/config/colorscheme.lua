@@ -56,6 +56,9 @@ local glow = {
 -- background -- and its opacity -- shows through. A terminal cannot report its
 -- transparency, so leaving these unpainted is the only way to inherit it. Floats
 -- and popups keep their bg so they stay distinct from the buffer behind them.
+-- vim.g.theme_transparent (the Nix `transparent` override) set to false skips
+-- this and keeps the theme's opaque background; unset means transparent.
+local transparent = vim.g.theme_transparent ~= false
 local transparent_groups = {
   "Normal",
   "NormalNC",
@@ -92,9 +95,19 @@ local function index_of(id)
   end
 end
 
+-- vim.g.theme_pair is set by the Nix wrapper (`themePair` override) and wins over
+-- the persisted pair, so a nix-config change always takes effect on next launch.
 -- readfile() throws when the file does not exist, which is the ordinary first-run
 -- case. A missing, empty, or unrecognized value falls back to the first pair.
 local function load_pair()
+  local configured = vim.g.theme_pair
+  if configured then
+    local i = index_of(configured)
+    if i then
+      return i
+    end
+    vim.notify(("Unknown theme pair %q; falling back"):format(configured), vim.log.levels.WARN)
+  end
   local ok, lines = pcall(vim.fn.readfile, state_file)
   if not ok or not lines[1] then
     return 1
@@ -114,7 +127,9 @@ local function apply()
   local entry = theme_pairs[current][slot]
   vim.o.background = entry.bg
   vim.cmd.colorscheme(entry.scheme)
-  clear_backgrounds()
+  if transparent then
+    clear_backgrounds()
+  end
   vim.api.nvim_set_hl(0, "Cursor", glow[entry.bg])
 end
 
