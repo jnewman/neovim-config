@@ -14,7 +14,13 @@ pkgs.buildEnv {
     vscode-langservers-extracted # vscode-{json,html,css,eslint}-language-server
     pyright
     rust-analyzer
-    typescript-language-server
+    # nixpkgs 7fd4004 ships a stale pnpmDeps hash for typescript-language-server
+    # 6.0.2 (fixed-output hash mismatch). Drop this override once upstream fixes it.
+    (typescript-language-server.overrideAttrs (old: {
+      pnpmDeps = old.pnpmDeps.overrideAttrs (_: {
+        outputHash = "sha256-xR/EF60lVBsITKgH7wCM2wHM46PFQevD51KfCENSUH4=";
+      });
+    }))
     gopls
     metals
     haskell-language-server # haskell-language-server-wrapper
