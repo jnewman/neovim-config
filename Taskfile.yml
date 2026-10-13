@@ -58,3 +58,8 @@ tasks:
     desc: Verify the prebuilt tree-sitter parser pack loads with no compiler on PATH
     cmds:
       - ./scripts/ts-smoke.sh
+
+  yaml-fmt-test:
+    desc: Verify the yq YAML formatter keeps comment blocks intact (headless conform run)
+    cmds:
+      - ./scripts/yaml-fmt-smoke.sh

@@ -49,6 +49,7 @@ task fmt      # Format Lua and Nix files
 task lint     # Check formatting without modifying
 task test     # Run luacheck and actionlint
 task ts-test  # Verify parsers load with no compiler on PATH
+task yaml-fmt-test  # Verify YAML formatting keeps comment blocks intact
 ```
 
 Or invoke Nix directly: `nix build .#`, `nix run .#`, `nix develop`.

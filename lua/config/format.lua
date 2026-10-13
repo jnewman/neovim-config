@@ -29,6 +29,15 @@ local function stdin_fmt_filename(binary, ...)
   }
 end
 
+-- awk program for yq_yaml. `seen`: a top-level entry has been printed in this
+-- document; `in_comment`: the previous line was a top-level comment.
+local yq_yaml_spacing = [[
+/^(---|\.\.\.)/ { seen = 0; in_comment = 0; print; next }
+/^#/ { if (seen && !in_comment) print ""; in_comment = 1; print; next }
+/^[^ \t]/ { if (seen && !in_comment) print ""; seen = 1; in_comment = 0; print; next }
+{ in_comment = 0; print }
+]]
+
 require("conform").setup({
   formatters_by_ft = {
     lua = { "stylua" },
@@ -73,13 +82,12 @@ require("conform").setup({
       stdin = true,
       timeout_ms = 10000,
     },
-    -- blank line before each top-level key except the first
+    -- yq, then a blank line before each top-level key except the first in a
+    -- document. A run of top-level comments sticks to the key below it, so the
+    -- blank line goes above the whole comment block, not between its lines.
     yq_yaml = {
       command = "sh",
-      args = {
-        "-c",
-        "yq '.' - | awk 'NR>1 && /^[^ \\t]/ && !/^---/ && !/^\\.\\.\\./ { print \"\" } { print }'",
-      },
+      args = { "-c", "yq '.' - | awk \"$0\"", yq_yaml_spacing },
       stdin = true,
     },
     yq_json = {
