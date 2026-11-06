@@ -67,6 +67,7 @@ Grouped into five day/night [theme pairs](themes.md).
 
 - [gitsigns-nvim](plugins/gitsigns.md) — git signs in the gutter, hunk actions
 - [diffview-nvim](plugins/diffview.md) — diff viewer and git history browser
+- [diffbandit.nvim](plugins/diffbandit.md) — connector-gutter diff viewer, Git review, commit panel, merges (`<leader>gb`)
 - [octo-nvim](plugins/octo.md) — GitHub PRs and issues in Neovim
 
 ### AI / Agent

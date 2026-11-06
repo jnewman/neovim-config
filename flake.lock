@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "diffbandit-nvim-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793990334,
+        "narHash": "sha256-0SC+AJr4Zle4wzehrkR+hcf1lWdL8xzaZA7/Cbmvaww=",
+        "owner": "CoreyKaylor",
+        "repo": "diffbandit.nvim",
+        "rev": "a4c0a7a00c889f98e9d5a1044dc63ef367d6ca9b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "CoreyKaylor",
+        "repo": "diffbandit.nvim",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1793726008,
@@ -50,6 +66,7 @@
     },
     "root": {
       "inputs": {
+        "diffbandit-nvim-src": "diffbandit-nvim-src",
         "nixpkgs": "nixpkgs",
         "notion-nvim-src": "notion-nvim-src",
         "octo-nvim-src": "octo-nvim-src"
