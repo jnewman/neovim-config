@@ -2,6 +2,7 @@
   pkgs,
   octo-nvim-src,
   notion-nvim-src,
+  diffbandit-nvim-src,
 }:
 let
   plugins = [
@@ -46,6 +47,17 @@ let
     {
       name = "diffview-nvim";
       pkg = pkgs.vimPlugins.diffview-nvim;
+    }
+    {
+      # Not in nixpkgs — built from the flake source input (pure Lua plugin).
+      # Diff viewer with a connector gutter; Git review, hunk staging, merges.
+      name = "diffbandit-nvim";
+      pkg = pkgs.vimUtils.buildVimPlugin {
+        pname = "diffbandit-nvim";
+        version = "HEAD";
+        src = diffbandit-nvim-src;
+        doCheck = false;
+      };
     }
     {
       name = "gitsigns-nvim";

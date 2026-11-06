@@ -11,6 +11,10 @@
       url = "github:ALT-F4-LLC/notion.nvim";
       flake = false;
     };
+    diffbandit-nvim-src = {
+      url = "github:CoreyKaylor/diffbandit.nvim";
+      flake = false;
+    };
   };
 
   outputs =
@@ -19,6 +23,7 @@
       nixpkgs,
       octo-nvim-src,
       notion-nvim-src,
+      diffbandit-nvim-src,
       ...
     }:
     let
@@ -48,6 +53,7 @@
               pkgs
               octo-nvim-src
               notion-nvim-src
+              diffbandit-nvim-src
               ;
           };
           # The lua/ + colors/ config, packaged as a plugin. `./.` is a real path
