@@ -3,11 +3,11 @@
     "diffbandit-nvim-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1794576467,
-        "narHash": "sha256-Rn5LzwOgfAgo3wY1Ru7xUSX4qa+CfR3TBDD9+ZQMCQI=",
+        "lastModified": 1794747045,
+        "narHash": "sha256-Wv/wgff387razWg7mk24SZgzZiapS1C74o9TPzwd1Hk=",
         "owner": "CoreyKaylor",
         "repo": "diffbandit.nvim",
-        "rev": "b13feaa4c5cb8d2b927d9ae2676721e6f54d1a71",
+        "rev": "5ea8278fec0c5e14a652a78df532f8e518c57fb2",
         "type": "github"
       },
       "original": {
@@ -18,11 +18,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1794386569,
-        "narHash": "sha256-x9sADJvoVG0L6RejZB+/BB4YiGZFBZrfTlhF4uBq1tQ=",
+        "lastModified": 1794537146,
+        "narHash": "sha256-Wpz/7x/YWnDIBu7yj6ixe8j6fIMsidd9Y+o1PqPF3iM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d4f25a3e562008648d45bcf2d70bcc7422cad84e",
+        "rev": "d5cc6833999746cffdfe0598f7bc801a57b887a9",
         "type": "github"
       },
       "original": {
@@ -51,11 +51,11 @@
     "octo-nvim-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1793997026,
-        "narHash": "sha256-1JgzBSL5UdnE5fdMkMc0vGxi19q3Ogj9h/GjFyWQNYM=",
+        "lastModified": 1794686252,
+        "narHash": "sha256-Wd0V9xHUuzF7vU9WPJH6zx5VWJRnfDOTtohICp7mlq0=",
         "owner": "pwntester",
         "repo": "octo.nvim",
-        "rev": "419e67aee457406423e7cb4fc41d721ecda61bcd",
+        "rev": "0ddca04c02aab8ba18d2072f9b855f3806adad54",
         "type": "github"
       },
       "original": {
